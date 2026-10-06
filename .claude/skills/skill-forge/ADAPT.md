@@ -20,7 +20,7 @@ Ask in rounds of at most eight parts, in file order. For each part, quote it or 
 ➡️ keep | change: <wording> | remove: <what is lost>
 ```
 
-Recommendations follow the ground rules: text for other platforms, agents or users gets remove; wording that clashes with his global rules gets change; everything else gets keep. For a `cursor/plugins` source, first read the mirror copy at `https://raw.githubusercontent.com/backnotprop/pstack/main/skills/<skill>/SKILL.md` and reuse its Cursor-to-Claude wording in the change recommendations.
+Before the first round, call the Skill tool with "writing-for-agents" and write every change recommendation by its rules. Recommendations follow the ground rules: text for other platforms, agents or users gets remove; wording that clashes with his global rules gets change; everything else gets keep. For a `cursor/plugins` source, first read the mirror copy at `https://raw.githubusercontent.com/backnotprop/pstack/main/skills/<skill>/SKILL.md` and reuse its Cursor-to-Claude wording in the change recommendations.
 
 Wait for the answers after each round. Done when every part has a decision.
 
