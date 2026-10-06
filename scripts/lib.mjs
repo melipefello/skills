@@ -1,16 +1,19 @@
 // Shared helpers for the skill scripts. No dependencies beyond Node and git.
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import {
   cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync,
 } from "node:fs";
-import { tmpdir } from "node:os";
-import { dirname, join, relative } from "node:path";
+import { homedir, tmpdir } from "node:os";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const MANIFEST = join(ROOT, "manifest.json");
 export const SKILLS_DIR = join(ROOT, "skills");
 export const MODS_DIR = join(ROOT, "mods");
+export const LOCK = join(homedir(), ".agents", ".skill-lock.json");
+export const AGENTS_SKILLS = join(homedir(), ".agents", "skills");
+export const CLAUDE_SKILLS = join(homedir(), ".claude", "skills");
 
 export function git(args, opts = {}) {
   return execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], ...opts }).trim();
@@ -116,6 +119,8 @@ export function resolveTarget(repo, { track, ref } = {}) {
 export function fetchCommit(repo, commit) {
   const dir = mkdtempSync(join(tmpdir(), "fskills-"));
   git(["init", "-q"], { cwd: dir });
+  // A global core.autocrlf=true would check files out with CRLF; keep upstream bytes as they are.
+  git(["config", "core.autocrlf", "false"], { cwd: dir });
   git(["remote", "add", "origin", repoUrl(repo)], { cwd: dir });
   git(["fetch", "-q", "--depth", "1", "--filter=blob:none", "origin", commit], { cwd: dir });
   return dir;
@@ -198,13 +203,42 @@ export function detectDeps(skillDir, self) {
     const text = readFileSync(join(skillDir, f), "utf8");
     for (const line of text.split("\n")) {
       if (!/skill tool/i.test(line)) continue;
-      for (const m of line.matchAll(/"([a-z0-9][a-z0-9-]*)"/g)) names.add(m[1]);
+      for (const m of line.matchAll(/["`]([a-z0-9][a-z0-9-]*)["`]/g)) names.add(m[1]);
     }
     for (const m of text.matchAll(/(?:^|[\s(`])\/([a-z][a-z0-9-]+)(?=[\s`),.]|$)/gm)) names.add(m[1]);
     for (const m of text.matchAll(/skills\/(?:[a-z0-9-]+\/)?([a-z0-9][a-z0-9-]*)\/SKILL\.md/g)) names.add(m[1]);
   }
   names.delete(self);
   return [...names].sort();
+}
+
+/**
+ * Run the skills CLI from ROOT. It exits 0 even when a step fails, so callers check the result themselves.
+ * On Windows it cannot overwrite a hidden file (EPERM), and the lock file can end up hidden: unhide it first.
+ */
+export function npxSkills(argv) {
+  if (process.platform === "win32" && existsSync(LOCK)) spawnSync("attrib", ["-H", LOCK]);
+  console.log(`> npx skills ${argv.join(" ")}`);
+  const r = spawnSync("npx", ["-y", "skills@latest", ...argv], { stdio: "inherit", shell: true, cwd: ROOT });
+  if (r.status !== 0) die(`npx exited with ${r.status}`);
+}
+
+export function readLock() {
+  return existsSync(LOCK) ? JSON.parse(readFileSync(LOCK, "utf8")) : { skills: {} };
+}
+
+export function samePath(a, b) {
+  const norm = (p) => resolve(p).toLowerCase();
+  return process.platform === "win32" ? norm(a) === norm(b) : resolve(a) === resolve(b);
+}
+
+/** Skills installed for Claude Code whose text names <skill>. */
+export function installedUsers(skill) {
+  if (!existsSync(CLAUDE_SKILLS)) return [];
+  return readdirSync(CLAUDE_SKILLS)
+    .filter((name) => name !== skill && existsSync(join(CLAUDE_SKILLS, name, "SKILL.md")))
+    .filter((name) => detectDeps(join(CLAUDE_SKILLS, name), name).includes(skill))
+    .sort();
 }
 
 export function shortSha(sha) {

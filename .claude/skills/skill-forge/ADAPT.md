@@ -4,11 +4,11 @@ Interview Felipe about the skill part by part, then edit, note and commit.
 
 ## Parts
 
-Split every file of `skills/<skill>/` into parts: the front matter, each heading section, each numbered step, each extra file. A part is small enough to decide with one word. When `mods/<skill>.md` exists, parts it covers carry their entry and default to keep.
+Split every file of `skills/<skill>/` into parts: the front matter, each heading section, each numbered step, each extra file. A part is small enough to decide with one word. When `mods/<skill>.md` exists, parts it covers carry their entry and default to keep. A source added with `--add-source` has no files there yet: read its folder with `node scripts/peek.mjs <owner/repo> <path> --ref <ref>` and split its files too, after the skill's own.
 
 ## Rounds
 
-Ask in rounds of at most eight parts, in file order. For each part, quote it or sum it up in one line and recommend one of three:
+Ask in rounds of at most five parts, in file order. For each part, quote it or sum it up in one line and recommend one of three:
 
 - **keep** as is
 - **change**, with the proposed wording
@@ -20,7 +20,7 @@ Ask in rounds of at most eight parts, in file order. For each part, quote it or 
 ➡️ keep | change: <wording> | remove: <what is lost>
 ```
 
-Before the first round, call the Skill tool with "writing-for-agents" and write every change recommendation by its rules. Recommendations follow the ground rules: text for other platforms, agents or users gets remove; wording that clashes with his global rules gets change; everything else gets keep. For a `cursor/plugins` source, first read the mirror copy at `https://raw.githubusercontent.com/backnotprop/pstack/main/skills/<skill>/SKILL.md` and reuse its Cursor-to-Claude wording in the change recommendations.
+Before the first round, call the Skill tool with "writing-for-agents" and write every change recommendation by its rules. Then read what upstream says about the skill outside its folder: for each source, run `node scripts/peek.mjs <owner/repo> --grep <name> --files --ref <ref>` and read the docs pages and decision records it lists (mattpocock keeps them in `docs/<category>/<name>.md` and `.out-of-scope/`). Known limits and rejected requests found there shape the recommendations. Recommendations follow the ground rules: text for other platforms, agents or users gets remove; wording that clashes with his global rules gets change; everything else gets keep. For a `cursor/plugins` source, first read the mirror copy at `https://raw.githubusercontent.com/backnotprop/pstack/main/skills/<skill>/SKILL.md` and reuse its Cursor-to-Claude wording in the change recommendations.
 
 Wait for the answers after each round. Done when every part has a decision.
 
@@ -30,4 +30,4 @@ Wait for the answers after each round. Done when every part has a decision.
 2. Run `node scripts/diff.mjs <skill>` and show the output.
 3. Write `mods/<skill>.md` per [NOTE.md](NOTE.md): one entry per hunk.
 4. Wait for the yes. Fix what he asks. Commit `adapt <skill>`.
-5. Offer `node scripts/install.mjs <skill> --replace`. It removes any installed skill of that name, then installs this one.
+5. Offer `node scripts/install.mjs <skill> --replace`. It removes any installed skill of that name, then installs this one. For each inlined dependency, also offer `node scripts/uninstall.mjs <dep>`.

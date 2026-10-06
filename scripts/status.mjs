@@ -3,13 +3,17 @@
 //   node scripts/status.mjs [--offline]
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { MODS_DIR, SKILLS_DIR, parseArgs, readManifest, resolveTarget, shortSha } from "./lib.mjs";
+import { MODS_DIR, ROOT, SKILLS_DIR, git, parseArgs, readManifest, resolveTarget, shortSha } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2), { offline: "bool", help: "bool" });
 if (args.help) {
   console.log("usage: node scripts/status.mjs [--offline]");
   process.exit(0);
 }
+
+let hooks = "";
+try { hooks = git(["config", "core.hooksPath"], { cwd: ROOT }); } catch {}
+if (hooks !== ".githooks") console.log("warning: the pre-commit check is off; run: git config core.hooksPath .githooks");
 
 const manifest = readManifest();
 const names = Object.keys(manifest.skills).sort();
