@@ -12,6 +12,15 @@
           "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
           "forkedAt": "2026-10-06T21:56:42.820Z",
           "updatedAt": "2026-10-06T21:56:42.820Z"
+        },
+        {
+          "repo": "mattpocock/skills",
+          "path": "skills/productivity/grilling",
+          "track": "tags",
+          "ref": "v1.3.1",
+          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "forkedAt": "2026-10-06T22:11:58.137Z",
+          "updatedAt": "2026-10-06T22:11:58.137Z"
         }
       ]
     }
