@@ -65,20 +65,6 @@
           "updatedAt": "2026-10-07T00:09:20.215Z"
         }
       ]
-    },
-    "implement": {
-      "status": "tracked",
-      "sources": [
-        {
-          "repo": "mattpocock/skills",
-          "path": "skills/engineering/implement",
-          "track": "tags",
-          "ref": "v1.3.1",
-          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
-          "forkedAt": "2026-10-07T11:55:43.401Z",
-          "updatedAt": "2026-10-07T11:55:43.402Z"
-        }
-      ]
     }
   }
 }
