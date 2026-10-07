@@ -8,7 +8,7 @@ Split every file of `skills/<skill>/` into parts: the front matter, each heading
 
 ## Rounds
 
-Ask in rounds of at most five parts, in file order. For each part, say in plain words what it makes the agent do, and recommend one of three. Each recommendation says what the agent will do differently, with a concrete example when the effect is not obvious. When the part uses a term the upstream docs define, explain the term and name what later steps or skills use the part for:
+Ask in rounds of at most five parts, in file order. For each part, say in plain words what it makes the agent do, and recommend one of three. The **Effect** line says, without jargon, what the agent will do differently, with a concrete example when it is not obvious. When the part uses a term the upstream docs define, explain the term and name what later steps or skills use the part for:
 
 - **keep** as is
 - **change**, with the proposed wording
@@ -18,6 +18,7 @@ Ask in rounds of at most five parts, in file order. For each part, say in plain 
 ❓ **P3** - **<part>**: <one-line summary or quote>
 
 ➡️ keep | change: <wording> | remove: <what is lost>
+Effect: <what the agent does differently>
 ```
 
 Before the first round, call the Skill tool with "writing-for-agents" and write every change recommendation by its rules. Then read what upstream says about the skill outside its folder: for each source, run `node scripts/peek.mjs <owner/repo> --grep <name> --files --ref <ref>` and read the docs pages and decision records it lists (mattpocock keeps them in `docs/<category>/<name>.md` and `.out-of-scope/`). Send peek output for more than one file to the scratchpad and read it from there. Known limits and rejected requests found there shape the recommendations. Recommendations follow the ground rules: text for other platforms, agents or users gets remove; wording that clashes with his global rules gets change; everything else gets keep. For a `cursor/plugins` source, first read the mirror copy at `https://raw.githubusercontent.com/backnotprop/pstack/main/skills/<skill>/SKILL.md` and reuse its Cursor-to-Claude wording in the change recommendations.
