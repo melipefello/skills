@@ -19,7 +19,7 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 - **Global AGENTS.md**: are there any steering instructions that should be moved to automated checks instead? _Use when_ the AGENTS.md file is particularly large - in the repo OR the user's global scope.
 - **Tool economy**: did the agent make expensive tool calls that could be streamlined? Is there any custom tooling (CLI's, MCP's) that is particularly token-inefficient? _Use when_ the agent made an expensive tool call.
 - **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the steering files are large and unwieldy.
-- **Information access**: look for opportunities to increase the agent's access to information. Teeing dev server logs, readonly access to third-party services. _Use when_ a crucial piece of information was not available to the agent.
+- **Information access**: look for opportunities to increase the agent's access to information. Teeing runtime logs, readonly access to third-party services. _Use when_ a crucial piece of information was not available to the agent.
 
 4. Present these candidates to the user, in order of severity. Each candidate names the event in the session that prompted it; drop any candidate you cannot tie to one.
 

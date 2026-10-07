@@ -22,6 +22,11 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 - Mine: each candidate names the event in the session that prompted it; a candidate with none is dropped.
 - Why: upstream docs name invented generic advice, written to fill the categories, as the skill's sharpest critique, and tell users to discard untraceable candidates. The skill text did not enforce it.
 
+## Neutral log example
+- Original: the Information access category gives teeing dev server logs as an example.
+- Mine: teeing runtime logs.
+- Why: a dev server is a web-dev notion; runtime logs covers game, editor and server logs alike.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
