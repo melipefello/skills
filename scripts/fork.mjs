@@ -8,12 +8,13 @@
 // Default path: the single folder in the repo that holds <skill>/SKILL.md (or <upstream-skill>/SKILL.md).
 // --add-source inlines a dependency: it pins <upstream-skill> as one more source of the already forked <skill>
 // and copies nothing. Its text joins the skill during the adapt step; diff and update then track both folders.
-// Prints the other skills the copied (or added) folder refers to, one per line after "deps:".
+// Prints the other skills the copied (or added) folder refers to, one per line after "deps:": names that are
+// skills in the upstream, the manifest or the lock file, marked when already forked or installed.
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import {
   KNOWN_UPSTREAMS, ROOT, SKILLS_DIR, cleanup, copyFolder, detectDeps, die, fetchCommit, checkoutPath, findSkillPaths, git, now,
-  parseArgs, readManifest, resolveTarget, shortSha, treeFiles, writeManifest, listFiles,
+  parseArgs, readLock, readManifest, resolveTarget, shortSha, treeFiles, writeManifest, listFiles,
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2), {
@@ -78,9 +79,14 @@ try {
     console.log(`read them: node scripts/peek.mjs ${from} ${path} --ref ${target.ref}`);
   } else console.log(`forked ${skill} <- ${from}:${path}@${target.ref} (${shortSha(target.commit)})`);
   console.log(args["no-commit"] ? "not committed" : `committed: ${message}`);
-  const deps = detectDeps(adding ? folder : dest, lookup).filter((d) => d !== skill);
+  const installed = readLock().skills ?? {};
+  const known = (d) => manifest.skills[d] || installed[d] || findSkillPaths(files, d).length;
+  const deps = detectDeps(adding ? folder : dest, lookup, known).filter((d) => d !== skill);
   console.log("deps:" + (deps.length ? "" : " none"));
-  for (const d of deps) console.log(`  ${d}${manifest.skills[d] ? " (already in manifest)" : ""}`);
+  for (const d of deps) {
+    const tag = manifest.skills[d] ? " (already in manifest)" : installed[d] ? ` (installed from ${installed[d].source})` : "";
+    console.log(`  ${d}${tag}`);
+  }
 } finally {
   cleanup(dir);
 }

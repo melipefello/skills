@@ -197,8 +197,11 @@ export function copyFolder(from, to) {
   cpSync(from, to, { recursive: true });
 }
 
-/** Names of other skills a skill folder refers to. */
-export function detectDeps(skillDir, self) {
+/**
+ * Names of other skills a skill folder refers to. known() keeps only real skills: the patterns also match
+ * prose such as "`package.json`/build-tool".
+ */
+export function detectDeps(skillDir, self, known = () => true) {
   const names = new Set();
   for (const f of listFiles(skillDir)) {
     if (!/\.(md|txt|yaml|yml|json)$/i.test(f)) continue;
@@ -211,18 +214,19 @@ export function detectDeps(skillDir, self) {
     for (const m of text.matchAll(/skills\/(?:[a-z0-9-]+\/)?([a-z0-9][a-z0-9-]*)\/SKILL\.md/g)) names.add(m[1]);
   }
   names.delete(self);
-  return [...names].sort();
+  return [...names].filter(known).sort();
 }
 
 /**
- * Run the skills CLI from ROOT. It exits 0 even when a step fails, so callers check the result themselves.
+ * Run the skills CLI from ROOT. Its exit code is no signal: it exits 0 even when a step fails, and on Windows
+ * npx can crash on exit (a libuv assertion) after the step succeeded. So callers check the result themselves.
  * On Windows it cannot overwrite a hidden file (EPERM), and the lock file can end up hidden: unhide it first.
  */
 export function npxSkills(argv) {
   if (process.platform === "win32" && existsSync(LOCK)) spawnSync("attrib", ["-H", LOCK]);
   console.log(`> npx skills ${argv.join(" ")}`);
   const r = spawnSync("npx", ["-y", "skills@latest", ...argv], { stdio: "inherit", shell: true, cwd: ROOT });
-  if (r.status !== 0) die(`npx exited with ${r.status}`);
+  if (r.status !== 0) console.log(`warning: npx exited with ${r.status}; checking the result instead`);
 }
 
 export function readLock() {

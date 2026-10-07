@@ -8,7 +8,7 @@ Split every file of `skills/<skill>/` into parts: the front matter, each heading
 
 ## Rounds
 
-Ask in rounds of at most five parts, in file order. For each part, quote it or sum it up in one line and recommend one of three. When the part uses a term the upstream docs define, explain the term and name what later steps or skills use the part for:
+Ask in rounds of at most five parts, in file order. For each part, say in plain words what it makes the agent do, and recommend one of three. Each recommendation says what the agent will do differently, with a concrete example when the effect is not obvious. When the part uses a term the upstream docs define, explain the term and name what later steps or skills use the part for:
 
 - **keep** as is
 - **change**, with the proposed wording
