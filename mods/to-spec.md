@@ -22,6 +22,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: only decisions the user made in this conversation; the section is omitted when there are none.
 - Why: the spec states what to do. A how goes in only when the user decided it, so the agent does not fill the section with an invented design.
 
+## Prototype snippet exception removed
+- Original: the Implementation Decisions section bans file paths and code snippets, except a snippet from a prototype that states a decision more precisely than prose (state machine, reducer, schema, type shape).
+- Mine: removed; the ban on file paths and code snippets has no exception.
+- Why: no prototypes are planned before a spec, so the exception does not fit the expected use.
+
 ## Testing Decisions section removed
 - Original: the template has a Testing Decisions section (good tests, modules to test, prior art).
 - Mine: removed.

@@ -48,8 +48,6 @@ A list of the implementation decisions the user made in this conversation. Omit 
 
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
 
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
-
 ## Out of Scope
 
 A description of the things that are out of scope for this spec.
