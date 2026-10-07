@@ -30,4 +30,4 @@ Wait for the answers after each round. A part left unanswered takes the recommen
 2. Run `node scripts/diff.mjs <skill>` and show the output.
 3. Write `mods/<skill>.md` per [NOTE.md](NOTE.md): one entry per change.
 4. Wait for the yes. Fix what he asks. Commit `adapt <skill>`.
-5. Offer `node scripts/install.mjs <skill> --replace`. It removes any installed skill of that name, then installs this one. For each inlined dependency, also offer `node scripts/uninstall.mjs <dep>`.
+5. Install per the ground rule **Installed stays current**. `--replace` removes any installed skill of that name, then installs this one. For each inlined dependency, also offer `node scripts/uninstall.mjs <dep>`.

@@ -21,4 +21,5 @@ After manual edits:
 
 1. Run `node scripts/diff.mjs <skill>`.
 2. Match each hunk to its entries. A hunk with no entry gets a new one, drafted from the diff. An entry with no hunk is deleted.
-3. Show the new note. Wait for the yes. Commit `note <skill>`.
+3. Show the new note. Wait for the yes. Commit `note <skill>`, with the manual edits.
+4. Install per the ground rule **Installed stays current**.
