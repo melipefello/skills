@@ -65,6 +65,20 @@
           "updatedAt": "2026-10-07T00:09:20.215Z"
         }
       ]
+    },
+    "pr": {
+      "status": "tracked",
+      "sources": [
+        {
+          "repo": "mattpocock/skills",
+          "path": "skills/engineering/pr",
+          "track": "tags",
+          "ref": "v1.3.1",
+          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "forkedAt": "2026-10-07T12:45:36.866Z",
+          "updatedAt": "2026-10-07T12:45:36.867Z"
+        }
+      ]
     }
   }
 }
