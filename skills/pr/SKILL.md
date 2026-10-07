@@ -1,12 +1,6 @@
 ---
 name: pr
 description: "Use when writing a PR body."
-metadata:
-  credits:
-    skill: show-me
-    author: Dex Horthy
-    organisation: Humanlayer
-    url: "https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md"
 ---
 
 Use this template for writing the PR body:
@@ -18,8 +12,8 @@ Use this template for writing the PR body:
 
 ## Evidence
 
-- **Before:** <screenshot/output/failing test run>
-  **After:** <screenshot/output/passing test run>
+- **Before:** <screenshot/output>
+  **After:** <screenshot/output>
 
 ## Merge Danger
 
@@ -34,7 +28,7 @@ Use this template for writing the PR body:
 
 ## Sections
 
-Skip all preambles and keep prose brief. Use the user's domain language from `GLOSSARY.md`.
+Skip all preambles and keep prose brief.
 
 ### Summary
 
@@ -161,10 +155,10 @@ Concrete evidence that the change works. Show a before and after.
 
 Screenshots are S-tier - when the environment is set up for it and the change is visual.
 
-Execution-based evidence is A-tier. Test results, console output. Show the exact test that now fails and passes, using pseudocode.
+Execution-based evidence is A-tier: console or log output from a run, before and after.
 
 ### Merge Danger
 
 Describe whether it's a one-way or two-way door. You can walk back through two-way doors, but not one-way doors. A PR that is cheap to roll back is lower risk. Changes that involve destructive actions or hard-to-reverse decisions are one-way doors.
 
-The blast radius is the potential impact or scope of the changes introduced by this PR. Consider all possibilities. Examples are layout shift, breakages for consumers, mobile responsiveness, etc.
+The blast radius is the potential impact or scope of the changes introduced by this PR. Consider all possibilities. Examples are save data compatibility, breakages for consumers, performance on target devices, etc.
