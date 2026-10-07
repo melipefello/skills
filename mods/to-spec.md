@@ -32,6 +32,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: removed.
 - Why: follows from dropping the seams step; no test plan in the spec for now.
 
+## Neutral implementation decision examples
+- Original: the Implementation Decisions examples include schema changes and API contracts.
+- Mine: data model changes and contracts between systems.
+- Why: schema and API are web-dev terms; the work is mostly game dev, and the skill stays usable outside it.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.

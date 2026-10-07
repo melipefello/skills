@@ -42,8 +42,8 @@ A list of the implementation decisions the user made in this conversation. Omit 
 - The interfaces of those modules that will be modified
 - Technical clarifications from the developer
 - Architectural decisions
-- Schema changes
-- API contracts
+- Data model changes
+- Contracts between systems
 - Specific interactions
 
 Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
