@@ -10,7 +10,7 @@ Argument: one skill name. Without one, run `node scripts/status.mjs` and ask whi
 
 - **One user, one target.** These skills serve Felipe, on Windows 11, in Claude Code, installed with `npx skills`. Text that serves another platform, another agent or another person is dead weight: recommend its removal.
 - **Battle-tested original.** Each upstream skill works as written. The goal is the original plus the smallest delta that makes it his. A removal moves away from what was tested: say so each time you recommend one.
-- **Review before commit.** Show the diff and get a yes before every `git commit`.
+- **Review before commit.** Show the diff and get a yes before every `git commit`. A yes given in advance counts: then show the diff in the reply that reports the commit.
 - **Installed stays current.** After each commit that changes `skills/<skill>/`, when `~/.claude/skills/<skill>` exists and `git status` shows nothing uncommitted under `skills/<skill>/`, run `node scripts/install.mjs <skill>` without asking; add `--replace` when the lock file records another source. When the skill is not installed, offer the install.
 
 ## Route
