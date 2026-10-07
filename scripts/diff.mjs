@@ -22,7 +22,6 @@ const entry = readManifest().skills[skill];
 if (!entry) die(`${skill} is not in manifest.json`);
 if (!existsSync(mineDir)) die(`${mineDir} is missing`);
 
-let any = false;
 for (const source of entry.sources) {
   const up = fetchFolder(source.repo, source.commit, source.path);
   const work = mkdtempSync(join(tmpdir(), "fskills-diff-"));
@@ -34,13 +33,12 @@ for (const source of entry.sources) {
     const r = spawnSync("git", ["-c", "core.quotepath=false", "diff", "--no-index", "--no-color",
       ...(args.stat ? ["--stat"] : []), "upstream", "mine"], { cwd: work, encoding: "utf8" });
     if (r.status === 0) console.log("identical");
-    else { any = true; process.stdout.write(r.stdout); }
+    else process.stdout.write(r.stdout);
   } finally {
     cleanup(up.dir);
     cleanup(work);
   }
 }
-process.exit(any ? 1 : 0);
 
 function copyNormalised(from, to) {
   for (const f of listFiles(from)) {

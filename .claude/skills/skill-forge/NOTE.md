@@ -13,12 +13,12 @@ Upstream: <owner/repo>:<path> (pin in manifest.json)
 - Why: <reason>
 ```
 
-One entry per hunk of `node scripts/diff.mjs <skill>`. Several hunks that serve one change share one entry. A removed part is an entry with `Mine: removed`. A skill with no changes has no note.
+One entry per change. Every hunk of `node scripts/diff.mjs <skill>` belongs to at least one entry: several hunks that serve one change share an entry, and one hunk can hold several changes. A removed part is an entry with `Mine: removed`. A skill with no changes has no note.
 
 ## Refresh
 
 After manual edits:
 
 1. Run `node scripts/diff.mjs <skill>`.
-2. Match each hunk to an entry. A hunk with no entry gets a new one, drafted from the diff. An entry with no hunk is deleted.
+2. Match each hunk to its entries. A hunk with no entry gets a new one, drafted from the diff. An entry with no hunk is deleted.
 3. Show the new note. Wait for the yes. Commit `note <skill>`.

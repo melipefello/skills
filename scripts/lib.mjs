@@ -14,6 +14,8 @@ export const MODS_DIR = join(ROOT, "mods");
 export const LOCK = join(homedir(), ".agents", ".skill-lock.json");
 export const AGENTS_SKILLS = join(homedir(), ".agents", "skills");
 export const CLAUDE_SKILLS = join(homedir(), ".claude", "skills");
+// Searched in order by fork.mjs when --from is absent.
+export const KNOWN_UPSTREAMS = ["mattpocock/skills", "cursor/plugins"];
 
 export function git(args, opts = {}) {
   return execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], ...opts }).trim();
