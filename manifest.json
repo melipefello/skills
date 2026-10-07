@@ -79,6 +79,20 @@
           "updatedAt": "2026-10-07T12:45:36.867Z"
         }
       ]
+    },
+    "how": {
+      "status": "tracked",
+      "sources": [
+        {
+          "repo": "poteto/how",
+          "path": "skills/how",
+          "track": "head",
+          "ref": "HEAD",
+          "commit": "b1ef42969ea7a2bb50aa26c2480274828a0385e7",
+          "forkedAt": "2026-10-07T12:55:43.796Z",
+          "updatedAt": "2026-10-07T12:55:43.796Z"
+        }
+      ]
     }
   }
 }
