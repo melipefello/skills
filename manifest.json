@@ -79,20 +79,6 @@
           "updatedAt": "2026-10-07T12:45:36.867Z"
         }
       ]
-    },
-    "doubt-driven-development": {
-      "status": "tracked",
-      "sources": [
-        {
-          "repo": "addyosmani/agent-skills",
-          "path": "skills/doubt-driven-development",
-          "track": "tags",
-          "ref": "0.6.12",
-          "commit": "a06bc63b3f8b829c14b0bbf53d99fefc39d58092",
-          "forkedAt": "2026-10-12T21:22:21.295Z",
-          "updatedAt": "2026-10-12T21:22:21.295Z"
-        }
-      ]
     }
   }
 }
