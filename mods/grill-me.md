@@ -26,3 +26,13 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Original: only a question whose answer depends on another open question waits for a later round.
 - Mine: a question that another answer in the same round could make moot also waits.
 - Why: a discard answer early in a round made later questions in that round irrelevant after they had been answered. Upstream docs name this as a known, unguarded limit.
+
+## Outputs before confirmation are questions and a summary
+- Original: ends with a prohibition, "Do not act on it until the user confirms you have reached a shared understanding."
+- Mine: states the allowed outputs: until the user confirms, only question rounds and a closing summary; files, code and plans come after.
+- Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). A positive target holds better than a ban.
+
+## Web research is a fact lookup
+- Original: facts from "the environment (filesystem, tools, etc.)" go to a sub-agent.
+- Mine: names the web (a fee, a policy, a version) as part of the environment.
+- Why: the same session fetched five Steam docs inline during a round; the skill already routes facts to a sub-agent, it just did not say the web counts.
