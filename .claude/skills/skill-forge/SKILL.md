@@ -17,7 +17,8 @@ Argument: one skill name. Without one, run `node scripts/status.mjs` and ask whi
 
 1. Read `manifest.json`.
 2. Skill absent: follow [FORK.md](FORK.md).
-3. Skill present: ask which job, then follow its file.
+3. Own skill (status `own`): adapt only, with [ADAPT.md](ADAPT.md) minus the upstream reads, the diff and the note.
+4. Skill present: ask which job, then follow its file.
    - Adapt again: [ADAPT.md](ADAPT.md)
    - Update from upstream: [UPDATE.md](UPDATE.md)
    - Refresh the note after manual edits: [NOTE.md](NOTE.md), section Refresh

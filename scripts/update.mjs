@@ -31,6 +31,7 @@ const mineDir = join(SKILLS_DIR, skill);
 const manifest = readManifest();
 const entry = manifest.skills[skill];
 if (!entry) die(`${skill} is not in manifest.json`);
+if (entry.status === "own") die(`${skill} is an own skill: no upstream to update from`);
 if (!existsSync(mineDir)) die(`${mineDir} is missing`);
 if (entry.sources.length > 1 && args.ref) die("--ref works with a single source only");
 

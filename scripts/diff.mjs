@@ -20,6 +20,7 @@ const [skill] = args._;
 const mineDir = join(SKILLS_DIR, skill);
 const entry = readManifest().skills[skill];
 if (!entry) die(`${skill} is not in manifest.json`);
+if (entry.status === "own") die(`${skill} is an own skill: no upstream to diff against`);
 if (!existsSync(mineDir)) die(`${mineDir} is missing`);
 
 for (const source of entry.sources) {

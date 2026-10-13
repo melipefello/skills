@@ -2,7 +2,7 @@
 //
 //   node scripts/check.mjs [--staged]
 //
-// Offline, for every skill: manifest.json parses; each manifest skill has skills/<name>/SKILL.md and a source;
+// Offline, for every skill: manifest.json parses; each manifest skill has skills/<name>/SKILL.md and a source (own skills have none);
 // each folder in skills/ and each note in mods/ belongs to a manifest skill; no conflict markers in skills/.
 // Online, for every skill (only the staged ones with --staged): a note exists exactly when the skill differs
 // from its upstream. A network failure skips this part with a warning.
@@ -27,7 +27,7 @@ const names = Object.keys(manifest.skills);
 
 for (const name of names) {
   if (!existsSync(join(SKILLS_DIR, name, "SKILL.md"))) problems.push(`${name}: no skills/${name}/SKILL.md`);
-  if (!manifest.skills[name].sources?.length) problems.push(`${name}: no source in manifest.json`);
+  if (manifest.skills[name].status !== "own" && !manifest.skills[name].sources?.length) problems.push(`${name}: no source in manifest.json`);
 }
 const dirs = (p) => (existsSync(p) ? readdirSync(p, { withFileTypes: true }) : []);
 for (const d of dirs(SKILLS_DIR)) if (d.isDirectory() && !manifest.skills[d.name]) problems.push(`skills/${d.name}: not in manifest.json`);

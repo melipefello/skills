@@ -28,6 +28,7 @@ for (const name of names) {
   const folder = existsSync(join(SKILLS_DIR, name)) ? "" : "  FOLDER MISSING";
   const note = existsSync(join(MODS_DIR, `${name}.md`)) ? "note" : "no note";
   console.log(`${name}  [${e.status}, ${note}]${folder}`);
+  if (!e.sources.length) console.log("  no upstream");
   for (const s of e.sources) {
     let upstream = "";
     if (!args.offline && e.status !== "detached") {
