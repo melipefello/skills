@@ -37,6 +37,21 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: data model changes and contracts between systems.
 - Why: schema and API are web-dev terms; the work is mostly game dev, and the skill stays usable outside it.
 
+## Decisions keep the user's strength
+- Original: no rule on how firmly a decision is written.
+- Mine: each decision is written at the strength the user gave it; "for example half" stays an example.
+- Why: the spec turned the user's example into a fixed rule.
+
+## Proposed section
+- Original: agent additions sit in the same sections as user decisions.
+- Mine: a Proposed section holds everything the user did not settle (names, examples, inferences, suggestions), one line each; omitted when there are none.
+- Why: agent additions (a working title, framing paragraphs, its own analysis, inferred rules) sat in the spec among user decisions, with nothing to tell them apart.
+
+## Spec checked against the conversation
+- Original: the skill ends once the spec is written.
+- Mine: a step 3 checks that every line traces to a user message, to a looked-up fact stated as its source states it, or sits in Proposed; each failing line is moved or fixed.
+- Why: a provenance review found eleven lines with no source or firmer than their source, one a looked-up fact made bigger than the source said.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.

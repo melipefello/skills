@@ -10,7 +10,7 @@ This skill takes the current conversation context and codebase understanding and
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already.
 
-2. Write the spec using the template below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed.
+2. Write the spec using the template below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed. Write each decision at the strength the user gave it: "for example half" stays an example.
 
 <spec-template>
 
@@ -52,8 +52,14 @@ Do NOT include specific file paths or code snippets. They may end up being outda
 
 A description of the things that are out of scope for this spec.
 
+## Proposed
+
+Everything in the spec the user did not settle: names, examples, inferences, and your own suggestions, one line each. Omit this section when there are none.
+
 ## Further Notes
 
 Any further notes about the feature.
 
 </spec-template>
+
+3. Check the spec against the conversation. Every line traces to a user message, to a fact you looked up (stated as its source states it), or sits in Proposed. Move or fix each line that fails.
