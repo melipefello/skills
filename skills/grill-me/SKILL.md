@@ -21,8 +21,10 @@ Format a round like so:
 ➡️ <your recommended answer>
 ```
 
-Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one. So does a question that another answer in this round could make moot.
+Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one. So does a question that another answer in this round could make moot. **Carry forward** every question the user leaves unanswered: it opens the next round, ahead of new questions.
+
+Descend the tree from **role** to **content**: settle what a part of the design is _for_ before asking what fills it, and keep each recommendation at the altitude of its question. Write every question in the **settled vocabulary**: nouns the user has already agreed on, plus any new term defined inside the question itself.
 
 Finding _facts_ is your job, never the user's. When a frontier question needs a fact from the environment (filesystem, tools, the web: a fee, a policy, a version), dispatch a sub-agent to find it; don't ask the user for anything you could look up yourself. Don't block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report; ask the rest of the frontier now. The _decisions_ are the user's: put each to them and wait.
 
-The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Until the user confirms a shared understanding, your only outputs are question rounds and a closing summary of the decisions; files, code and plans come after that confirmation.
+The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Until the user confirms a shared understanding, your only outputs are question rounds and a closing summary of the decisions; files, code and plans come after that confirmation. The summary holds only answered decisions; a topic you never asked about goes into a round, never straight into the summary.

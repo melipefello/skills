@@ -27,10 +27,25 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Mine: a question that another answer in the same round could make moot also waits.
 - Why: a discard answer early in a round made later questions in that round irrelevant after they had been answered. Upstream docs name this as a known, unguarded limit.
 
+## Unanswered questions carry forward
+- Original: no rule for a question the user leaves unanswered.
+- Mine: every unanswered question opens the next round, ahead of new questions.
+- Why: a question the user skipped was never asked again; its topic reached the spec only through the agent's closing summary.
+
+## Questions descend from role to content, in settled vocabulary
+- Original: no rule on the level of a question or on the words it uses.
+- Mine: settle what a part of the design is for before asking what fills it, keep each recommendation at the level of its question, and use only agreed nouns plus terms the question itself defines.
+- Why: questions jumped to concrete content before the role of that part was settled, and used nouns the user had not agreed on; the user corrected this three times in one session, and each correction cost a round.
+
 ## Outputs before confirmation are questions and a summary
 - Original: ends with a prohibition, "Do not act on it until the user confirms you have reached a shared understanding."
 - Mine: states the allowed outputs: until the user confirms, only question rounds and a closing summary; files, code and plans come after.
 - Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). A positive target holds better than a ban.
+
+## Summary holds only answered decisions
+- Original: no closing summary is named.
+- Mine: the closing summary holds only answered decisions; a topic never asked about goes into a round first.
+- Why: topics never asked about appeared in the agent's closing summary as if settled; the user pasted the summary back, and the spec then treated them as decisions.
 
 ## Web research is a fact lookup
 - Original: facts from "the environment (filesystem, tools, etc.)" go to a sub-agent.
