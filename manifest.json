@@ -83,6 +83,10 @@
     "spec-review": {
       "status": "own",
       "sources": []
+    },
+    "to-tickets-review": {
+      "status": "own",
+      "sources": []
     }
   }
 }
