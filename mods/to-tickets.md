@@ -41,3 +41,13 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
 - Why: only Claude Code is used.
+
+## Proof named per ticket
+- Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it.
+- Mine: each slice names its proof, the test or demo step that fails before the slice and passes after it; the quiz list and the ticket template carry a Proof line.
+- Why: every ticket should come with proof that it works, readable before approval. Upstream reports that a per-ticket demo line pushes slicing toward vertical, and that criteria often pass before any work is done; "fails before" closes that.
+
+## Size set by a budget
+- Original: each slice is sized to fit in a single fresh context window.
+- Mine: each slice fits the budget: one proof, a diff the user can review in one sitting, and a run under 150k tokens in a fresh main-agent context. No per-ticket token estimate is written.
+- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. Agents cannot estimate tokens before exploring, so one proof and diff size do the sizing and 150k stays as the ceiling, leaving margin under 200k for a size judged too small.

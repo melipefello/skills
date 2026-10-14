@@ -27,8 +27,8 @@ Break the work into **tracer bullet** tickets.
 <vertical-slice-rules>
 
 - Each slice cuts a narrow but COMPLETE path through every layer (data, game logic, presentation, tests): vertical, NOT a horizontal slice of one layer
-- A completed slice is demoable or verifiable on its own
-- Each slice is sized to fit in a single fresh context window
+- A completed slice is demoable on its own, and names its **proof**: the test or demo step that fails before the slice and passes after it
+- Each slice fits the **budget**: one proof, a diff the user can review in one sitting, and a run that stays under 150k tokens in a fresh main-agent context
 - Any prefactoring should be done first
 
 </vertical-slice-rules>
@@ -44,6 +44,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
+- **Proof**: the test or demo step that fails before it and passes after it
 
 Ask the user:
 
@@ -66,6 +67,8 @@ Leave the source spec unchanged.
 # <NN>: <Ticket title>
 
 **What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
+
+**Proof:** the test or demo step that fails before this ticket and passes after it.
 
 **Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
