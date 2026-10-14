@@ -46,11 +46,14 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 - **Proof**: the test or demo step that fails before it and passes after it
 
+When the source is a spec, list each user story and Implementation Decision that no ticket covers.
+
 Ask the user:
 
 - Does the granularity feel right? (too coarse / too fine)
 - Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
 - Should any tickets be merged or split further?
+- For each ticket that creates a project or installs a tool: which exact version?
 
 Iterate until the user approves the breakdown.
 
@@ -59,6 +62,8 @@ Iterate until the user approves the breakdown.
 Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+
+Each acceptance criterion names its **evidence**: the test result, command output, screenshot or demo run that shows it holds. Write each decision from the quiz into the tickets it affects.
 
 Leave the source spec unchanged.
 
@@ -72,8 +77,12 @@ Leave the source spec unchanged.
 
 **Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
-- [ ] Acceptance criterion 1
-- [ ] Acceptance criterion 2
+**Covers:** the spec's user stories and Implementation Decisions that this ticket delivers (US17, US18, Charge model). Omit without a spec.
+
+**Sizing:** the sizing rule from the quiz: the budget, or the rule the user chose.
+
+- [ ] Acceptance criterion 1, and its evidence
+- [ ] Acceptance criterion 2, and its evidence
 
 </local-ticket-template>
 

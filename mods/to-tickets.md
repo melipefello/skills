@@ -51,3 +51,23 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: each slice is sized to fit in a single fresh context window.
 - Mine: each slice fits the budget: one proof, a diff the user can review in one sitting, and a run under 150k tokens in a fresh main-agent context. No per-ticket token estimate is written.
 - Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. Agents cannot estimate tokens before exploring, so one proof and diff size do the sizing and 150k stays as the ceiling, leaving margin under 200k for a size judged too small.
+
+## Evidence named per criterion
+- Original: acceptance criteria are bare checklist lines.
+- Mine: each acceptance criterion names its evidence: the test result, command output, screenshot or demo run that shows it holds; the template lines say so.
+- Why: a ticket set passed the quiz with 13 tickets whose criteria only code review could confirm ("data, not code", "matches in style", "rare"); fixing it meant rewriting every ticket. Demo run, not played run, so the skill stays usable outside games.
+
+## Spec coverage per ticket
+- Original: tickets do not say which parts of the source they deliver.
+- Mine: each ticket has a Covers line naming the spec's user stories and Implementation Decisions it delivers (omitted without a spec), and the quiz lists each user story and Implementation Decision no ticket covers.
+- Why: four user stories had no ticket and were found only by a review after commit; the quiz is the cheap place to catch them.
+
+## Tool versions asked in the quiz
+- Original: the quiz asks about granularity, blocking edges, and merges or splits.
+- Mine: it also asks for the exact version of each tool a ticket installs or creates a project with.
+- Why: the project-setup ticket said "a pinned editor version" without naming it.
+
+## Quiz decisions written into the tickets
+- Original: decisions made in the quiz are not written down anywhere.
+- Mine: each quiz decision goes into the tickets it affects, and the template has a Sizing line with the budget or the rule the user chose.
+- Why: the user's sizing rule (18–25 tickets) and other quiz answers were missing from the files, so later agents could not see them.
