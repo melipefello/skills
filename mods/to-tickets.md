@@ -27,10 +27,15 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Mine: the explore step only reads the codebase.
 - Why: the projects are self-documenting; there is no glossary or ADR layer to read.
 
-## Game dev layer names
-- Original: a vertical slice cuts through schema, API, UI and tests; the wide refactor example is "rename a column".
-- Mine: the layers are data, game logic, presentation and tests; the example is "rename a shared field".
-- Why: the work is game dev; the web terms do not map onto it. "tests" stays as a layer: no TDD does not mean no tests.
+## Neutral layer names
+- Original: a vertical slice cuts through schema, API, UI and tests.
+- Mine: the layers are data, logic, presentation and tests.
+- Why: the work is mostly game dev and the skill stays usable outside it; the web terms map onto neither. "tests" stays as a layer: no TDD does not mean no tests.
+
+## Wide refactor paragraph removed
+- Original: wide refactors (rename a column across thousands of call sites) are the exception to vertical slicing, sequenced as expand-contract in batch tickets.
+- Mine: removed.
+- Why: no wide refactor is planned through this skill; a long paragraph for a case that does not come up. Moves away from the tested original: a wide refactor would be sliced vertically.
 
 ## Prototype snippet exception removed
 - Original: tickets ban file paths and code snippets, except a snippet from a prototype that states a decision more precisely than prose (state machine, reducer, schema, type shape).
@@ -44,18 +49,18 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Proof named per ticket
 - Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it.
-- Mine: each slice names its proof, the test or demo step that fails before the slice and passes after it; the quiz list and the ticket template carry a Proof line.
-- Why: every ticket should come with proof that it works, readable before approval. Upstream reports that a per-ticket demo line pushes slicing toward vertical, and that criteria often pass before any work is done; "fails before" closes that.
+- Mine: each slice names its proof, one check that fails before the slice and passes after it; the quiz list and the ticket template carry a Proof line. The kind of check (a test, a screenshot, a log line, a demo) is the ticket writer's choice: the skill names none.
+- Why: every ticket should come with proof that it works, readable before approval. Upstream reports that a per-ticket demo line pushes slicing toward vertical, and that criteria often pass before any work is done; "fails before" closes that. A heavier scheme ran on the FGame tickets 23-35 between 14 and 17 October (evidence named per criterion, then at most two criteria, a shipped-state rule and a reachable-screenshot rule): the proof load took over half of each worker's time, so it was cut back to the one proof with no named kinds.
 
 ## Size set by a budget
 - Original: each slice is sized to fit in a single fresh context window.
 - Mine: each slice fits the budget: one proof, and a diff the user can review in one sitting. No token or time bound.
-- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. A 150k-token ceiling was tried from 14 to 17 October and measured no effect: the FGame tickets 23-33 ran in contexts of 200k to 410k tokens, since no agent can see a token meter. The two-criteria rule below is what cut the runs.
+- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. A 150k-token ceiling was tried from 14 to 17 October and measured no effect: the FGame tickets 23-33 ran in contexts of 200k to 410k tokens, since no agent can see a token meter. Cutting the proof load is what cut the runs.
 
-## Evidence named per criterion
-- Original: acceptance criteria are bare checklist lines.
-- Mine: each acceptance criterion names its evidence: the test result, command output, screenshot or demo run that shows it holds; the template lines say so.
-- Why: a ticket set passed the quiz with 13 tickets whose criteria only code review could confirm ("data, not code", "matches in style", "rare"); fixing it meant rewriting every ticket. Demo run, not played run, so the skill stays usable outside games.
+## Acceptance criteria removed
+- Original: the ticket template ends in two bare checklist lines, "Acceptance criterion 1" and "2".
+- Mine: removed; the Proof line is the ticket's only check, and nothing in the ticket is ticked.
+- Why: a ticket set passed the quiz with 13 tickets whose criteria only code review could confirm ("data, not code", "matches in style", "rare"), and the checklist grew into the evidence scheme the Proof entry describes. The report from run-tickets records the result; the ticked boxes were not read.
 
 ## Spec coverage per ticket
 - Original: tickets do not say which parts of the source they deliver.
@@ -69,25 +74,10 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Quiz decisions written into the tickets
 - Original: decisions made in the quiz are not written down anywhere.
-- Mine: each quiz decision goes into the tickets it affects, and the template has a Sizing line with the budget or the rule the user chose.
-- Why: the user's sizing rule (18–25 tickets) and other quiz answers were missing from the files, so later agents could not see them.
+- Mine: each quiz decision goes into the tickets it affects.
+- Why: the user's sizing rule and other quiz answers were missing from the files, so later agents could not see them; to-tickets-review checks for them.
 
 ## Ticket files written in batches
 - Original: step 5 says to write one file per ticket, with no word on how.
 - Mine: the files are written several at a time, one quoted heredoc per file in each command.
 - Why: one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets.
-
-## Two criteria per ticket
-- Original: each acceptance criterion names its evidence; the template lists criteria 1 and 2 open-ended.
-- Mine: a ticket has at most two criteria, the proof and, for a screen change, one screenshot; the budget rule says the proof is the slice's only test, with no test per criterion and no "all tests pass" criterion.
-- Why: the FGame tickets 23-33 carried 7 to 9 evidenced criteria each (tests per criterion, mockups, frame sequences, a tests.txt), and the proof load took over half of each worker's time; the retro of that run cut it back to the proof.
-
-## The proof runs on the shipped state and measures the goal's number
-- Original: the proof is the test or demo step that fails before the slice and passes after it.
-- Mine: the same, plus: it runs on the shipped game state, never on a toy setup only the test can reach, and when the goal carries a number the proof measures it there.
-- Why: FGame ticket 35 proved its rule on a fight of one-dot items; the shipped fights never settle, so the goal (two to three times fewer events) was missed while the proof passed.
-
-## The screenshot criterion names a reachable state
-- Original: the screen-change criterion is "one screenshot of the changed screen".
-- Mine: the criterion names the state on screen, one the shipped build reaches by a setup the worker can script without playing through to it; a state only a person can reach makes the criterion a demo run.
-- Why: FGame ticket 35 asked for a screenshot of a settled duel, which the shipped fights never reach; the worker spent 22 of its 31 minutes searching seeds and building a fight by reflection to produce it.
