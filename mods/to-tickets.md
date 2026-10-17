@@ -86,3 +86,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: the proof is the test or demo step that fails before the slice and passes after it.
 - Mine: the same, plus: it runs on the shipped game state, never on a toy setup only the test can reach, and when the goal carries a number the proof measures it there.
 - Why: FGame ticket 35 proved its rule on a fight of one-dot items; the shipped fights never settle, so the goal (two to three times fewer events) was missed while the proof passed.
+
+## The screenshot criterion names a reachable state
+- Original: the screen-change criterion is "one screenshot of the changed screen".
+- Mine: the criterion names the state on screen, one the shipped build reaches by a setup the worker can script without playing through to it; a state only a person can reach makes the criterion a demo run.
+- Why: FGame ticket 35 asked for a screenshot of a settled duel, which the shipped fights never reach; the worker spent 22 of its 31 minutes searching seeds and building a fight by reflection to produce it.

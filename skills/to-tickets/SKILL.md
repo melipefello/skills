@@ -63,7 +63,7 @@ Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`,
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
-A ticket has two acceptance criteria at most: the proof, and, for a slice that changes a screen, one screenshot. Each criterion names its **evidence**: the test result, command output, screenshot or demo run that shows it holds. Write each decision from the quiz into the tickets it affects.
+A ticket has two acceptance criteria at most: the proof, and, for a slice that changes a screen, one screenshot. The screenshot criterion names the state on screen, one the shipped build reaches by a setup the worker can script without playing through to it; a state only a person can reach makes the criterion a demo run. Each criterion names its **evidence**: the test result, command output, screenshot or demo run that shows it holds. Write each decision from the quiz into the tickets it affects.
 
 Leave the source spec unchanged.
 
@@ -82,7 +82,7 @@ Leave the source spec unchanged.
 **Sizing:** the sizing rule from the quiz: the budget, or the rule the user chose.
 
 - [ ] The proof: what the test or demo step shows, and its evidence (the test name, or the command whose output shows it)
-- [ ] For a screen change only: one screenshot of the changed screen, and its evidence (the file)
+- [ ] For a screen change only: one screenshot of the changed screen in a named state the shipped build reaches, and its evidence (the file)
 
 </local-ticket-template>
 
