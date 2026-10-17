@@ -4,13 +4,15 @@ description: "Turn the current conversation into a spec and save it under .scrat
 disable-model-invocation: true
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
+Take the current conversation context and codebase understanding and produce a spec. Do NOT interview the user; just synthesize what you already know.
 
 ## Process
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already.
 
-2. Write the spec using the template below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed. Write each decision at the strength the user gave it: "for example half" stays an example.
+2. Write the spec using the `spec-template` below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed. A decision keeps the firmness the user gave it: an example stays an example, a maybe stays a maybe.
+
+3. Check the spec against the conversation. Every line traces to a user message or to a fact you looked up, stated as its source states it; any other line sits in `## Proposed`. Move or fix each line that is misplaced.
 
 <spec-template>
 
@@ -59,5 +61,3 @@ Everything in the spec the user did not settle: names, examples, inferences, and
 Any further notes about the feature.
 
 </spec-template>
-
-3. Check the spec against the conversation. Every line traces to a user message, to a fact you looked up (stated as its source states it), or sits in Proposed. Move or fix each line that fails.

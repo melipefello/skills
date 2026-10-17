@@ -37,9 +37,9 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: data model changes and contracts between systems.
 - Why: schema and API are web-dev terms; the work is mostly game dev, and the skill stays usable outside it.
 
-## Decisions keep the user's strength
+## Decisions keep the user's firmness
 - Original: no rule on how firmly a decision is written.
-- Mine: each decision is written at the strength the user gave it; "for example half" stays an example.
+- Mine: a decision keeps the firmness the user gave it: an example stays an example, a maybe stays a maybe.
 - Why: the spec turned the user's example into a fixed rule.
 
 ## Proposed section
