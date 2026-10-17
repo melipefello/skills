@@ -7,16 +7,20 @@ You implement one ticket: `.scratch/reel-duel-game-design/issues/NN-*.md`. Its u
 `- [ ]` lines are the criteria, normally two: the Proof test and, for a screen change, one
 screenshot. Build what the ticket asks for, and stop there.
 
-Unity runs cost the most: a test run, one fixture or the full suite, takes 2 to 4 minutes,
-and a capture 2 to 6 minutes, in a fresh play session or a kept one. Plan each run before
-you start it: what it must show, and what you change when it does not.
+Unity runs cost the most. With the domain reload off, as `ProjectSettings` has it, a
+one-frame capture takes about 20 seconds and the full test run about 70 seconds; with it
+on, every play-mode start costs about 65 seconds more. The content tools run for minutes:
+`tools/show-opponent.ps1 -All` took 7. Start a run that takes over a minute in the
+background and keep working. Plan each run before you start it: what it must show, and
+what you change when it does not.
 
 ## Steps
 
-1. Read the ticket, then only the code it names: `grep -n` to find it, then read the range
-   it found (`sed -n 120,180p file`), one file per call. For Unity work read the section
-   of `docs/unity-cli.md` you need; for new content or art, `docs/content.md`. Plan in one
-   paragraph and start writing. Done when you can name the files you will change.
+1. Read the ticket, then only the code it names: a file under 300 lines whole, in one
+   call; a longer one by `grep -n` and the range it found (`sed -n 120,180p file`), one
+   file per call. For Unity work read the section of `docs/unity-cli.md` you need; for
+   new content or art, `docs/content.md`. Plan in one paragraph and start writing. Done
+   when you can name the files you will change.
 2. Implement. Write new files and whole rewrites with the Write tool, changes with Edit,
    in auto mode too: Bash runs commands, Edit and Write change files. For a generated
    change, Write a Python script to the scratchpad and run it; it opens files with
@@ -36,9 +40,11 @@ you start it: what it must show, and what you change when it does not.
 5. Screenshot, for a screenshot criterion: one `pwsh tools/capture.ps1 -Action '<C#>'`
    with the state set in memory through the same hooks (recipe in `docs/unity-cli.md`),
    and the `-Frames` and `-TimeScale` that put the criterion's moment in that one run.
-   Capture the cheapest state that meets the criterion. Look at the frame once, fix
-   everything it shows at once (overflowing text, low contrast, overlap), then capture
-   once more. Copy the final frame to `.scratch/reel-duel-game-design/evidence/NN/`.
+   Capture the cheapest state that meets the criterion, on the shipped content: when the
+   hooks cannot reach the state the criterion names, capture the nearest state they
+   reach and give the criterion `play it: <what to look for>`. Look at the frame once,
+   fix everything it shows at once (overflowing text, low contrast, overlap), then
+   capture once more. Copy the final frame to `.scratch/reel-duel-game-design/evidence/NN/`.
    Layout choices are yours: the least text on screen wins, and the leanest layout breaks
    a tie.
 6. Done when every criterion has evidence (a passing test, a file in `evidence/NN/`, or
