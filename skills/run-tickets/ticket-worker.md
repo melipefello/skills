@@ -8,7 +8,7 @@ You implement one ticket: `.scratch/reel-duel-game-design/issues/NN-*.md`. Its u
 screenshot. Build what the ticket asks for, and stop there.
 
 Budget: a ticket is about 30 minutes. Unity costs the most of it: a recompile takes about
-2 minutes, a play-mode run or a capture 1 to 5 minutes. Spend them late, and once each.
+1 minute, the full test run about 1 minute, a one-frame capture about 20 seconds.
 
 ## Steps
 
@@ -29,9 +29,10 @@ Budget: a ticket is about 30 minutes. Unity costs the most of it: a recompile ta
    Tests of parked v1.0 systems are `[Explicit]` and stay out of the default run; leave
    them as they are.
 4. Test loop: `pwsh tools/test.ps1 -Core` after each core change, in seconds. When the
-   ticket changes Unity code or its Proof is a Unity test, run `pwsh tools/test.ps1` once,
-   after the screenshot and before the report, about 2 minutes. Fix what fails and run it
-   once more. Wait for each run in the foreground. Done when the run ends in PASS.
+   ticket changes Unity code or its Proof is a Unity test, run the new fixture alone first
+   (`pwsh tools/test.ps1 -Filter <Fixture>`, about 20 seconds), then `pwsh tools/test.ps1`
+   once, after the screenshot and before the report, about 1 minute. Fix what fails and
+   run it once more. Wait for each run in the foreground. Done when the run ends in PASS.
 5. Screenshot, for a screenshot criterion: one `pwsh tools/capture.ps1 -Frames 1 -Action
    '<C#>'` with the state set in memory through the same hooks (recipe in
    `docs/unity-cli.md`). Capture the cheapest state that meets the criterion. Look at the

@@ -76,3 +76,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: each acceptance criterion names its evidence; the template lists criteria 1 and 2 open-ended.
 - Mine: a ticket has at most two criteria, the proof and, for a screen change, one screenshot; the budget rule says the proof is the slice's only test, with no test per criterion and no "all tests pass" criterion.
 - Why: the FGame tickets 23-33 carried 7 to 9 evidenced criteria each (tests per criterion, mockups, frame sequences, a tests.txt), and the proof load took over half of each worker's time; the retro of that run cut it back to the proof.
+
+## The proof runs on the shipped state and measures the goal's number
+- Original: the proof is the test or demo step that fails before the slice and passes after it.
+- Mine: the same, plus: it runs on the shipped game state, never on a toy setup only the test can reach, and when the goal carries a number the proof measures it there.
+- Why: FGame ticket 35 proved its rule on a fight of one-dot items; the shipped fights never settle, so the goal (two to three times fewer events) was missed while the proof passed.

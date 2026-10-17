@@ -27,7 +27,7 @@ Break the work into **tracer bullet** tickets.
 <vertical-slice-rules>
 
 - Each slice cuts a narrow but COMPLETE path through every layer (data, game logic, presentation, tests): vertical, NOT a horizontal slice of one layer
-- A completed slice is demoable on its own, and names its **proof**: the test or demo step that fails before the slice and passes after it
+- A completed slice is demoable on its own, and names its **proof**: the test or demo step that fails before the slice and passes after it. The proof runs on the shipped game state (real content, a real fight, a real save), never on a toy setup that only the test can reach. When the goal carries a number ("two to three times fewer events"), the proof measures that number on the shipped state
 - Each slice fits the **budget**: one proof, a diff the user can review in one sitting, and a run that stays under 150k tokens in a fresh main-agent context. The proof is the slice's only test: no test per criterion, and no "all tests pass" criterion
 - Any prefactoring should be done first
 

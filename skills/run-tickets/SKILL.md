@@ -14,7 +14,9 @@ in number order. This skill commits on `main` and never pushes.
 1. **Work.** Start one `ticket-worker` agent with the ticket file path as its whole
    prompt: model `opus` at effort `medium`, or model `sonnet` for a ticket that changes
    only content data (opponents, items, build files, docs). Wait for its hand-back before
-   anything else; one worker runs at a time, since one editor serves them all.
+   anything else; one worker runs at a time, since one editor serves them all. Claude Code
+   reads `.claude/agents/ticket-worker.md` once, when the session starts: after an edit to
+   it, start a new session before the next ticket, or put the changed rules in the prompt.
 2. **Verify.** Run `pwsh tools/tick-ticket.ps1 -Ticket NN -Check`. It checks every
    criterion in the report at `.scratch/reel-duel-game-design/reports/NN.md`: each named
    test passed in a results file, each linked file exists. The worker's test run is the
