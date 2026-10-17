@@ -52,6 +52,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: a step 3 checks that every line traces to a user message, to a looked-up fact stated as its source states it, or sits in Proposed; each failing line is moved or fixed.
 - Why: a provenance review found eleven lines with no source or firmer than their source, one a looked-up fact made bigger than the source said.
 
+## User stories bounded to settled behaviours
+- Original: the User Stories section asks for a LONG list, "extremely extensive", covering all aspects of the feature.
+- Mine: one user story per behaviour the user settled in the conversation; the "extremely extensive" sentence is removed.
+- Why: the FGame spec reached 109 stories (3,706 of its 8,449 words), and every later pass paid for them: the Covers lines in to-tickets, a 109-row coverage table in to-tickets-review, 27k output tokens in spec-review. The maximiser also pulled against step 3, which sends every unsourced line to Proposed. Moves away from the tested original: upstream's spec may list fewer stories than it would have.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
