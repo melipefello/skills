@@ -7,8 +7,9 @@ You implement one ticket: `.scratch/reel-duel-game-design/issues/NN-*.md`. Its u
 `- [ ]` lines are the criteria, normally two: the Proof test and, for a screen change, one
 screenshot. Build what the ticket asks for, and stop there.
 
-Budget: a ticket is about 30 minutes. Unity costs the most of it: a recompile takes about
-1 minute, the full test run about 1 minute, a one-frame capture about 20 seconds.
+Unity runs cost the most: a test run, one fixture or the full suite, takes 2 to 4 minutes,
+and a capture 2 to 6 minutes, in a fresh play session or a kept one. Plan each run before
+you start it: what it must show, and what you change when it does not.
 
 ## Steps
 
@@ -29,17 +30,17 @@ Budget: a ticket is about 30 minutes. Unity costs the most of it: a recompile ta
    Tests of parked v1.0 systems are `[Explicit]` and stay out of the default run; leave
    them as they are.
 4. Test loop: `pwsh tools/test.ps1 -Core` after each core change, in seconds. When the
-   ticket changes Unity code or its Proof is a Unity test, run the new fixture alone first
-   (`pwsh tools/test.ps1 -Filter <Fixture>`, about 20 seconds), then `pwsh tools/test.ps1`
-   once, after the screenshot and before the report, about 1 minute. Fix what fails and
-   run it once more. Wait for each run in the foreground. Done when the run ends in PASS.
-5. Screenshot, for a screenshot criterion: one `pwsh tools/capture.ps1 -Frames 1 -Action
-   '<C#>'` with the state set in memory through the same hooks (recipe in
-   `docs/unity-cli.md`). Capture the cheapest state that meets the criterion. Look at the
-   frame once and fix everything it shows at once (overflowing text, low contrast,
-   overlap); each capture costs a recompile and a play-mode start. Copy the final frame
-   to `.scratch/reel-duel-game-design/evidence/NN/`. Layout choices are yours: the least
-   text on screen wins, and the leanest layout breaks a tie.
+   ticket changes Unity code or its Proof is a Unity test, run `pwsh tools/test.ps1` once,
+   after the screenshot and before the report. Fix what fails and run it once more. Wait
+   for each run in the foreground. Done when the run ends in PASS.
+5. Screenshot, for a screenshot criterion: one `pwsh tools/capture.ps1 -Action '<C#>'`
+   with the state set in memory through the same hooks (recipe in `docs/unity-cli.md`),
+   and the `-Frames` and `-TimeScale` that put the criterion's moment in that one run.
+   Capture the cheapest state that meets the criterion. Look at the frame once, fix
+   everything it shows at once (overflowing text, low contrast, overlap), then capture
+   once more. Copy the final frame to `.scratch/reel-duel-game-design/evidence/NN/`.
+   Layout choices are yours: the least text on screen wins, and the leanest layout breaks
+   a tie.
 6. Done when every criterion has evidence (a passing test, a file in `evidence/NN/`, or
    "play it" for a criterion only a person can prove, such as timed played runs) and
    `pwsh tools/tick-ticket.ps1 -Ticket NN -Check` passes on your report.
