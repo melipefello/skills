@@ -28,7 +28,7 @@ Break the work into **tracer bullet** tickets.
 
 - Each slice cuts a narrow but COMPLETE path through every layer (data, game logic, presentation, tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable on its own, and names its **proof**: the test or demo step that fails before the slice and passes after it
-- Each slice fits the **budget**: one proof, a diff the user can review in one sitting, and a run that stays under 150k tokens in a fresh main-agent context
+- Each slice fits the **budget**: one proof, a diff the user can review in one sitting, and a run that stays under 150k tokens in a fresh main-agent context. The proof is the slice's only test: no test per criterion, and no "all tests pass" criterion
 - Any prefactoring should be done first
 
 </vertical-slice-rules>
@@ -63,7 +63,7 @@ Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`,
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
-Each acceptance criterion names its **evidence**: the test result, command output, screenshot or demo run that shows it holds. Write each decision from the quiz into the tickets it affects.
+A ticket has two acceptance criteria at most: the proof, and, for a slice that changes a screen, one screenshot. Each criterion names its **evidence**: the test result, command output, screenshot or demo run that shows it holds. Write each decision from the quiz into the tickets it affects.
 
 Leave the source spec unchanged.
 
@@ -81,8 +81,8 @@ Leave the source spec unchanged.
 
 **Sizing:** the sizing rule from the quiz: the budget, or the rule the user chose.
 
-- [ ] Acceptance criterion 1, and its evidence
-- [ ] Acceptance criterion 2, and its evidence
+- [ ] The proof: what the test or demo step shows, and its evidence (the test name, or the command whose output shows it)
+- [ ] For a screen change only: one screenshot of the changed screen, and its evidence (the file)
 
 </local-ticket-template>
 

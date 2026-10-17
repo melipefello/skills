@@ -71,3 +71,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: decisions made in the quiz are not written down anywhere.
 - Mine: each quiz decision goes into the tickets it affects, and the template has a Sizing line with the budget or the rule the user chose.
 - Why: the user's sizing rule (18–25 tickets) and other quiz answers were missing from the files, so later agents could not see them.
+
+## Two criteria per ticket
+- Original: each acceptance criterion names its evidence; the template lists criteria 1 and 2 open-ended.
+- Mine: a ticket has at most two criteria, the proof and, for a screen change, one screenshot; the budget rule says the proof is the slice's only test, with no test per criterion and no "all tests pass" criterion.
+- Why: the FGame tickets 23-33 carried 7 to 9 evidenced criteria each (tests per criterion, mockups, frame sequences, a tests.txt), and the proof load took over half of each worker's time; the retro of that run cut it back to the proof.
