@@ -49,8 +49,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Size set by a budget
 - Original: each slice is sized to fit in a single fresh context window.
-- Mine: each slice fits the budget: one proof, a diff the user can review in one sitting, and a run under 150k tokens in a fresh main-agent context. No per-ticket token estimate is written.
-- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. Agents cannot estimate tokens before exploring, so one proof and diff size do the sizing and 150k stays as the ceiling, leaving margin under 200k for a size judged too small.
+- Mine: each slice fits the budget: one proof, and a diff the user can review in one sitting. No token or time bound.
+- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. A 150k-token ceiling was tried from 14 to 17 October and measured no effect: the FGame tickets 23-33 ran in contexts of 200k to 410k tokens, since no agent can see a token meter. The two-criteria rule below is what cut the runs.
 
 ## Evidence named per criterion
 - Original: acceptance criteria are bare checklist lines.
@@ -71,6 +71,11 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: decisions made in the quiz are not written down anywhere.
 - Mine: each quiz decision goes into the tickets it affects, and the template has a Sizing line with the budget or the rule the user chose.
 - Why: the user's sizing rule (18–25 tickets) and other quiz answers were missing from the files, so later agents could not see them.
+
+## Ticket files written in batches
+- Original: step 5 says to write one file per ticket, with no word on how.
+- Mine: the files are written several at a time, one quoted heredoc per file in each command.
+- Why: one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets.
 
 ## Two criteria per ticket
 - Original: each acceptance criterion names its evidence; the template lists criteria 1 and 2 open-ended.

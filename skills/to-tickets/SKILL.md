@@ -28,7 +28,7 @@ Break the work into **tracer bullet** tickets.
 
 - Each slice cuts a narrow but COMPLETE path through every layer (data, game logic, presentation, tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable on its own, and names its **proof**: the test or demo step that fails before the slice and passes after it. The proof runs on the shipped game state (real content, a real fight, a real save), never on a toy setup that only the test can reach. When the goal carries a number ("two to three times fewer events"), the proof measures that number on the shipped state
-- Each slice fits the **budget**: one proof, a diff the user can review in one sitting, and a run that stays under 150k tokens in a fresh main-agent context. The proof is the slice's only test: no test per criterion, and no "all tests pass" criterion
+- Each slice fits the **budget**: one proof, and a diff the user can review in one sitting. The proof is the slice's only test: no test per criterion, and no "all tests pass" criterion
 - Any prefactoring should be done first
 
 </vertical-slice-rules>
@@ -59,7 +59,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Write the tickets to .scratch/
 
-Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
+Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write the files several at a time, one quoted heredoc per file in each command.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 
