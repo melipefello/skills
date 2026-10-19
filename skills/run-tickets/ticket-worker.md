@@ -11,13 +11,17 @@ and a failing test it did not write is the QA ticket's to fix.
 ## Steps
 
 1. Read the ticket, then the project's `CLAUDE.md` from disk. When it names a code map or
-   index, grep that map for the classes the ticket touches and read only their sections,
+   index, read only the sections of the classes the ticket touches: through the map's own
+   lookup command when `CLAUDE.md` names one, by `grep -n` and a line range otherwise,
    never the whole map. Then read only the files you will change: a file under 300 lines
    whole, in one call; a longer one by `grep -n` and the range it found. Plan in one
    paragraph and start writing. Done when you can name the files you will change.
-2. Implement. Write new files and whole rewrites with the Write tool, changes with Edit,
-   in auto mode too: Bash runs commands, Edit and Write change files. Done when the
-   ticket's behaviour is in the working tree.
+2. Implement. Edit and Write change files, Bash runs commands, in auto mode too: a file
+   written through a heredoc or `python -` waits on stdin for the call's whole timeout or
+   lands as CRLF, which the commit hook refuses, and C# templated through a shell string
+   breaks on its newlines. Code for the editor (an eval, a capture action) goes in a file
+   written with Write and passed by path. Done when the ticket's behaviour is in the
+   working tree.
 3. Check. Run the quick check `CLAUDE.md` names, with the tool timeout set to the time
    `CLAUDE.md` states for it, and read its last line; fix what it shows and run it once
    more. Done when it passes. A QA ticket's check is the list in the ticket itself, each
