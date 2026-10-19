@@ -77,7 +77,12 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Mine: each quiz decision goes into the tickets it affects.
 - Why: the user's sizing rule and other quiz answers were missing from the files, so later agents could not see them; to-tickets-review checks for them.
 
-## Ticket files written in batches
+## User decisions made in the quiz
+- Original: nothing says where a choice the user must make (a pick between options, a visual choice, a name) goes; a ticket can carry one.
+- Mine: every user decision is made in the quiz and the ticket carries the answer; the agent gathers what each decision needs while drafting, and the quiz asks each one with its options. When gathering needs built work, a research ticket is the last build ticket of its batch, its report lists the options, and the ticket that needs the answer opens the next batch and names that report, so the user picks between runs.
+- Why: tickets run unattended through run-tickets, so a decision left inside one is made by the worker or stops the run.
+
+## Ticket files written with the Write tool
 - Original: step 5 says to write one file per ticket, with no word on how.
-- Mine: the files are written several at a time, one quoted heredoc per file in each command.
-- Why: one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets.
+- Mine: each file is written with the Write tool, in auto mode too.
+- Why: a quoted heredoc holding a long ticket body fails in this shell. Writing several files per command with heredocs was tried first, after one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets; the heredocs failed on long bodies, so Write is back.
