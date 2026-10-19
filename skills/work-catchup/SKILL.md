@@ -9,7 +9,7 @@ A **brief** of what you missed since a date: what you must do, then what happene
 
 Slack is the main source. Calendar, Asana, Notion and Gemini notes cover what Slack cannot see — a decision made in a meeting, a ticket moved with no ping.
 
-**Read `~/Documents/slack-recaps/config.md` first.** It holds every ID, path and account this skill needs: output folder, Slack host, work email and calendar ID, Notion hubs, Asana workspace and boards, GitHub work account and org, channel hints per area, KPI bot channels. When it is missing, ask for the values and create it from [`config-template.md`](config-template.md). "The recap folder" below means the output folder it names.
+**Read `~/Documents/slack-recaps/config.md` first.** It holds every ID, path and account this skill needs: output folder, Slack host, work email and calendar ID, Notion hubs, Asana workspace and boards, GitHub work account and org, channel hints per area, KPI bot channels, and the people who matter to ownership (namesakes, direct reports, externals). When it is missing, ask for the values and create it from [`config-template.md`](config-template.md). "The recap folder" below means the output folder it names.
 
 ## Guardrails (hold in every step)
 
@@ -21,8 +21,12 @@ Slack is the main source. Calendar, Asana, Notion and Gemini notes cover what Sl
 
 Every candidate action gets an **owner** before it may enter "Do this". It is **yours** only when one of these holds:
 - **Asked** — addressed to you by name, @-mention, or DM, and waiting on you.
-- **Assigned** — yours in Asana, or a GitHub review request to you.
+- **Assigned** — a person gave it to you in Asana (an assigner, a comment or a ping), or a GitHub review request to you. Tasks a release template auto-assigned to you, with no human behind them, are FYI.
 - **Committed** — your own words: a message, a self-DM, a Gemini next step with your name in brackets, a Claude-session prompt.
+
+A name is not an owner until it is the right person: check config's namesakes before giving you an item that says only your first name — "postpone until Felipe returns" once meant a colleague with the same first name.
+
+The recap proposes edits only to tasks that are yours. Other people's boards (cleanup, ticking, dropping their tasks) stay theirs.
 
 Everything else has another owner — someone else's task, an optional invite, an FYI, "worth a look" — and goes in its area section as one line, or nowhere. A thread stuck on a call only a tech director can make, with nobody asking you, is **unclear**: it goes to Step 8 triage, not straight into the list. So does any item whose owner you cannot name.
 
@@ -30,7 +34,7 @@ A vacation recap once listed others' travel, another lead's season setup and a s
 
 Read `preferences.md` in the recap folder (if it exists) before applying the test — it holds your standing answers from earlier triage ("Rollouts <person> runs → FYI only"), and they override the rules above.
 
-**Subagents return owners, not actions.** When an area is handed to a subagent, ask for items as `owner | what | evidence | link`, with owner = a person, or `me (asked/assigned/committed)` plus the evidence. A prompt asking for "actions for the user" makes the subagent find some; the owner test runs here, on the merged list.
+**Subagents return owners, not actions.** When an area is handed to a subagent, ask for items as `owner | what | evidence | link`, with owner = a person, or `me (asked/assigned/committed)` plus the evidence. A prompt asking for "actions for the user" makes the subagent find some; the owner test runs here, on the merged list. Hand every subagent the paths of `config.md` and `preferences.md`, so the classes you already filed as FYI or "leave out" are filtered while gathering, not after.
 
 ## Step 1 — Find the previous recap
 
@@ -54,7 +58,7 @@ One `AskUserQuestion` call with both questions. After it, work alone until the S
 **Q2 — "Which areas should I cover?"** (multiSelect, header `Areas`, all five preselected)
 - `Project / game channels` — the games you work on, incl. channels you were just added to
 - `Team & announcements` — team, leads, announcement, portfolio channels
-- `DMs, pings & saved items` — DMs, group DMs, @-mentions, threads you were tagged in, your Slack **Later / saved** list, and your **notes-to-self DM**
+- `DMs, pings & bookmarks` — DMs, group DMs, @-mentions, threads you were tagged in, your reaction bookmarks, and your **notes-to-self DM**
 - `Platform & tooling` — SDK/CI/Unity/AI channels + bot digests (AB tests, KPIs, builds)
 - `Calendar, Asana, Notion & meeting notes` — work calendar, the Asana boards and Notion hubs from config, and Gemini notes from meetings in the window
 
@@ -85,13 +89,11 @@ Page the returned cursor until results fall before the start date. Collect every
 **Self-DM — your notes-to-self channel.** You DM yourself reminders and links ("Remind me to talk to <person> about X", an App Store link captioned "check tomorrow morning"). Read it every run: `slack_read_channel` with `channel_id: <your user_id>` — a user ID works as a DM channel ID. Read with **no `oldest`**, so the newest come first, then:
 - inside the window → each is a self-assigned action or reference; actions go straight into "Do this"
 - the ~3 weeks before → check for a follow-up in Slack/Asana before listing it; older than that is archive
-- `~struck through~` means you retracted it yourself — skip it. Many self-DMs also appear in `is:saved`; dedupe, and the self-DM copy wins because it carries your own wording of the action.
+- `~struck through~` means you retracted it yourself — skip it.
 
-**Saved / "Later" list:** `query: "is:saved"`, `sort: "timestamp"`, concise, no date filter. It is a **bookmark pile, not a to-do list** — 100+ entries reaching back a year, most of it dead (old release plans, year-old candidate reviews, stale CI changelogs). Saved *inside* the window → fold into its area section. Saved *before* the window → treat anything older than ~3 weeks as archive, and call one open only after reading the underlying thread to its last message. You bookmark your own *holding* messages ("I'll get back to you", "I'll do it tomorrow") and the real answer often lands in the same thread minutes later — one saved "you're not forgotten" was carried for 13 days while the full answer sat 55 minutes below it.
+**Reaction bookmarks:** `query: "hasmy::eyes:"`, `after: <ts>`, concise. This is the readable substitute for the Slack **Later / saved** list: the connector ignores `is:saved` and returns the general feed instead. Call a bookmark open only after reading its thread to the last message — you bookmark your own *holding* messages ("I'll get back to you") and the real answer often lands minutes later; one was carried for 13 days while the answer sat 55 minutes below it.
 
-Optional pass if you bookmark with a reaction: `query: "hasmy::eyes:"` (or whichever emoji you used).
-
-**Reminders:** Slackbot `/remind` is unreachable — the connector exposes no reminders tool, `USLACKBOT` returns `channel_not_found`, and `from:slackbot` returns nothing. Treat `is:saved` as the substitute, and state the gap once in the doc's scope line.
+**Reminders and the saved list are unreachable** — no reminders tool, `USLACKBOT` returns `channel_not_found`, `from:slackbot` returns nothing, `is:saved` is ignored. State both gaps once in the doc's scope line.
 
 **Channels:** `slack_read_channel`, `oldest: <ts>`, `limit: 100`, `response_format: "concise"`. Empty output means genuinely quiet — record it; a list of silent channels is useful signal.
 
@@ -126,6 +128,7 @@ Search each item from the date it was **first flagged** through now — not just
 | `PROGRESSED` | Moved but unfinished | the item, rewritten down to **only the residue** |
 | `STILL_OPEN` | You actively looked and found nothing since | carry it, and say where you looked |
 | `STALE_DROP` | Untouched for over a week, never important, or the deadline/context has passed | one line saying **drop it**, then gone |
+| `PLAN` | Lives only in a personal plan file (a self-improvement `PLAN.md` and its actions) | left out; the plan has its own checker |
 | `UNKNOWN` | A source was unreachable | carry it, **naming the source** — never dressed up as still-open |
 
 **Bias hard against `STILL_OPEN`.** Absence of a Slack message is weak evidence. All of these count as resolved: a reply from **you** (check your own messages, not just the other person's); a decision by **someone else** that settles it; a closed Asana task, a merged PR, a shipped build; a later message that **supersedes** it, or a passed deadline that makes it moot; an item that **was never yours** — several carried items turned out to be someone else's task or an FYI marked "no action needed".
@@ -150,18 +153,23 @@ Always run this; it is local and cheap, and it is the only source that sees a se
 
 Read the data file directly: `~\.claude\history.jsonl` — one JSON line per user prompt, fields `sessionId`, `project`, `timestamp` (Unix **milliseconds**, not seconds), `display` (the prompt text).
 
-One PowerShell pass — sessions active inside the window, oldest prompt to newest per session:
+One PowerShell pass — one entry per session active inside the window, with its first and last prompt. Printing every prompt overflows the output (100+ KB for three weeks); pull a session's full prompt list only for the few that look unfinished.
 
 ```powershell
 $startMs = <window start unix seconds> * 1000L
+function Cut($s, $n) { if ($s.Length -gt $n) { $s.Substring(0, $n) + '…' } else { $s } }
 Get-Content "$env:USERPROFILE\.claude\history.jsonl" | ConvertFrom-Json |
   Where-Object { $_.timestamp -ge $startMs -and $_.sessionId } |
   Group-Object sessionId | ForEach-Object {
     $p = $_.Group | Sort-Object timestamp
-    "=== $(Split-Path $p[0].project -Leaf) | $($_.Name) ==="
-    $p | ForEach-Object { $_.display }
+    $start = [DateTimeOffset]::FromUnixTimeMilliseconds($p[0].timestamp).ToLocalTime().ToString('MM-dd HH:mm')
+    "$start | $(Split-Path $p[0].project -Leaf) | $($p.Count) prompts | $($_.Name.Substring(0,8))"
+    "   first: $(Cut $p[0].display 140)"
+    "   last:  $(Cut $p[-1].display 160)"
   }
 ```
+
+Skip personal projects (games, finance, hobbies) — only work repos and work tooling count.
 
 Widen to ~1 week before the window when hunting carry-overs — a session that died mid-task last Thursday is exactly the kind of pending item you mean.
 
@@ -175,6 +183,8 @@ Report at most a couple of lines: *"pending from Claude sessions: <project> — 
 ## Step 8 — Triage with you
 
 All sources are in. Run the owner test over the merged list, then ask about what the test cannot settle — before a line of the document is written. Items that are plainly yours, with an obvious next step, need no question.
+
+First settle by research every fact that would decide an answer: was it discussed, was it fixed in a release, is it already done, who it really names. A question whose honest answer is "it depends on what the team said" is research left undone. Ask only about the choices that remain once the facts are in.
 
 Ask about:
 - every **unclear** item (no nameable owner, or a call nobody asked you for);
@@ -194,6 +204,9 @@ Write to **`<output folder from config>\slack-recap-<start>-to-<end>.md`** — a
 
 Rules that keep it short:
 - **One bullet per item**: what happened, what (if anything) you must do, link on the words. Anything past two sentences goes behind the link.
+- **An explainer for unfamiliar tasks.** A task you have not done before (a CI toolchain change, an HR cycle, a console setup) gets four short sub-points under its line: *what* it is, *if skipped* — the concrete consequence, *how* — the first concrete steps, *when* — the best timing and the hard deadline. "Switch Xcode before 30 Oct" alone left you unable to judge when to act.
+- **Every item stands alone.** It names where it came from (a thread, a meeting, your self-DM of <date>) and why it matters now. A bare "retro/friction post" or "your 29 Sep list" carried from an older recap made no sense a month later.
+- **A review request names what to review** — one line on what the PR changes and where to look.
 - Flat bullets only — no sub-heading per item, no hour-by-hour timeline, no quote unless the quote *is* the decision, no commentary about the recap itself.
 - Not your game and no action for you → one line at most, usually nothing. Silent channels, clean checks and reusable background knowledge → skip. Absence of news is not content.
 
@@ -206,6 +219,8 @@ Structure, in this order:
 5. **Closed since last run** — at the bottom, one line per retired or dropped item: item, what settled it, date, link. This is what lets you trust the deletions without reading them. Corrections to a factually wrong previous recap get one line each here too.
 
 **Cross-source findings are the real value** — an Asana task assigned with no Slack ping, a decision made in a meeting and never posted back, a confirmation sent to the wrong channel. Say them inside the one bullet the item gets. Same for flags (dates that look like typos, alerts with zero replies): one line where they belong.
+
+**Done when** every "Do this" item passes three checks: you could act on it without asking a follow-up (explainer present where the task is unfamiliar), it names its origin, and it is yours by the owner test or your triage answer.
 
 ## Step 10 — Report in chat
 

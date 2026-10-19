@@ -10,6 +10,14 @@ Lives at `~/Documents/slack-recaps/config.md`, outside any repo. Fill every line
 - GitHub work account: `<gh auth login name>`
 - GitHub org: `<org>`
 
+## People
+
+Who decides ownership. The owner test checks these before giving an item to you.
+
+- Namesakes (same first name as you; notes that say only the first name may mean them): `<Full Name> (<role>)`
+- Direct reports (your End-of-Year and 1-1 list): `<Full Name>`
+- Externals (contractors and partners, outside HR processes): `<Full Name> (<company>)`
+
 ## Notion hubs
 
 One line per hub: name and page ID.
