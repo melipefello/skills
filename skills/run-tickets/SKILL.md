@@ -29,10 +29,12 @@ screenshots and lists what the user plays, so build tickets carry no proof of th
 
 ## After the last ticket
 
-When the project's `CLAUDE.md` names a code map command, run it and commit the map as
-`Refresh the code map after tickets NN to MM`. Then end with one screen: one line per
+When the project's `CLAUDE.md` names a code map command, run it; workers often regenerate
+the map themselves, so commit it as `Refresh the code map after tickets NN to MM` only
+when the working tree changed. Then end with one screen: one line per
 ticket (what a user gets), then what the QA ticket left for the user to play, then every
-unfinished item by ticket, then what stopped the run if anything did. The user is often
+unfinished item by ticket, then each decision a research ticket left for the user, with
+its options, then what stopped the run if anything did. The user is often
 away while this runs, so ask nothing per ticket.
 
 ## Review, only when the arguments say "review"
