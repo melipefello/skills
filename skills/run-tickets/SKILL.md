@@ -10,7 +10,8 @@ is the one folder under `.scratch/` that has an `issues/` folder; with several, 
 one before the first ticket. `all` means every ticket with no report at
 `.scratch/<feature>/reports/NN.md`, in number order. `model=` and `effort=` set the
 worker's model and effort; the defaults are `opus` and `medium`. This skill commits and
-never pushes.
+never pushes. The last ticket of a batch is its QA ticket: it runs the batch's tests and
+screenshots and lists what the user plays, so build tickets carry no proof of their own.
 
 ## Per ticket, in order
 
@@ -18,27 +19,29 @@ never pushes.
    is the whole of [ticket-worker.md](ticket-worker.md), then the feature folder and the
    ticket file path. Wait for its hand-back before anything else; one worker runs at a
    time.
-2. **Gate.** When the report's Proof line says `failed`, or its Unfinished section lists
-   anything: stop the whole run. Report what failed and the report's path. Leave the
-   working tree as it is.
+2. **Gate.** When the report's Check line says `failed`: stop the whole run. Report what
+   failed and the report's path. Leave the working tree as it is. An Unfinished section
+   with items does not stop the run: commit as usual and carry the items to the end.
 3. **Record.** Commit everything in the working tree, the report included, as this
    ticket's commit, in the style of `git log`: `Add <summary> (ticket NN)`, with a body
-   that describes the change and names a proof left for the user.
+   that describes the change; after a QA ticket, what the user plays.
 4. Go to the next ticket.
 
 ## After the last ticket
 
-End with one screen: one line per ticket (what a user gets), then the proofs left for the
-user to run, then what stopped the run if anything did. The user is often away while this
-runs, so ask nothing per ticket.
+When the project's `CLAUDE.md` names a code map command, run it and commit the map as
+`Refresh the code map after tickets NN to MM`. Then end with one screen: one line per
+ticket (what a user gets), then what the QA ticket left for the user to play, then every
+unfinished item by ticket, then what stopped the run if anything did. The user is often
+away while this runs, so ask nothing per ticket.
 
 ## Review, only when the arguments say "review"
 
 Show one ticket at a time, in order, from its report, in plain words: what a user sees or
 gets, no code names, no file names.
 
-1. **Proof**: one line, what was shown and how.
-2. **Decisions**, numbered on from the proof. Each one line: what was chosen, and the
+1. **Check**: one line, what was shown and how.
+2. **Decisions**, numbered on from the check. Each one line: what was chosen, and the
    alternative when there was one.
 
 The user answers every number. Wait until each has an answer before you show the next
