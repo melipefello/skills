@@ -79,21 +79,21 @@ Ask only what is missing: if the message already gave a date or areas, skip that
 ## Step 4 — Sweep Slack
 
 **Discovery sweep first — this is the whole trick.** Searching channels by name misses active channels. Two `slack_search_public_and_private` sweeps with `only_my_channels: true`, `sort: "timestamp"`, `channel_types: "public_channel,private_channel"`:
-- `query: "has:link"` — announcements, docs, dashboards, bot posts
-- `query: "is:thread"` — live discussions
+- `filters: "has:link"` — announcements, docs, dashboards, bot posts
+- `filters: "is:thread"` — live discussions
 
-Page the returned cursor until results fall before the start date. Collect every `#channel` you see, resolve its ID with `slack_search_channels`, read it. Use keyword + modifier queries throughout: a natural-language query returns one or two results and hides the rest.
+Page the returned cursor until results fall before the start date. Collect every `#channel` you see, resolve its ID with `slack_search_channels`, read it. Put modifiers in `filters` and subject words in `keywords` throughout, with `natural_language_query: ""`: a natural-language query returns one or two results and hides the rest.
 
-**DMs and pings:** `query: "to:me"`, `sort: "timestamp"`, `response_format: "concise"`, `include_context: false` — the detailed form exceeds the token limit and gets dumped to a file. Page the cursor past the start date. Expect Google Calendar / GitHub bot noise; skip it.
+**DMs and pings:** `filters: "to:me"`, `sort: "timestamp"`, `response_format: "concise"`, `include_context: false` — the detailed form exceeds the token limit and gets dumped to a file. Page the cursor past the start date. Expect Google Calendar / GitHub bot noise; skip it.
 
 **Self-DM — your notes-to-self channel.** You DM yourself reminders and links ("Remind me to talk to <person> about X", an App Store link captioned "check tomorrow morning"). Read it every run: `slack_read_channel` with `channel_id: <your user_id>` — a user ID works as a DM channel ID. Read with **no `oldest`**, so the newest come first, then:
 - inside the window → each is a self-assigned action or reference; actions go straight into "Do this"
 - the ~3 weeks before → check for a follow-up in Slack/Asana before listing it; older than that is archive
 - `~struck through~` means you retracted it yourself — skip it.
 
-**Reaction bookmarks:** `query: "hasmy::eyes:"`, `after: <ts>`, concise. This is the readable substitute for the Slack **Later / saved** list: the connector ignores `is:saved` and returns the general feed instead. Call a bookmark open only after reading its thread to the last message — you bookmark your own *holding* messages ("I'll get back to you") and the real answer often lands minutes later; one was carried for 13 days while the answer sat 55 minutes below it.
+**Reaction bookmarks:** `filters: "hasmy::eyes:"`, `after: <ts>`, concise. This is the readable substitute for the Slack **Later / saved** list. Call a bookmark open only after reading its thread to the last message — you bookmark your own *holding* messages ("I'll get back to you") and the real answer often lands minutes later; one was carried for 13 days while the answer sat 55 minutes below it.
 
-**Reminders and the saved list are unreachable** — no reminders tool, `USLACKBOT` returns `channel_not_found`, `from:slackbot` returns nothing, `is:saved` is ignored. State both gaps once in the doc's scope line.
+**Reminders and the saved list are unreachable** — no reminders tool, `USLACKBOT` returns `channel_not_found`, `from:slackbot` returns nothing, `is:saved` is ignored and the general feed comes back. State both gaps once in the doc's scope line.
 
 **Channels:** `slack_read_channel`, `oldest: <ts>`, `limit: 100`, `response_format: "concise"`. Empty output means genuinely quiet — record it; a list of silent channels is useful signal.
 
@@ -128,7 +128,7 @@ Search each item from the date it was **first flagged** through now — not just
 | `PROGRESSED` | Moved but unfinished | the item, rewritten down to **only the residue** |
 | `STILL_OPEN` | You actively looked and found nothing since | carry it, and say where you looked |
 | `STALE_DROP` | Untouched for over a week, never important, or the deadline/context has passed | one line saying **drop it**, then gone |
-| `PLAN` | Lives only in a personal plan file (a self-improvement `PLAN.md` and its actions) | left out; the plan has its own checker |
+| `PLAN` | Lives only in a personal plan file (a self-improvement `PLAN.md` and its actions) | left out |
 | `UNKNOWN` | A source was unreachable | carry it, **naming the source** — never dressed up as still-open |
 
 **Bias hard against `STILL_OPEN`.** Absence of a Slack message is weak evidence. All of these count as resolved: a reply from **you** (check your own messages, not just the other person's); a decision by **someone else** that settles it; a closed Asana task, a merged PR, a shipped build; a later message that **supersedes** it, or a passed deadline that makes it moot; an item that **was never yours** — several carried items turned out to be someone else's task or an FYI marked "no action needed".
@@ -169,7 +169,7 @@ Get-Content "$env:USERPROFILE\.claude\history.jsonl" | ConvertFrom-Json |
   }
 ```
 
-Skip personal projects (games, finance, hobbies) — only work repos and work tooling count.
+Keep only work repos and work tooling; side projects (personal games, finance, hobbies) stay out.
 
 Widen to ~1 week before the window when hunting carry-overs — a session that died mid-task last Thursday is exactly the kind of pending item you mean.
 
