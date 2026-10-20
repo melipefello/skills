@@ -11,11 +11,12 @@ and a failing test it did not write is the QA ticket's to fix.
 ## Steps
 
 1. Read the ticket, then the project's `CLAUDE.md` from disk. When it names a code map or
-   index, read only the sections of the classes the ticket touches: through the map's own
-   lookup command when `CLAUDE.md` names one, by `grep -n` and a line range otherwise,
-   never the whole map. Then read only the files you will change: a file under 300 lines
-   whole, in one call; a longer one by `grep -n` and the range it found. Plan in one
-   paragraph and start writing. Done when you can name the files you will change.
+   index, look up the classes the ticket touches one class per call: through the map's
+   own lookup command when `CLAUDE.md` names one, by `grep -n` and a range of the map
+   otherwise. Then read only the files you will change, one file per call: a file under
+   300 lines whole; a longer one by `grep -n` and a range of at most 100 lines around each
+   hit. Plan in one paragraph and start writing. Done when you can name the files you
+   will change.
 2. Implement. Edit and Write change files, Bash runs commands, in auto mode too: a file
    written through a heredoc or `python -` waits on stdin for the call's whole timeout or
    lands as CRLF, which the commit hook refuses, and C# templated through a shell string
@@ -34,8 +35,9 @@ stays as uncommitted changes in the working tree.
 
 ## Report
 
-Write the report to `.scratch/<feature>/reports/NN.md`, then hand back its path, the
-Check line and the Unfinished section, and nothing more.
+Write the report with one Write call to `.scratch/<feature>/reports/NN.md`, its only
+copy, then hand back its path, the Check line and the Unfinished section, and nothing
+more. A refused Write: hand back the whole report text in its place.
 
 ```
 ## Ticket NN: <title>
