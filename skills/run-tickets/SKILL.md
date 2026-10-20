@@ -1,6 +1,6 @@
 ---
 name: run-tickets
-description: Run a range of tickets one at a time through a ticket worker, commit each, and summarise; add "review" to walk the user through each ticket.
+description: Run a range of tickets through ticket workers (build tickets one at a time, research tickets as a parallel frontier), commit each, and summarise; add "review" to walk the user through each ticket.
 disable-model-invocation: true
 argument-hint: <first>-<last> | all [review] [model=opus] [effort=medium], e.g. 04-06
 ---
@@ -17,14 +17,21 @@ screenshots and lists what the user plays, so build tickets carry no proof of th
 
 1. **Work.** Start one general-purpose agent at the worker's model and effort. Its prompt
    is the whole of [ticket-worker.md](ticket-worker.md), then the feature folder and the
-   ticket file path. Wait for its hand-back before anything else; one worker runs at a
-   time.
+   ticket file path. Wait for its hand-back before anything else; one build worker runs
+   at a time, since build tickets share the working tree and the editor.
+   **Research tickets run as a frontier**: when the next tickets in the range say "No
+   code" and are blocked only by tickets already done, start all of them in one message.
+   Each prompt ends with the one file that worker writes, `reports/NN.md`, stated as
+   what to write (a prohibition on other files reads to the permission classifier as
+   destruction and is refused). Record each one as its hand-back arrives, by its
+   report's path, and go on when the whole frontier is recorded.
 2. **Gate.** When the report's Check line says `failed`: stop the whole run. Report what
    failed and the report's path. Leave the working tree as it is. An Unfinished section
    with items does not stop the run: commit as usual and carry the items to the end.
 3. **Record.** Commit everything in the working tree, the report included, as this
-   ticket's commit, in the style of `git log`: `Add <summary> (ticket NN)`, with a body
-   that describes the change; after a QA ticket, what the user plays.
+   ticket's commit (in a frontier, only the ticket's report), in the style of `git log`:
+   `Add <summary> (ticket NN)`, with a body that describes the change; after a QA
+   ticket, what the user plays.
 4. Go to the next ticket.
 
 ## After the last ticket
