@@ -34,7 +34,7 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 
 ## Four plain-words lines per candidate
 - Original: the candidates are presented with no shape.
-- Mine: numbered, no file paths or code names, four lines each (seen before, what happened, the fix and its kind, what it touches); every smaller finding as one numbered line; the list ends with "Answer each number with fix, skip, or explain", and an explain gets a plainer re-telling.
+- Mine: numbered, no file paths or code names, four lines each (seen before, what happened, the fix and its kind, what it touches); every smaller finding as one numbered line; the list ends with "Answer each number with fix, skip, or explain", and an explain, or a skip given because the user did not understand the item, gets one re-telling in plain words with its cost, then the question again.
 - Why: six clarification rounds in 21 FGame retros ("reexplain, no jargon, zoom out", "What's the 7min one?"), and "ask if you want them" tails that were then applied unseen.
 
 ## Picked fixes applied by one worker, then committed here
@@ -44,7 +44,7 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 
 ## Skill fixes made in FSkills in the same turn
 - Original: no word on where a fix to a skill goes.
-- Mine: step 6 makes a skill fix in `C:\F\FSkills\skills\<name>`; in the same turn as the project commit, a tracked skill goes through skill-forge's note Refresh (every hunk noted, the user's yes, the commit) and an own skill through its diff, the yes and an `adapt` commit; each is installed after its commit; it says when no fix touched a skill.
+- Mine: step 6 makes a skill fix in `C:\F\FSkills\skills\<name>`; in the same turn as the project commit, each skill fix goes through skill-forge's SKILL.md, its route for uncommitted edits and its ground rules (the note, the diff and the user's yes, the commit, the install); it says when no fix touched a skill.
 - Why: "propagate to FSkills" was worked out by hand four times (about ten calls each, edits made in the installed copy and copied back), once with nothing to propagate and no word saying so. Routing through skill-forge's rules keeps the review before each FSkills commit and the install after it, which the first form of this step skipped.
 
 ## A closing "You must do" list
