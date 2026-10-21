@@ -75,6 +75,8 @@ def main():
         i += 1
     if not spec or not os.path.isfile(spec):
         die('give the spec file (--help prints usage)')
+    if wanted is not None and since:
+        die('give --stories or --since, not both')
     with open(spec, encoding='utf-8') as f:
         all_stories = stories(f.read().splitlines())
     if since:

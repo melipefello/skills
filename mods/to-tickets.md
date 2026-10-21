@@ -49,7 +49,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Checks in one QA ticket per batch
 - Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it, and nothing groups the tickets.
-- Mine: a slice is demoable on its own, and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user plays, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
+- Mine: a slice is demoable on its own (the user can see or play its behaviour the moment it lands), and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user plays, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
 - Why: the check belongs where the user plays, once per batch. A per-ticket scheme ran on the FGame tickets 23-42 between 14 and 18 October, first as evidence per criterion, then as one proof per ticket: the proof load took over half of each build worker's time either way. Tickets 43-48 ran with build tickets ending on the quick check and one QA ticket last, and that is what run-tickets and its worker now expect. Upstream reports that a per-ticket demo line pushes slicing toward vertical; "What it delivers" in the quiz keeps that pull.
 
 ## Size set by a budget
