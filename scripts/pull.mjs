@@ -1,21 +1,24 @@
 // Bring edits made in the installed copies (~/.claude/skills/<skill>) back into skills/<skill>.
 //
-//   node scripts/pull.mjs [<skill>...] [--prune]
+//   node scripts/pull.mjs [<skill>...] [--prune] [--force]
 //
 // With no names: every manifest skill whose installed folder differs from skills/<skill>.
 // Each installed file that differs is copied into skills/<skill>, with LF line endings. Files only in skills/<skill>
 // are listed, and deleted with --prune. Then prints the git diff stat, runs check.mjs (exit 1 when it fails), and
 // for a tracked skill names the note to write.
+// A skill is skipped when skills/<skill> has uncommitted changes, so a pull only ever replaces committed content.
+// It is also skipped when its last commit is newer than every differing installed file: then the repo is ahead and
+// install.mjs is the fix. --force pulls it anyway.
 import { spawnSync } from "node:child_process";
-import { existsSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
   CLAUDE_SKILLS, ROOT, SKILLS_DIR, die, ensureDir, git, listFiles, parseArgs, readBytes, readManifest, sameBytes,
 } from "./lib.mjs";
 
-const args = parseArgs(process.argv.slice(2), { prune: "bool", help: "bool" });
+const args = parseArgs(process.argv.slice(2), { prune: "bool", force: "bool", help: "bool" });
 if (args.help) {
-  console.log("usage: node scripts/pull.mjs [<skill>...] [--prune]");
+  console.log("usage: node scripts/pull.mjs [<skill>...] [--prune] [--force]");
   process.exit(0);
 }
 
@@ -49,6 +52,17 @@ for (const name of names) {
   const diff = differing(name);
   if (!diff.length) {
     console.log(`${name}: matches skills/${name}`);
+    continue;
+  }
+  if (git(["status", "--porcelain", "--", `skills/${name}`], { cwd: ROOT })) {
+    console.log(`${name}: skills/${name} has uncommitted changes, skipped; commit or stash them, then pull`);
+    continue;
+  }
+  const committed = Number(git(["log", "-1", "--format=%ct", "--", `skills/${name}`], { cwd: ROOT }) || 0) * 1000;
+  const edited = Math.max(0, ...diff.map((f) => join(installed, f)).filter(existsSync).map((p) => statSync(p).mtimeMs));
+  if (edited <= committed && !args.force) {
+    console.log(`${name}: skills/${name} was committed after the installed copy changed, skipped; ` +
+      `run node scripts/install.mjs ${name}, or pull with --force`);
     continue;
   }
   for (const f of diff) {
