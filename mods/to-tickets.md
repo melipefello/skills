@@ -19,7 +19,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Status line removed from the ticket template
 - Original: each local ticket carries `**Status:** ready-for-agent`.
-- Mine: removed; the acceptance checkboxes show when a ticket is done.
+- Mine: removed; the run-tickets report records when a ticket is done.
 - Why: the value is triage label vocabulary; no triage step reads it. to-spec dropped the same label.
 
 ## Glossary and ADR use removed
@@ -45,7 +45,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
-- Why: only Claude Code is used.
+- Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
 
 ## Checks in one QA ticket per batch
 - Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it, and nothing groups the tickets.
@@ -60,7 +60,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 ## Acceptance criteria removed
 - Original: the ticket template ends in two bare checklist lines, "Acceptance criterion 1" and "2".
 - Mine: removed; nothing in the ticket is ticked.
-- Why: a ticket set passed the quiz with 13 tickets whose criteria only code review could confirm ("data, not code", "matches in style", "rare"), and the checklist grew into the evidence scheme the Proof entry describes. The report from run-tickets records the result; the ticked boxes were not read.
+- Why: a ticket set passed the quiz with 13 tickets whose criteria only code review could confirm ("data, not code", "matches in style", "rare"), and the checklist grew into the per-ticket evidence scheme that "Checks in one QA ticket per batch" replaced. The report from run-tickets records the result; the ticked boxes were not read.
 
 ## Spec coverage per ticket
 - Original: tickets do not say which parts of the source they deliver.
@@ -74,7 +74,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## The quiz asks only what the tickets need
 - Original: the quiz asks about granularity, blocking edges, and merges or splits.
-- Mine: the three standing questions are removed; the quiz asks only each user decision with its options, each story the coverage check reports, and the exact version of each tool a ticket installs or creates a project with.
+- Mine: the three standing questions are removed; the quiz asks only each user decision with its options, each story the coverage check reports, and each tool version.
 - Why: every FGame quiz from 10-17 to 10-21 was approved unchanged ("approve", "go with recommendations"), one after a 54-minute wait; none of the standing questions got a specific answer. The tool version was added after the project-setup ticket said "a pinned editor version" without naming it. Moves away from the tested original: a granularity or edge problem is raised only if the user sees it in the list.
 
 ## Proposed lines wait for the user
