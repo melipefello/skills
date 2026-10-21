@@ -7,6 +7,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: writes the spec to `.scratch/<feature-slug>/spec.md`, creating the folder; no label; no setup pointer. The description says where the spec goes.
 - Why: specs live as local markdown; the setup skill is not used. No triage or AFK agent reads the label, and upstream names the label its most-reported rough edge.
 
+## Intro in the imperative
+- Original: the intro says "This skill takes the current conversation context...".
+- Mine: "Take the current conversation context...".
+- Why: an instruction to the agent reads as one; the behaviour is the same.
+
 ## Glossary and ADR use removed
 - Original: the explore step also tells the agent to use the domain glossary vocabulary and respect ADRs.
 - Mine: the explore step only reads the codebase.
@@ -75,4 +80,4 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
-- Why: only Claude Code is used.
+- Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
