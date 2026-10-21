@@ -5,7 +5,7 @@ Upstream: mattpocock/skills:skills/engineering/pr (pin in manifest.json)
 ## Credits removed
 - Original: the front matter carries `metadata.credits` for Dex Horthy's `show-me` skill, and `CREDITS.md` explains that the Summary visual menu is copied from it.
 - Mine: removed; only functional content stays.
-- Why: the agent reads neither; the attribution does not change behaviour.
+- Why: the agent reads neither; the attribution does not change behaviour. Moves away from the tested original: the credit to show-me is gone.
 
 ## No test run in Evidence
 - Original: the template's before/after placeholders name a failing and a passing test run, and A-tier evidence is test results or console output, showing the exact test that now fails and passes.
@@ -15,7 +15,7 @@ Upstream: mattpocock/skills:skills/engineering/pr (pin in manifest.json)
 ## Glossary use removed
 - Original: the Sections intro tells the agent to use the domain language from `GLOSSARY.md`.
 - Mine: removed.
-- Why: the projects are self-documenting; there is no glossary layer to read. Matches to-spec and to-tickets.
+- Why: the projects are self-documenting; there is no glossary layer to read. Matches to-spec and to-tickets. Moves away from the tested original: a project that keeps a glossary goes unread.
 
 ## Game dev blast radius examples
 - Original: blast radius examples are layout shift, breakages for consumers, mobile responsiveness.
@@ -25,4 +25,4 @@ Upstream: mattpocock/skills:skills/engineering/pr (pin in manifest.json)
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
-- Why: only Claude Code is used.
+- Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
