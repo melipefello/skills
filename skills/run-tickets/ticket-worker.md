@@ -25,8 +25,10 @@ any test failing from an earlier ticket, are the QA ticket's.
    the ticket's behaviour is in the working tree.
 3. Check. Run the quick check `CLAUDE.md` names, with the tool timeout set to the time
    `CLAUDE.md` states for it, and read its last line; fix what it shows and run it once
-   more. A core test your change breaks: update it until the check passes. Write no new
-   test. Done when it passes. A QA ticket's check is the list in the ticket itself, each
+   more. A core test your change breaks: update it to assert what the ticket now asks for,
+   and name the test and its old and new expectation under Decisions; a test that breaks
+   for any other reason points at a fault in your change. Write no new test. Done when it
+   passes. A QA ticket's check is the list in the ticket itself, each
    item run once and its result written down.
 
 ## Unity commands

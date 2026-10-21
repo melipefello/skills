@@ -52,7 +52,8 @@ When the run's QA reports list layout defects, write that list as one more ticke
 numbered after the highest number in `git ls-files .scratch/<feature>/issues`: `**Kind:**
 qa`, blocked by the QA ticket, its What to build each defect to fix and then the QA
 captures the defects touched, to rerun. Run it through the steps above, and only then end
-the run.
+the run. This happens once per run: defects its own captures show go to the end screen as
+unfinished items.
 
 End with one screen: the table that
 `python -I <this skill's folder>/scripts/ticket_stats.py --latest` prints, then one line per
