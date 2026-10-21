@@ -4,12 +4,12 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Tickets saved to .scratch/, no tracker setup
 - Original: publishes to the tracker configured by `/setup-matt-pocock-skills` (local files, or GitHub/Linear issues with native blocking links and the `ready-for-agent` label), points to the setup skill when no config is present, and ships an issue template for real trackers.
-- Mine: always writes one file per ticket to `.scratch/<feature-slug>/issues/<NN>-<slug>.md`; step 5 is that path alone; no tracker branch, no issue template, no setup pointer. The description says where the tickets go.
+- Mine: always writes one file per ticket to `.scratch/<feature>/issues/<NN>-<slug>.md`; step 5 is that path alone; no tracker branch, no issue template, no setup pointer. The description says where the tickets go.
 - Why: tickets live as local markdown, next to the spec from to-spec; the setup skill is not used.
 
 ## Spec read from a local path
 - Original: an argument can be a spec path, an issue number or a URL; the agent fetches it and reads its body and comments.
-- Mine: an argument is a spec path such as `.scratch/<feature-slug>/spec.md`, read in full.
+- Mine: an argument is a spec path such as `.scratch/<feature>/spec.md`, read in full.
 - Why: specs come from to-spec as local files; there is no issue to fetch.
 
 ## Source spec left unchanged
@@ -49,7 +49,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Checks in one QA ticket per batch
 - Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it, and nothing groups the tickets.
-- Mine: a slice is demoable on its own (the user can see or play its behaviour the moment it lands), and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user plays, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
+- Mine: a slice is demoable on its own (the user can see or play its behaviour the moment it lands), and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user tries, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
 - Why: the check belongs where the user plays, once per batch. A per-ticket scheme ran on the FGame tickets 23-42 between 14 and 18 October, first as evidence per criterion, then as one proof per ticket: the proof load took over half of each build worker's time either way. Tickets 43-48 ran with build tickets ending on the quick check and one QA ticket last, and that is what run-tickets and its worker now expect. Upstream reports that a per-ticket demo line pushes slicing toward vertical; "What it delivers" in the quiz keeps that pull.
 
 ## Size set by a budget
@@ -84,18 +84,23 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## QA screenshots for the QA worker, numeric targets in its checklist
 - Original: a slice is "demoable or verifiable on its own"; nothing says where a check's screenshots or numbers go.
-- Mine: QA screenshots go to `Temp/` for the QA worker to look at; only one that shows a defect or a choice for the user is copied to `evidence/NN/`; each new or changed card text is captured once. A build ticket names no test; a numeric target goes in the QA checklist after the simulator has confirmed it against the shipped content.
-- Why: QA tickets 69, 75 and 92 committed 8 to 13 PNGs each that no prompt of Felipe's used after 10-14, and no capture showed the card text he found overflowing. Build ticket 55 carried a stale balance target ($6.76, ended Unfinished).
+- Mine: the project's `CLAUDE.md` names its build, test and capture commands and where captures go; a capture is for the QA worker to look at, and only one that shows a defect or a choice for the user is kept beside the report. A build ticket names no test; a numeric target goes in the QA checklist once the project's own tools have measured it against the shipped content. The project's own capture paths and rules live in its docs, not here.
+- Why: QA tickets 69, 75 and 92 committed 8 to 13 PNGs each that no prompt of Felipe's used after 10-14, and no capture showed the card text he found overflowing. Build ticket 55 carried a stale balance target ($6.76, ended Unfinished). The skill is shared, so that project's paths and tools moved to its docs.
 
 ## A Kind field in the template
 - Original: the template has What to build, Blocked by, a status and the criteria; nothing marks a ticket's kind.
-- Mine: a `**Kind:** build | research | qa` field; a research ticket changes no code, and its report ends with a table of at most 30 lines (each mechanic, its trigger, its effect, its format). Step 5 ends with "Write exactly the template's fields", and with no time estimates (runs 64-92: a build ticket 8 to 15 min, a QA ticket 15 to 28 min).
+- Mine: a `**Kind:** build | research | qa` field; a research ticket changes no code, and its report ends with a table of at most 30 lines (each mechanic, its trigger, its effect, its format). Step 5 ends with "Write exactly the template's fields", and with "No time estimates." (the measured run times live in the project's docs).
 - Why: run-tickets detected research tickets from the prose "No code", which to-tickets never defined, and ran six of them serially. Agents copied fields from earlier tickets: `Sizing:` outlived its removal by 16 tickets and overestimated time 5 to 8 times (an overnight slot sat 80% idle). The Excalidraw synthesis re-read 130 KB of research reports for want of a table.
 
 ## Numbering from git
 - Original: tickets are numbered from `01` in dependency order.
-- Mine: numbered on from the highest number in `git ls-files .scratch/<feature-slug>/issues`, run just before writing.
+- Mine: numbered on from the highest number in `git ls-files .scratch/<feature>/issues`, run just before writing.
 - Why: two parallel FGame sessions both wrote a ticket 43; the QA one never ran.
+
+## One feature folder, reused
+- Original: local files go to `.scratch/<feature-slug>/issues/`; nothing says how the folder is chosen.
+- Mine: the folder placeholder is `<feature>`, as in grill-me, to-spec and run-tickets. Before choosing the folder, the agent lists `.scratch/`: a conversation that continues a feature with a folder (its `spec.md` or `issues/`) writes there; a new folder only for a new feature, named to the user.
+- Why: one placeholder across the four planning skills, so each reads as the same folder; tickets for a continuing feature written to a new folder leave its spec and feedback behind, and run-tickets asks which folder to run.
 
 ## Frontier line removed
 - Original: the publish step says to work the frontier: any ticket whose blockers are all done.

@@ -12,7 +12,7 @@ Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet ver
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes a spec path as an argument, such as `.scratch/<feature-slug>/spec.md`, read the whole file.
+Work from whatever is already in the conversation context. If the user passes a spec path as an argument, such as `.scratch/<feature>/spec.md`, read the whole file.
 
 ### 2. Explore the codebase (optional)
 
@@ -37,7 +37,7 @@ Give each ticket its **blocking edges**: the other tickets that must complete be
 
 A ticket runs unattended, so every **user decision** (a pick between options, a visual choice, a name) is made in the quiz, and the ticket carries the answer. Gather what each decision needs while drafting (references, captures, a list of options). When gathering needs built work, a **research ticket** gathers it before its batch's QA ticket and its report lists the options; the ticket that needs the answer opens the next batch and names the report it waits on, so the user picks between runs.
 
-Cut the set into **batches** of about five tickets in dependency order, and close each batch with its **QA ticket**: the one ticket that proves the batch. It names the tests to write or run, each screenshot to take and what it shows, and what the user plays to see the batch's behaviour. Screenshots go to `Temp/` for the QA worker to look at; only one that shows a defect or a choice for the user is copied to `evidence/NN/`. Each new or changed card text is captured once. A numeric target goes in the QA ticket's checklist, after the simulator has confirmed it against the shipped content. The QA ticket is blocked by every build ticket of its batch. A build ticket names no test and carries no check of its own: its worker ends on the project's quick check.
+Cut the set into **batches** of about five tickets in dependency order, and close each batch with its **QA ticket**: the one ticket that proves the batch. It names the tests to write or run, each screenshot to take and what it shows, and what the user tries to see the batch's behaviour; the project's `CLAUDE.md` names its build, test and capture commands and where captures go. A capture is for the QA worker to look at; only one that shows a defect or a choice for the user is kept beside the report. A numeric target goes in the QA ticket's checklist once the project's own tools have measured it against the shipped content. The QA ticket is blocked by every build ticket of its batch. A build ticket names no test and carries no check of its own: its worker ends on the project's quick check.
 
 Tickets change the product and its tools. A change to the workflow (worker rules, skills, agent files) goes under **Process proposals** at the end of the breakdown, for the user to take to a retro, never inside a ticket.
 
@@ -59,7 +59,9 @@ Iterate until the user approves the breakdown.
 
 ### 5. Write the tickets to .scratch/
 
-Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered on from the highest number in `git ls-files .scratch/<feature-slug>/issues`, run just before writing (from `01` when there is none), in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool.
+Before choosing the folder, list `.scratch/`: when the conversation continues a feature that already has a folder (its `spec.md` or `issues/`), write there; create a new folder only for a new feature, and name it to the user.
+
+Write one file per ticket under `.scratch/<feature>/issues/<NN>-<slug>.md`, numbered on from the highest number in `git ls-files .scratch/<feature>/issues`, run just before writing (from `01` when there is none), in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool.
 
 Write each decision from the quiz into the tickets it affects. Leave the source spec unchanged.
 
@@ -77,9 +79,9 @@ Write each decision from the quiz into the tickets it affects. Leave the source 
 
 </local-ticket-template>
 
-A QA ticket's What to build is its checks: the tests to write or run, each screenshot to take and what it shows, and what the user plays. Its Blocked by is every build ticket of its batch.
+A QA ticket's What to build is its checks: the tests to write or run, each screenshot to take and what it shows, and what the user tries. Its Blocked by is every build ticket of its batch.
 
-No time estimates. In runs 64-92 a build ticket took 8 to 15 min and a QA ticket 15 to 28 min.
+No time estimates.
 
 Avoid specific file paths or code snippets: they go stale fast. Write exactly the template's fields.
 
