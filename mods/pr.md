@@ -22,6 +22,11 @@ Upstream: mattpocock/skills:skills/engineering/pr (pin in manifest.json)
 - Mine: save data compatibility, breakages for consumers, performance on target devices.
 - Why: the work is mostly game dev; the web examples point the agent at the wrong risks.
 
+## Guidance aimed at the PR's reviewer
+- Original: the Guidance keeps what answers "the user's current question or the options to resolve the current discussion point", and warns against overwhelming the user.
+- Mine: it keeps what makes the PR's key point, and warns against overwhelming the reviewer.
+- Why: the wording comes from show-me, a live-chat skill; a PR body has no current question or discussion point, and its reader is the reviewer.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
