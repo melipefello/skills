@@ -115,9 +115,9 @@ def digest(path, label, is_sub=False):
             if isinstance(content, list):
                 for p in content:
                     if not isinstance(p, dict): continue
-                    if p['type'] == 'tool_use':
+                    if p.get('type') == 'tool_use':
                         tool_uses[p['id']] = {'name': p['name'], 'input': p.get('input'), 'ts': ts, 'result': None}
-                    elif p['type'] == 'text' and p.get('text', '').strip():
+                    elif p.get('type') == 'text' and p.get('text', '').strip():
                         texts.append((ts, p['text']))
         elif t == 'user':
             if d.get('isMeta'): continue
@@ -126,14 +126,14 @@ def digest(path, label, is_sub=False):
             elif isinstance(content, list):
                 for p in content:
                     if not isinstance(p, dict): continue
-                    if p['type'] == 'tool_result':
+                    if p.get('type') == 'tool_result':
                         txt = result_text(p)
                         tu = tool_uses.get(p.get('tool_use_id'))
                         err = bool(p.get('is_error'))
                         results.append({'tu': tu, 'len': len(txt), 'err': err, 'text': txt, 'ts': ts})
                         if tu is not None:
                             tu['result'] = results[-1]
-                    elif p['type'] == 'text' and p.get('text', '').strip():
+                    elif p.get('type') == 'text' and p.get('text', '').strip():
                         txt = p['text']
                         if txt.startswith('<system-reminder>') or txt.startswith('<command-') or txt.startswith('<local-command'): continue
                         prompts.append((ts, txt))
