@@ -1,5 +1,14 @@
 {
   "version": 1,
+  "forbid": [
+    "FGame",
+    "Unity",
+    "Editor.log",
+    "simulator",
+    "card text",
+    "reel",
+    "Felipe"
+  ],
   "skills": {
     "grill-me": {
       "status": "tracked",

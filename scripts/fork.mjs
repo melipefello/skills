@@ -10,27 +10,37 @@
 // and copies nothing. Its text joins the skill during the adapt step; diff and update then track both folders.
 // Prints the other skills the copied (or added) folder refers to, one per line after "deps:": names that are
 // skills in the upstream, the manifest or the lock file, marked when already forked or installed.
+// --dry-run writes nothing and only sizes up the upstream folder, in one line:
+//   <files> files, <lines> lines, deps: <deps>, conflicts: <hits>
+// then one line per hit, where a hit is a line naming tdd, TDD, GLOSSARY, ADR or an (issue) tracker: upstream
+// workflows these forks drop.
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import {
   KNOWN_UPSTREAMS, ROOT, SKILLS_DIR, cleanup, copyFolder, detectDeps, die, fetchCommit, checkoutPath, findSkillPaths, git, now,
-  parseArgs, readLock, readManifest, resolveTarget, shortSha, treeFiles, writeManifest, listFiles,
+  isBinary, parseArgs, readBytes, readLock, readManifest, resolveTarget, shortSha, skillFiles, treeFiles, writeManifest,
+  listFiles,
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2), {
-  from: "string", path: "string", ref: "string", "add-source": "string", "no-commit": "bool", help: "bool",
+  from: "string", path: "string", ref: "string", "add-source": "string", "no-commit": "bool", "dry-run": "bool", help: "bool",
 });
 if (args.help || args._.length !== 1) {
-  console.log("usage: node scripts/fork.mjs <skill> [--from <owner/repo>] [--add-source <upstream-skill>] [--path <folder>] [--ref <ref>] [--no-commit]");
+  console.log("usage: node scripts/fork.mjs <skill> [--from <owner/repo>] [--add-source <upstream-skill>] [--path <folder>] [--ref <ref>] [--no-commit | --dry-run]");
   process.exit(args.help ? 0 : 1);
 }
+const dry = args["dry-run"];
+const CONFLICTS = /tdd|TDD|GLOSSARY|ADR|tracker|issue tracker/;
 
 const [skill] = args._;
 const adding = args["add-source"];
 const lookup = adding ?? skill;
 const dest = join(SKILLS_DIR, skill);
 const manifest = readManifest();
-if (adding) {
+if (dry) {
+  if (adding && !manifest.skills[skill]) console.log(`note: ${skill} is not in manifest.json; --add-source would stop here`);
+  if (!adding && (manifest.skills[skill] || existsSync(dest))) console.log(`note: ${skill} is already forked; a fork would stop here`);
+} else if (adding) {
   if (!manifest.skills[skill]) die(`${skill} is not in manifest.json; fork it first`);
 } else {
   if (manifest.skills[skill]) die(`${skill} is already in manifest.json`);
@@ -54,6 +64,10 @@ try {
   } else if (!files.some((f) => f.startsWith(path + "/"))) die(`no folder ${path} in ${from}@${target.ref}`);
 
   const folder = checkoutPath(dir, path);
+  if (dry) {
+    sizeUp(folder, `${from}:${path}@${target.ref} (${shortSha(target.commit)})`, files);
+    process.exit(0);
+  }
   const source = { repo: from, path, track: target.track, ref: target.ref, commit: target.commit, forkedAt: now(), updatedAt: now() };
   let message;
   if (adding) {
@@ -89,6 +103,25 @@ try {
   }
 } finally {
   cleanup(dir);
+}
+
+function sizeUp(folder, label, upstreamFiles) {
+  const installed = readLock().skills ?? {};
+  const known = (d) => manifest.skills[d] || installed[d] || findSkillPaths(upstreamFiles, d).length;
+  const deps = detectDeps(folder, lookup, known).filter((d) => d !== skill);
+  let lines = 0;
+  const hits = [];
+  const files = skillFiles(folder);
+  for (const f of files) {
+    const buf = readBytes(join(folder, f));
+    if (isBinary(buf)) continue;
+    const text = buf.toString("utf8").split("\n");
+    lines += text.length - (text.at(-1) === "" ? 1 : 0);
+    text.forEach((l, i) => { if (CONFLICTS.test(l)) hits.push(`  ${f}:${i + 1}: ${l.trim().slice(0, 160)}`); });
+  }
+  console.log(`== ${skill} <- ${label}`);
+  console.log(`${files.length} files, ${lines} lines, deps: ${deps.join(" ") || "none"}, conflicts: ${hits.length}`);
+  if (hits.length) console.log(hits.join("\n"));
 }
 
 function searchUpstreams(name) {

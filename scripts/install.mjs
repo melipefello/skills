@@ -8,8 +8,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
-  CLAUDE_SKILLS, LOCK, ROOT, SKILLS_DIR, die, installedUsers, listFiles, npxSkills, parseArgs, readBytes, readLock,
-  sameBytes, samePath,
+  CLAUDE_SKILLS, LOCK, ROOT, SKILLS_DIR, die, differingFiles, installedUsers, npxSkills, parseArgs, readLock, samePath,
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2), { replace: "bool", help: "bool" });
@@ -30,8 +29,7 @@ if (!entry || entry.sourceType !== "local" || !samePath(entry.source, ROOT)) {
   die(`${LOCK} does not record ${skill} as installed from ${ROOT}, so \`npx skills update\` would overwrite it`);
 }
 const installed = join(CLAUDE_SKILLS, skill);
-const files = [...new Set([...listFiles(installed), ...listFiles(mine)])];
-const differ = files.filter((f) => !sameBytes(readBytes(join(installed, f)), readBytes(join(mine, f))));
+const differ = differingFiles(installed, mine);
 if (differ.length) die(`${installed} differs from skills/${skill}: ${differ.join(", ")}`);
 console.log(`verified: ${installed} matches skills/${skill}, and the lock file points here`);
 

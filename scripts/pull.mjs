@@ -10,10 +10,11 @@
 // It is also skipped when its last commit is newer than every differing installed file: then the repo is ahead and
 // install.mjs is the fix. --force pulls it anyway.
 import { spawnSync } from "node:child_process";
-import { existsSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
-  CLAUDE_SKILLS, ROOT, SKILLS_DIR, die, ensureDir, git, listFiles, parseArgs, readBytes, readManifest, sameBytes,
+  CLAUDE_SKILLS, ROOT, SKILLS_DIR, die, differingFiles, ensureDir, git, installedIsNewer, parseArgs, readBytes,
+  readManifest,
 } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2), { prune: "bool", force: "bool", help: "bool" });
@@ -25,13 +26,7 @@ if (args.help) {
 const manifest = readManifest();
 for (const name of args._) if (!manifest.skills[name]) die(`${name} is not a skill in manifest.json`);
 
-const files = (dir) => listFiles(dir).filter((f) => !/(^|\/)__pycache__\//.test(f));
-const differing = (name) => {
-  const installed = join(CLAUDE_SKILLS, name);
-  const mine = join(SKILLS_DIR, name);
-  const all = [...new Set([...files(installed), ...files(mine)])].sort();
-  return all.filter((f) => !sameBytes(readBytes(join(installed, f)), readBytes(join(mine, f))));
-};
+const differing = (name) => differingFiles(join(CLAUDE_SKILLS, name), join(SKILLS_DIR, name));
 
 const names = args._.length
   ? args._
@@ -58,9 +53,7 @@ for (const name of names) {
     console.log(`${name}: skills/${name} has uncommitted changes, skipped; commit or stash them, then pull`);
     continue;
   }
-  const committed = Number(git(["log", "-1", "--format=%ct", "--", `skills/${name}`], { cwd: ROOT }) || 0) * 1000;
-  const edited = Math.max(0, ...diff.map((f) => join(installed, f)).filter(existsSync).map((p) => statSync(p).mtimeMs));
-  if (edited <= committed && !args.force) {
+  if (!installedIsNewer(name, diff) && !args.force) {
     console.log(`${name}: skills/${name} was committed after the installed copy changed, skipped; ` +
       `run node scripts/install.mjs ${name}, or pull with --force`);
     continue;

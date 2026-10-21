@@ -117,8 +117,19 @@ export function resolveTarget(repo, { track, ref } = {}) {
   return { ref: "HEAD", commit: remote.head, track: "head" };
 }
 
-/** Blobless, depth-1 fetch of one commit into a temp dir. Returns the dir; caller removes it. */
+// One fetch per repo@commit per process: cleanup() spares these dirs and the exit handler removes them.
+const fetched = new Map();
+const sparse = new Map();
+process.on("exit", () => { for (const dir of fetched.values()) try { rmSync(dir, { recursive: true, force: true }); } catch {} });
+
+/** Blobless, depth-1 fetch of one commit into a temp dir, once per process. Returns the dir. */
 export function fetchCommit(repo, commit) {
+  const key = `${repo}@${commit}`;
+  if (!fetched.has(key)) fetched.set(key, fetchNew(repo, commit));
+  return fetched.get(key);
+}
+
+function fetchNew(repo, commit) {
   const dir = mkdtempSync(join(tmpdir(), "fskills-"));
   git(["init", "-q"], { cwd: dir });
   // A global core.autocrlf=true would check files out with CRLF; keep upstream bytes as they are.
@@ -133,9 +144,11 @@ export function treeFiles(dir) {
   return git(["ls-tree", "-r", "--name-only", "FETCH_HEAD"], { cwd: dir }).split("\n").filter(Boolean);
 }
 
-/** Check out one sub-path of the fetched commit. Returns the absolute path of that folder. */
+/** Check out one sub-path of the fetched commit; paths checked out before stay. Returns the absolute path of that folder. */
 export function checkoutPath(dir, path) {
-  git(["sparse-checkout", "set", "--no-cone", path], { cwd: dir });
+  if (!sparse.has(dir)) sparse.set(dir, new Set());
+  sparse.get(dir).add(path);
+  git(["sparse-checkout", "set", "--no-cone", ...sparse.get(dir)], { cwd: dir });
   git(["checkout", "-q", "FETCH_HEAD"], { cwd: dir });
   return join(dir, ...path.split("/"));
 }
@@ -166,6 +179,31 @@ export function listFiles(dir, base = dir) {
     else out.push(relative(base, p).replaceAll("\\", "/"));
   }
   return out.sort();
+}
+
+// Never part of a skill: no comparison counts these files.
+const IGNORED = /(^|\/)__pycache__\//;
+
+/** The files of a skill folder that count, as posix-relative paths. */
+export function skillFiles(dir) {
+  return listFiles(dir).filter((f) => !IGNORED.test(f));
+}
+
+/** Files that differ between two skill folders, a file missing on one side included. */
+export function differingFiles(a, b) {
+  const all = [...new Set([...skillFiles(a), ...skillFiles(b)])].sort();
+  return all.filter((f) => !sameBytes(readBytes(join(a, f)), readBytes(join(b, f))));
+}
+
+/**
+ * Whether the installed copy changed after skills/<name> was last committed: some differing installed file is
+ * newer than that commit. diff comes from differingFiles(installed, mine).
+ */
+export function installedIsNewer(name, diff) {
+  const installed = join(CLAUDE_SKILLS, name);
+  const committed = Number(git(["log", "-1", "--format=%ct", "--", `skills/${name}`], { cwd: ROOT }) || 0) * 1000;
+  const edited = Math.max(0, ...diff.map((f) => join(installed, f)).filter(existsSync).map((p) => statSync(p).mtimeMs));
+  return edited > committed;
 }
 
 /** File contents with CRLF turned into LF, so line endings never count as a change. Binary files pass through. */
@@ -199,13 +237,18 @@ export function copyFolder(from, to) {
 
 /**
  * Names of other skills a skill folder refers to. known() keeps only real skills: the patterns also match
- * prose such as "`package.json`/build-tool".
+ * prose such as "`package.json`/build-tool". A path into another skill's folder counts in any text file, the
+ * other patterns only in md, txt, yaml and json files.
  */
 export function detectDeps(skillDir, self, known = () => true) {
   const names = new Set();
-  for (const f of listFiles(skillDir)) {
+  for (const f of skillFiles(skillDir)) {
+    const buf = readBytes(join(skillDir, f));
+    if (isBinary(buf)) continue;
+    const text = buf.toString("utf8");
+    // ~/.claude/skills/<b>/scripts/x.py, skills/<b>/REFERENCE.md
+    for (const m of text.matchAll(/skills\/([a-z0-9][a-z0-9-]*)\/(?:scripts|[A-Za-z0-9_-]+\.(?:md|py|mjs))/g)) names.add(m[1]);
     if (!/\.(md|txt|yaml|yml|json)$/i.test(f)) continue;
-    const text = readFileSync(join(skillDir, f), "utf8");
     for (const line of text.split("\n")) {
       if (!/skill tool/i.test(line)) continue;
       for (const m of line.matchAll(/["`]([a-z0-9][a-z0-9-]*)["`]/g)) names.add(m[1]);
@@ -225,8 +268,19 @@ export function detectDeps(skillDir, self, known = () => true) {
 export function npxSkills(argv) {
   if (process.platform === "win32" && existsSync(LOCK)) spawnSync("attrib", ["-H", LOCK]);
   console.log(`> npx skills ${argv.join(" ")}`);
-  const r = spawnSync("npx", ["-y", "skills@latest", ...argv], { stdio: "inherit", shell: true, cwd: ROOT });
+  // One command string: shell:true with an args array is deprecated (DEP0190), as the args go unescaped.
+  const r = spawnSync(shellCommand(["npx", "-y", "skills@latest", ...argv]), { stdio: "inherit", shell: true, cwd: ROOT });
   if (r.status !== 0) console.log(`warning: npx exited with ${r.status}; checking the result instead`);
+}
+
+/** argv as one command line for the platform shell (cmd.exe or sh), each word quoted when it needs it. */
+export function shellCommand(argv) {
+  return argv.map((a) => {
+    if (/^[\w@+=:,./\\-]+$/.test(a)) return a;
+    if (process.platform !== "win32") return `'${a.replaceAll("'", "'\\''")}'`;
+    if (/["%^&|<>!]/.test(a)) die(`cannot pass ${a} to cmd.exe`);
+    return `"${a}"`;
+  }).join(" ");
 }
 
 export function readLock() {
@@ -255,6 +309,8 @@ export function now() {
   return new Date().toISOString();
 }
 
+/** Remove a temp dir. A dir from fetchCommit stays until exit, for the next caller of the same commit. */
 export function cleanup(dir) {
+  if ([...fetched.values()].includes(dir)) return;
   try { rmSync(dir, { recursive: true, force: true }); } catch {}
 }
