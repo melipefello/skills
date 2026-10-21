@@ -69,17 +69,20 @@ function printRemoved(ref) {
   const current = new Map();
   const removed = [];
   let file = null;
+  let inHunk = false;
   for (const line of r.stdout.split("\n")) {
     const head = line.match(/^diff --git a\/(.*) b\/(.*)$/);
     if (head) {
       file = head[2];
+      inHunk = false;
       if (!current.has(file)) {
         const buf = readBytes(join(ROOT, file));
         current.set(file, buf ? flat(buf.toString("utf8")) : "");
       }
       continue;
     }
-    if (line.startsWith("---") || !line.startsWith("-") || !flat(line.slice(1))) continue;
+    if (line.startsWith("@@")) inHunk = true;
+    if (!inHunk || !line.startsWith("-") || !flat(line.slice(1))) continue;
     if (stillStands(flat(line.slice(1)), current.get(file))) continue;
     removed.push(`  ${file}: ${line.slice(1).trim()}`);
   }
