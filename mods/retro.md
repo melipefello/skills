@@ -14,7 +14,7 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 
 ## Sessions start from their numbers
 - Original: the agent reads the session logs as it sees fit.
-- Mine: each session starts from `scripts/digest.py` (prompts, tool counts, errors, largest results, subagents); a `/run-tickets` session also from the run-tickets skill's `ticket_stats.py` table. Subagents read only the transcripts of the tickets the table shows as outliers.
+- Mine: each session starts from `scripts/digest.py` (prompts, tool counts, errors, largest results, subagents); a `/run-tickets` session also from the run-tickets skill's `ticket_stats.py` table. Subagents read the transcripts of the tickets the table shows as outliers.
 - Why: seven FGame retros re-derived the same numbers with 32 reader subagents and throwaway parsers (about $25), and their tables showed each worker's last context, about 70 times below the tokens it processed.
 
 ## A ledger of every candidate
@@ -44,8 +44,8 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 
 ## Skill fixes made in FSkills in the same turn
 - Original: no word on where a fix to a skill goes.
-- Mine: step 6 makes a skill fix in `C:\F\FSkills\skills\<name>`; in the same turn as the project commit it records a tracked skill's change in `mods/<name>.md`, runs `check.mjs`, installs the skill and commits in FSkills; it says when no fix touched a skill.
-- Why: "propagate to FSkills" was worked out by hand four times (about ten calls each, edits made in the installed copy and copied back), once with nothing to propagate and no word saying so.
+- Mine: step 6 makes a skill fix in `C:\F\FSkills\skills\<name>`; in the same turn as the project commit, a tracked skill goes through skill-forge's note Refresh (every hunk noted, the user's yes, the commit) and an own skill through its diff, the yes and an `adapt` commit; each is installed after its commit; it says when no fix touched a skill.
+- Why: "propagate to FSkills" was worked out by hand four times (about ten calls each, edits made in the installed copy and copied back), once with nothing to propagate and no word saying so. Routing through skill-forge's rules keeps the review before each FSkills commit and the install after it, which the first form of this step skipped.
 
 ## A closing "You must do" list
 - Original: nothing tracks an action only the user can take.
@@ -55,7 +55,7 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 ## Coding standards category and its reference removed
 - Original: a Coding standards category adds or clarifies rules for the reviewer agent, sends mechanical violations to deterministic checks and judgement calls to `CODING_STANDARDS.md`. The reference explains why review, not implementation, enforces standards, and describes `CODING_STANDARDS.md`. The AGENTS.md category offers coding standards as a destination.
 - Mine: the category, the Implementation vs Review section and the `CODING_STANDARDS.md` bullet are removed; the AGENTS.md category only offers automated checks.
-- Why: no reviewer agent reads `CODING_STANDARDS.md`, and the category ties the skill to code. The rule that mechanical violations become checks is lost; the Automated checks category still finds missing checks.
+- Why: no reviewer agent reads `CODING_STANDARDS.md`, and the category ties the skill to code. Moves away from the tested original: the rule that mechanical violations become checks is lost; the Automated checks category still finds missing checks.
 
 ## Every candidate tied to a session event
 - Original: presents the candidates in order of severity.
@@ -70,4 +70,4 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
-- Why: only Claude Code is used.
+- Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
