@@ -15,14 +15,21 @@ screenshots and lists what the user plays, so build tickets carry no proof of th
 Agent and skill files change only in a retro, between runs; an instruction the user gives
 mid-run goes into the prompts of the remaining workers.
 
+## Before the first worker
+
+When the prompt carries the connectors reminder (a hook adds it when the claude.ai
+connectors are enabled), ask the user in one line: run anyway, or disable them first?
+Start no worker until the answer.
+
 ## Per ticket, in order
 
 1. **Work.** Start one general-purpose agent at the worker's model and effort. Its prompt
    is the whole of [ticket-worker.md](ticket-worker.md), then the feature folder and the
    ticket file path. Wait for its hand-back before anything else; one build worker runs
    at a time, since build tickets share the working tree and the editor.
-   **Research tickets run as a frontier**: when the next tickets in the range say "No
-   code" and are blocked only by tickets already done, start all of them in one message.
+   **Research tickets run as a frontier**: when the next tickets in the range say
+   `**Kind:** research` and are blocked only by tickets already done, start all of them in
+   one message.
    Each prompt ends with the one file that worker writes, `reports/NN.md`, stated as
    what to write (a prohibition on other files reads to the permission classifier as
    destruction and is refused). Record each one as its hand-back arrives, by its
@@ -41,13 +48,18 @@ mid-run goes into the prompts of the remaining workers.
 
 ## After the last ticket
 
-When the project's `CLAUDE.md` names a code map command, run it; workers often regenerate
-the map themselves, so commit it as `Refresh the code map after tickets NN to MM` only
-when the working tree changed. Then end with one screen: the table that
+When the run's QA reports list layout defects, write that list as one more ticket file,
+numbered after the highest number in `git ls-files .scratch/<feature>/issues`: `**Kind:**
+qa`, blocked by the QA ticket, its What to build each defect to fix and then the QA
+captures the defects touched, to rerun. Run it through the steps above, and only then end
+the run.
+
+End with one screen: the table that
 `python -I <this skill's folder>/scripts/ticket_stats.py --latest` prints, then one line per
 ticket (what a user gets), then what the QA ticket left for the user to play, then every
 unfinished item by ticket, then each decision a research ticket left for the user, with
-its options, then what stopped the run if anything did. Its last lines are this session's
+its options, then every ticket file with no report, outside the range too, then what
+stopped the run if anything did. Its last lines are this session's
 id (the table's first line) and: "Feedback, retro and fixes: `/retro <session-id>` in a new
 session; the next `/grill-me` in another." The user is often away while this runs, so ask
 nothing per ticket.

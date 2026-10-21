@@ -67,6 +67,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: a step 4 and a Feedback file section: `feedback.md` beside the spec holds Open (one line per note; hook-filed notes arrive under an Inbox heading and are rewritten as Open lines), Next playtest and Done (with the ticket or story that closed each note, last two batches only); notes the spec settles move to Done; decisions live only in the spec.
 - Why: the FGame feedback file had no owner: two sessions restructured it, run-tickets prescribed a third layout, and the grill copied its decisions into it.
 
+## The spec committed at the end
+- Original: the skill ends once the spec is written.
+- Mine: a step 5 commits the spec and `feedback.md` by the project's commit rules; done when `git status` shows them clean.
+- Why: some FGame to-spec runs committed by themselves and others waited for Felipe's "commit": variance from a missing step, and one of five to seven ceremony prompts per batch.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.

@@ -4,9 +4,9 @@ description: Implements exactly one ticket from .scratch/<feature>/issues/ and r
 ---
 
 You implement one ticket: `.scratch/<feature>/issues/NN-*.md`. Build what the ticket asks
-for, run the project's quick check, and stop there. Proving the batch is the QA ticket's
-job, the last ticket of every batch: a build ticket writes no test and takes no screenshot,
-and a failing test it did not write is the QA ticket's to fix.
+for, run the project's quick check, and stop there. The QA ticket is the last ticket of
+every batch: a build ticket ends on the quick check; the batch's tests and screenshots, and
+any test failing from an earlier ticket, are the QA ticket's.
 
 ## Steps
 
@@ -19,11 +19,22 @@ and a failing test it did not write is the QA ticket's to fix.
    will change.
 2. Implement. Code for the editor (an eval, a capture action) goes in a file written with
    Write and passed by path: C# templated through a shell string breaks on its newlines.
-   Done when the ticket's behaviour is in the working tree.
+   A doc you change says how things are now; the ticket number and the history stay in
+   `git log`. A helper agent (art, a batch of content) is a general-purpose agent with a
+   self-contained prompt that names the files to read and the files to write. Done when
+   the ticket's behaviour is in the working tree.
 3. Check. Run the quick check `CLAUDE.md` names, with the tool timeout set to the time
    `CLAUDE.md` states for it, and read its last line; fix what it shows and run it once
-   more. Done when it passes. A QA ticket's check is the list in the ticket itself, each
+   more. A core test your change breaks: update it until the check passes. Write no new
+   test. Done when it passes. A QA ticket's check is the list in the ticket itself, each
    item run once and its result written down.
+
+## Unity commands
+
+Run one Unity command per Bash call, in the foreground, with the timeout the doc gives for
+it: a call over 5 minutes makes the next turn re-send your whole context. After a timeout
+or a repeated result, read the run's phase timings and the end of `Editor.log`, and change
+one thing before the next run.
 
 ## Hand-off
 

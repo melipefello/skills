@@ -42,6 +42,11 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 - Mine: step 6 hands the picked numbers to one general-purpose agent on opus that commits nothing; the session reviews its diff, commits, and lists each number as done, skipped or not done and why.
 - Why: applying in the long run session cost more than the retro itself, and one apply turn left the core finding undone without saying so.
 
+## Skill fixes made in FSkills in the same turn
+- Original: no word on where a fix to a skill goes.
+- Mine: step 6 makes a skill fix in `C:\F\FSkills\skills\<name>`; in the same turn as the project commit it records a tracked skill's change in `mods/<name>.md`, runs `check.mjs`, installs the skill and commits in FSkills; it says when no fix touched a skill.
+- Why: "propagate to FSkills" was worked out by hand four times (about ten calls each, edits made in the installed copy and copied back), once with nothing to propagate and no word saying so.
+
 ## A closing "You must do" list
 - Original: nothing tracks an action only the user can take.
 - Mine: the retro ends with "You must do:", one line per action with the exact text to paste; its ledger row stays open until the user confirms it.

@@ -35,9 +35,9 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
-A ticket runs unattended, so every **user decision** (a pick between options, a visual choice, a name) is made in the quiz, and the ticket carries the answer. Gather what each decision needs while drafting (references, captures, a list of options). When gathering needs built work, a **research ticket** gathers it as the last build ticket of its batch and its report lists the options; the ticket that needs the answer opens the next batch and names the report it waits on, so the user picks between runs.
+A ticket runs unattended, so every **user decision** (a pick between options, a visual choice, a name) is made in the quiz, and the ticket carries the answer. Gather what each decision needs while drafting (references, captures, a list of options). When gathering needs built work, a **research ticket** gathers it before its batch's QA ticket and its report lists the options; the ticket that needs the answer opens the next batch and names the report it waits on, so the user picks between runs.
 
-Cut the set into **batches** of about five tickets in dependency order, and close each batch with its **QA ticket**: the one ticket that proves the batch. It names the tests to write or run, each screenshot to take and what it shows, and what the user plays to see the batch's behaviour. It is blocked by every build ticket of its batch. A build ticket carries no check of its own: its worker ends on the project's quick check.
+Cut the set into **batches** of about five tickets in dependency order, and close each batch with its **QA ticket**: the one ticket that proves the batch. It names the tests to write or run, each screenshot to take and what it shows, and what the user plays to see the batch's behaviour. Screenshots go to `Temp/` for the QA worker to look at; only one that shows a defect or a choice for the user is copied to `evidence/NN/`. Each new or changed card text is captured once. A numeric target goes in the QA ticket's checklist, after the simulator has confirmed it against the shipped content. The QA ticket is blocked by every build ticket of its batch. A build ticket names no test and carries no check of its own: its worker ends on the project's quick check.
 
 Tickets change the product and its tools. A change to the workflow (worker rules, skills, agent files) goes under **Process proposals** at the end of the breakdown, for the user to take to a retro, never inside a ticket.
 
@@ -51,28 +51,23 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 
 When the source is a spec, write the breakdown with each ticket's Covers line to a scratch file and run `python -I <this skill's folder>/scripts/coverage.py <spec> --tickets <that file>`, with `--since <the last commit that touched the issues folder>` when the spec is a revision (`--help` prints usage). List each user story it reports and each Implementation Decision that no ticket covers.
 
-Ask the user:
+Ask only what the tickets need from the user: each user decision with its options, each uncovered story, and each tool version.
 
-- Does the granularity feel right? (too coarse / too fine)
-- Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
-- Should any tickets be merged or split further?
-- Are the batches cut right: does each QA ticket close a set the user can play as one?
-- For each ticket that creates a project or installs a tool: which exact version?
-- For each user decision the tickets need: the options gathered, and which one?
+A ticket that builds a line from the spec's Proposed section waits for the user to adopt that line in the quiz. When the user is away, write the breakdown and stop.
 
 Iterate until the user approves the breakdown.
 
 ### 5. Write the tickets to .scratch/
 
-Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool.
-
-Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered on from the highest number in `git ls-files .scratch/<feature-slug>/issues`, run just before writing (from `01` when there is none), in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool.
 
 Write each decision from the quiz into the tickets it affects. Leave the source spec unchanged.
 
 <local-ticket-template>
 
 # <NN>: <Ticket title>
+
+**Kind:** `build`, `research` or `qa`. A research ticket changes no code: its worker writes only its report, which ends with a table of at most 30 lines (each mechanic, its trigger, its effect, its format), so a later synthesis reads the tables.
 
 **What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
 
@@ -84,4 +79,8 @@ Write each decision from the quiz into the tickets it affects. Leave the source 
 
 A QA ticket's What to build is its checks: the tests to write or run, each screenshot to take and what it shows, and what the user plays. Its Blocked by is every build ticket of its batch.
 
-Avoid specific file paths or code snippets: they go stale fast.
+No time estimates. In runs 64-92 a build ticket took 8 to 15 min and a QA ticket 15 to 28 min.
+
+Avoid specific file paths or code snippets: they go stale fast. Write exactly the template's fields.
+
+Then commit the tickets by the project's commit rules. Done when `git status` shows them clean.

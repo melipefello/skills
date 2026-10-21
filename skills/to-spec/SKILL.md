@@ -18,6 +18,8 @@ Take the current conversation context and codebase understanding and produce a s
 
 4. Update the **feedback file** beside the spec, when there is one, by the layout below. Done when every Open note this spec settles has moved to Done with its story number.
 
+5. Commit the spec (and feedback.md) by the project's commit rules. Done when `git status` shows them clean.
+
 ## Feedback file
 
 `.scratch/<feature-slug>/feedback.md` has three sections:

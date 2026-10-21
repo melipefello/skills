@@ -49,7 +49,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Checks in one QA ticket per batch
 - Original: a completed slice is "demoable or verifiable on its own"; the quiz list and the ticket template have no field for how to check it, and nothing groups the tickets.
-- Mine: a slice is demoable on its own, and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user plays, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers, and asks whether the batches are cut right. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
+- Mine: a slice is demoable on its own, and carries no check of its own. The set is cut into batches of about five tickets, each closed by a QA ticket that names the batch's tests, screenshots and what the user plays, blocked by every build ticket of the batch. The quiz shows a QA ticket's checks in place of what it delivers. The template says what a QA ticket's What to build and Blocked by hold, and drops Covers on it.
 - Why: the check belongs where the user plays, once per batch. A per-ticket scheme ran on the FGame tickets 23-42 between 14 and 18 October, first as evidence per criterion, then as one proof per ticket: the proof load took over half of each build worker's time either way. Tickets 43-48 ran with build tickets ending on the quick check and one QA ticket last, and that is what run-tickets and its worker now expect. Upstream reports that a per-ticket demo line pushes slicing toward vertical; "What it delivers" in the quiz keeps that pull.
 
 ## Size set by a budget
@@ -72,10 +72,40 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Mine: tickets change the product and its tools; a change to the workflow (worker rules, skills, agent files) is listed under Process proposals at the end of the breakdown, for the user to take to a retro, never inside a ticket.
 - Why: an FGame ticket's criterion asked to add a step to the worker rules; the edit was refused mid-run and stalled the run for 35 minutes, and the step was removed 14 hours later.
 
-## Tool versions asked in the quiz
+## The quiz asks only what the tickets need
 - Original: the quiz asks about granularity, blocking edges, and merges or splits.
-- Mine: it also asks for the exact version of each tool a ticket installs or creates a project with.
-- Why: the project-setup ticket said "a pinned editor version" without naming it.
+- Mine: the three standing questions are removed; the quiz asks only each user decision with its options, each story the coverage check reports, and the exact version of each tool a ticket installs or creates a project with.
+- Why: every FGame quiz from 10-17 to 10-21 was approved unchanged ("approve", "go with recommendations"), one after a 54-minute wait; none of the standing questions got a specific answer. The tool version was added after the project-setup ticket said "a pinned editor version" without naming it. Moves away from the tested original: a granularity or edge problem is raised only if the user sees it in the list.
+
+## Proposed lines wait for the user
+- Original: no rule on spec lines the user did not settle.
+- Mine: a ticket that builds a line from the spec's Proposed section waits for the user to adopt it in the quiz; with the user away, the breakdown is written and the skill stops.
+- Why: FGame ticket 35 built a rule the agent alone had put in Proposed while Felipe was away (32 worker minutes); the grill deleted the rule six hours later.
+
+## QA screenshots for the QA worker, numeric targets in its checklist
+- Original: a slice is "demoable or verifiable on its own"; nothing says where a check's screenshots or numbers go.
+- Mine: QA screenshots go to `Temp/` for the QA worker to look at; only one that shows a defect or a choice for the user is copied to `evidence/NN/`; each new or changed card text is captured once. A build ticket names no test; a numeric target goes in the QA checklist after the simulator has confirmed it against the shipped content.
+- Why: QA tickets 69, 75 and 92 committed 8 to 13 PNGs each that no prompt of Felipe's used after 10-14, and no capture showed the card text he found overflowing. Build ticket 55 carried a stale balance target ($6.76, ended Unfinished).
+
+## A Kind field in the template
+- Original: the template has What to build, Blocked by, a status and the criteria; nothing marks a ticket's kind.
+- Mine: a `**Kind:** build | research | qa` field; a research ticket changes no code, and its report ends with a table of at most 30 lines (each mechanic, its trigger, its effect, its format). Step 5 ends with "Write exactly the template's fields", and with no time estimates (runs 64-92: a build ticket 8 to 15 min, a QA ticket 15 to 28 min).
+- Why: run-tickets detected research tickets from the prose "No code", which to-tickets never defined, and ran six of them serially. Agents copied fields from earlier tickets: `Sizing:` outlived its removal by 16 tickets and overestimated time 5 to 8 times (an overnight slot sat 80% idle). The Excalidraw synthesis re-read 130 KB of research reports for want of a table.
+
+## Numbering from git
+- Original: tickets are numbered from `01` in dependency order.
+- Mine: numbered on from the highest number in `git ls-files .scratch/<feature-slug>/issues`, run just before writing.
+- Why: two parallel FGame sessions both wrote a ticket 43; the QA one never ran.
+
+## Frontier line removed
+- Original: the publish step says to work the frontier: any ticket whose blockers are all done.
+- Mine: removed.
+- Why: a line about run order inside the writing step; run order belongs to run-tickets, which runs research tickets as a frontier by their Kind. Moves away from the tested original.
+
+## Tickets committed at the end
+- Original: the skill ends once the tickets are written.
+- Mine: step 5 ends by committing the tickets by the project's commit rules; done when `git status` shows them clean.
+- Why: Felipe typed "commit" after nearly every to-tickets run (five to seven ceremony prompts per batch).
 
 ## Quiz decisions written into the tickets
 - Original: decisions made in the quiz are not written down anywhere.
@@ -84,7 +114,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## User decisions made in the quiz
 - Original: nothing says where a choice the user must make (a pick between options, a visual choice, a name) goes; a ticket can carry one.
-- Mine: every user decision is made in the quiz and the ticket carries the answer; the agent gathers what each decision needs while drafting, and the quiz asks each one with its options. When gathering needs built work, a research ticket is the last build ticket of its batch, its report lists the options, and the ticket that needs the answer opens the next batch and names that report, so the user picks between runs.
+- Mine: every user decision is made in the quiz and the ticket carries the answer; the agent gathers what each decision needs while drafting, and the quiz asks each one with its options. When gathering needs built work, a research ticket gathers it before its batch's QA ticket, its report lists the options, and the ticket that needs the answer opens the next batch and names that report, so the user picks between runs.
 - Why: tickets run unattended through run-tickets, so a decision left inside one is made by the worker or stops the run.
 
 ## Ticket files written with the Write tool
