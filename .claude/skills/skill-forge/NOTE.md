@@ -17,9 +17,9 @@ One entry per change. Every hunk of `node scripts/diff.mjs <skill>` belongs to a
 
 ## Refresh
 
-After manual edits:
+After the user's own edits (pulled or made by hand), or when the note lags the skill:
 
 1. Run `node scripts/diff.mjs <skill>`.
 2. Match each hunk to its entries. A hunk with no entry gets a new one, drafted from the diff. An entry with no hunk is deleted.
-3. Show the new note. Wait for the yes. Commit `note <skill>`, with the manual edits.
+3. Show the new note. Wait for the yes. Commit the edits with the note as `adapt <skill>`, or `note <skill>` when only the note changed.
 4. Install per the ground rule **Installed stays current**.
