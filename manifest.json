@@ -96,6 +96,20 @@
     "work-catchup": {
       "status": "own",
       "sources": []
+    },
+    "writing-for-agents": {
+      "status": "tracked",
+      "sources": [
+        {
+          "repo": "mattpocock/skills",
+          "path": "skills/productivity/writing-for-agents",
+          "track": "tags",
+          "ref": "v1.3.1",
+          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "forkedAt": "2026-10-21T20:11:15.035Z",
+          "updatedAt": "2026-10-21T20:11:15.035Z"
+        }
+      ]
     }
   }
 }
