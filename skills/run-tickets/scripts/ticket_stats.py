@@ -24,8 +24,10 @@ Columns:
   tokens       tokens processed: input + cache read + cache creation, summed over the calls
   peak         largest context of one call
   tools, err   tool calls and failed tool calls
-  unity        minutes inside Bash or PowerShell calls running test.ps1, check.ps1, capture.ps1 or
-               simulate.ps1
+  script       minutes inside Bash or PowerShell calls running a test, check, capture or simulate
+               .ps1 script
+  orient       tool calls, and KB of their results, before the ticket's first Edit or Write; the
+               orchestrator shows -
   $            estimate: per model, the session's last cost record (cost-state) shared out by
                weighted tokens (cache read x1, cache write x12.5, input x10, output x50). A model
                the cost record does not cover (a resumed session restarts the record) uses a
@@ -35,10 +37,11 @@ import collections, datetime, glob, json, os, re, sys
 
 TICKET = re.compile(r'ticket\s*(\d+)', re.I)
 NOT_WORKER = re.compile(r'\b(retro|mine|analy[sz]e\w*|read|reader|reading|review\w*|digest\w*)\b', re.I)
-UNITY = re.compile(r'\b(test|check|capture|simulate)\.ps1\b', re.I)
+SCRIPT = re.compile(r'\b(test|check|capture|simulate)\.ps1\b', re.I)
+EDITS = ('Edit', 'Write', 'MultiEdit', 'NotebookEdit')
 WEIGHT = {'in': 10, 'out': 50, 'cr': 1, 'cw': 12.5}
 # Dollars per million weighted tokens, used when the cost record does not cover a model.
-# Opus and Fable measured on FGame session a43c7468 (2026-10-21) from its cost record and
+# Opus and Fable measured on one run-tickets session (2026-10-21) from its cost record and
 # transcripts; Sonnet and Haiku scaled from Opus by list price (3/5 and 1/5).
 FALLBACK_RATE = {'opus': 0.396, 'fable': 0.532, 'sonnet': 0.237, 'haiku': 0.079}
 
@@ -131,6 +134,15 @@ def text_of(content):
     return ''
 
 
+def size_of(content):
+    """Bytes of a tool result's text."""
+    if isinstance(content, str):
+        return len(content.encode('utf-8'))
+    if isinstance(content, list):
+        return sum(size_of(p.get('text', '')) for p in content if isinstance(p, dict))
+    return 0
+
+
 class Seen:
     """Message ids and tool ids already counted: a fork's transcript repeats its parent's records."""
     def __init__(self):
@@ -164,7 +176,8 @@ def events(recs, seen):
                 if isinstance(p, dict) and p.get('type') == 'tool_result' and p.get('tool_use_id') in uses \
                         and p.get('tool_use_id') not in seen.results:
                     seen.results.add(p['tool_use_id'])
-                    results.append({'ts': ts, 'id': p['tool_use_id'], 'err': bool(p.get('is_error'))})
+                    results.append({'ts': ts, 'id': p['tool_use_id'], 'err': bool(p.get('is_error')),
+                                    'size': size_of(p.get('content'))})
     return calls, uses, results
 
 
@@ -173,7 +186,9 @@ class Row:
         self.label = label
         self.start = self.end = None
         self.calls = self.tokens = self.peak = self.tools = self.errors = 0
-        self.unity = 0.0
+        self.script = 0.0
+        self.results = []  # (use time, tool name, result bytes), for orient
+        self.orient = None  # (calls, bytes) before the first Edit or Write
         self.weighted = collections.Counter()  # model -> weighted tokens
         self.dollars = 0.0
         self.approx = False
@@ -201,8 +216,16 @@ class Row:
             self.span(r['ts'])
             self.tools += 1
             self.errors += r['err']
-            if u['name'] in ('Bash', 'PowerShell') and UNITY.search(u['cmd']) and u['ts']:
-                self.unity += max(0.0, (r['ts'] - u['ts']).total_seconds()) / 60
+            self.results.append((u['ts'] or r['ts'], u['name'], r['size']))
+            if u['name'] in ('Bash', 'PowerShell') and SCRIPT.search(u['cmd']) and u['ts']:
+                self.script += max(0.0, (r['ts'] - u['ts']).total_seconds()) / 60
+
+    def orientation(self):
+        """Tool calls and result bytes before the first Edit or Write, across the ticket's agents."""
+        ordered = sorted(self.results, key=lambda x: x[0])
+        first = next((ts for ts, name, _ in ordered if name in EDITS), None)
+        before = [b for ts, name, b in ordered if first is None or ts < first]
+        self.orient = (len(before), sum(before))
 
 
 def rate_for(model, rates):
@@ -300,6 +323,8 @@ def main():
                 rates[model] = mu['costUSD'] / w
     ordered = [rows[k] for k in sorted(rows)] + ([orch] if orch.start else [])
     for r in ordered:
+        if r is not orch:
+            r.orientation()
         for model, w in r.weighted.items():
             rate, approx = rate_for(model, rates)
             r.dollars += w * rate
@@ -308,8 +333,10 @@ def main():
     for r in ordered:
         total.span(r.start)
         total.span(r.end)
-        for k in ('calls', 'tokens', 'tools', 'errors', 'unity', 'dollars'):
+        for k in ('calls', 'tokens', 'tools', 'errors', 'script', 'dollars'):
             setattr(total, k, getattr(total, k) + getattr(r, k))
+        if r.orient:
+            total.orient = tuple(a + b for a, b in zip(total.orient or (0, 0), r.orient))
         total.peak = max(total.peak, r.peak)
         total.approx |= r.approx
     for r in ordered:
@@ -335,11 +362,14 @@ def main():
     def usd(r):
         return '%s$%.2f' % ('~' if r.approx else '', r.dollars)
 
+    def orient(r, sep):
+        return '%d%s%dKB' % (r.orient[0], sep, round(r.orient[1] / 1024)) if r.orient else '-'
+
     if opts['line']:
         for r in ordered:
-            print('%s | %s-%s | %.1f min | %d calls | %s tok | peak %dK | %d tools, %d err | unity %.1f min | %s' % (
+            print('%s | %s-%s | %.1f min | %d calls | %s tok | peak %dK | %d tools, %d err | script %.1f min | orient %s | %s' % (
                 r.label, local(r.start), local(r.end)[-5:], minutes(r), r.calls, mtok(r.tokens), r.peak // 1000,
-                r.tools, r.errors, r.unity, usd(r)))
+                r.tools, r.errors, r.script, orient(r, ' calls, '), usd(r)))
         return
 
     title = None
@@ -352,12 +382,12 @@ def main():
             datetime.datetime.fromtimestamp((cost.get('startTime') or 0) / 1000, datetime.timezone.utc)))
     print(head)
     print()
-    print('| ticket | start | end | min | calls | tokens | peak | tools | err | unity min | $ |')
-    print('|---|---|---|---|---|---|---|---|---|---|---|')
+    print('| ticket | start | end | min | calls | tokens | peak | tools | err | script min | orient | $ |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|---|')
     for r in ordered:
-        print('| %s | %s | %s | %.1f | %d | %s | %dK | %d | %d | %.1f | %s |' % (
+        print('| %s | %s | %s | %.1f | %d | %s | %dK | %d | %d | %.1f | %s | %s |' % (
             r.label, local(r.start), local(r.end)[-5:], minutes(r), r.calls, mtok(r.tokens), r.peak // 1000,
-            r.tools, r.errors, r.unity, usd(r)))
+            r.tools, r.errors, r.script, orient(r, ' / '), usd(r)))
 
 
 if __name__ == '__main__':

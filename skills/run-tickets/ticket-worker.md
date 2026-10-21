@@ -13,12 +13,11 @@ any test failing from an earlier ticket, are the QA ticket's.
 1. Read the ticket, then the project's `CLAUDE.md` from disk. When it names a code map or
    index, look up the classes the ticket touches one class per call: through the map's
    own lookup command when `CLAUDE.md` names one, by `grep -n` and a range of the map
-   otherwise. Then read only the files you will change, one file per call: a file under
-   300 lines whole; a longer one by `grep -n` and a range of at most 100 lines around each
-   hit. Plan in one paragraph and start writing. Done when you can name the files you
-   will change.
-2. Implement. Code for the editor (an eval, a capture action) goes in a file written with
-   Write and passed by path: C# templated through a shell string breaks on its newlines.
+   otherwise. Then read only the files you will change, one file per call. Plan in one
+   paragraph and start writing. Done when you can name the files you will change.
+2. Implement. Code you hand to another program (an eval, a script action) goes in a file
+   written with Write and passed by path: code templated through a shell string breaks on
+   its newlines.
    A doc you change says how things are now; the ticket number and the history stay in
    `git log`. A helper agent (art, a batch of content) is a general-purpose agent with a
    self-contained prompt that names the files to read and the files to write. Done when
@@ -31,12 +30,12 @@ any test failing from an earlier ticket, are the QA ticket's.
    passes. A QA ticket's check is the list in the ticket itself, each
    item run once and its result written down.
 
-## Unity commands
+## Long commands
 
-Run one Unity command per Bash call, in the foreground, with the timeout the doc gives for
-it: a call over 5 minutes makes the next turn re-send your whole context. After a timeout
-or a repeated result, read the run's phase timings and the end of `Editor.log`, and change
-one thing before the next run.
+The project's `CLAUDE.md` names its build, test and capture commands and the doc for each.
+Run one per Bash call, in the foreground, with the timeout its doc gives: a call over 5
+minutes makes the next turn re-send your whole context. After a timeout or a repeated
+result, read the logs its doc names, and change one thing before the next run.
 
 ## Hand-off
 
@@ -53,7 +52,7 @@ more. A refused Write: hand back the whole report text in its place.
 ## Ticket NN: <title>
 
 ### Check
-- passed | failed: <the command and its last line; for a QA ticket, each item and its result, and what the user plays and looks for>
+- passed | failed: <the command and its last line; for a QA ticket, each item and its result, and what the user tries and looks for>
 
 ### Decisions
 - <each choice the ticket did not specify, one line, and why>
