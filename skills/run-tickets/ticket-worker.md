@@ -17,12 +17,9 @@ and a failing test it did not write is the QA ticket's to fix.
    300 lines whole; a longer one by `grep -n` and a range of at most 100 lines around each
    hit. Plan in one paragraph and start writing. Done when you can name the files you
    will change.
-2. Implement. Edit and Write change files, Bash runs commands, in auto mode too: a file
-   written through a heredoc or `python -` waits on stdin for the call's whole timeout or
-   lands as CRLF, which the commit hook refuses, and C# templated through a shell string
-   breaks on its newlines. Code for the editor (an eval, a capture action) goes in a file
-   written with Write and passed by path. Done when the ticket's behaviour is in the
-   working tree.
+2. Implement. Code for the editor (an eval, a capture action) goes in a file written with
+   Write and passed by path: C# templated through a shell string breaks on its newlines.
+   Done when the ticket's behaviour is in the working tree.
 3. Check. Run the quick check `CLAUDE.md` names, with the tool timeout set to the time
    `CLAUDE.md` states for it, and read its last line; fix what it shows and run it once
    more. Done when it passes. A QA ticket's check is the list in the ticket itself, each

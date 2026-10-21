@@ -57,6 +57,16 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: one user story per behaviour the user settled in the conversation; the "extremely extensive" sentence is removed.
 - Why: the FGame spec reached 109 stories (3,706 of its 8,449 words), and every later pass paid for them: the Covers lines in to-tickets, a 109-row coverage table in to-tickets-review, 27k output tokens in spec-review. The maximiser also pulled against step 3, which sends every unsourced line to Proposed. Moves away from the tested original: upstream's spec may list fewer stories than it would have.
 
+## Revising an existing spec in place
+- Original: the skill writes a new spec; nothing covers one that exists.
+- Mine: a Revising branch: the existing spec is the current design; affected stories and decisions are rewritten in place and what the revision replaces is deleted (git history is the record); story numbers are kept and deleted ones stay unused; numbers that live in data or code are named, not copied; one status line at the top; Proposed holds only this revision's open lines.
+- Why: 12 of 14 FGame spec runs were revisions; each appended a dated section, so the spec grew from 23.6 KB to 135.5 KB with 66 reversed decisions, contradicted itself, and copied tuning numbers that live in code.
+
+## The feedback file's layout
+- Original: no feedback file.
+- Mine: a step 4 and a Feedback file section: `feedback.md` beside the spec holds Open (one line per note; hook-filed notes arrive under an Inbox heading and are rewritten as Open lines), Next playtest and Done (with the ticket or story that closed each note, last two batches only); notes the spec settles move to Done; decisions live only in the spec.
+- Why: the FGame feedback file had no owner: two sessions restructured it, run-tickets prescribed a third layout, and the grill copied its decisions into it.
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.

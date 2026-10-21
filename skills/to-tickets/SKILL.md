@@ -39,6 +39,8 @@ A ticket runs unattended, so every **user decision** (a pick between options, a 
 
 Cut the set into **batches** of about five tickets in dependency order, and close each batch with its **QA ticket**: the one ticket that proves the batch. It names the tests to write or run, each screenshot to take and what it shows, and what the user plays to see the batch's behaviour. It is blocked by every build ticket of its batch. A build ticket carries no check of its own: its worker ends on the project's quick check.
 
+Tickets change the product and its tools. A change to the workflow (worker rules, skills, agent files) goes under **Process proposals** at the end of the breakdown, for the user to take to a retro, never inside a ticket.
+
 ### 4. Quiz the user
 
 Present the proposed breakdown as a numbered list. For each ticket, show:
@@ -47,7 +49,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work; for a QA ticket, its checks
 
-When the source is a spec, list each user story and Implementation Decision that no ticket covers.
+When the source is a spec, write the breakdown with each ticket's Covers line to a scratch file and run `python -I <this skill's folder>/scripts/coverage.py <spec> --tickets <that file>`, with `--since <the last commit that touched the issues folder>` when the spec is a revision (`--help` prints usage). List each user story it reports and each Implementation Decision that no ticket covers.
 
 Ask the user:
 
@@ -62,7 +64,7 @@ Iterate until the user approves the breakdown.
 
 ### 5. Write the tickets to .scratch/
 
-Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool, in auto mode too: a quoted heredoc holding a long body fails in this shell.
+Write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file. Write each file with the Write tool.
 
 Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
 

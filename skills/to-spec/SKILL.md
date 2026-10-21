@@ -12,7 +12,21 @@ Take the current conversation context and codebase understanding and produce a s
 
 2. Write the spec using the `spec-template` below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed. A decision keeps the firmness the user gave it: an example stays an example, a maybe stays a maybe.
 
+   **Revising.** When the spec exists, it is the current design. Rewrite each affected story and decision in place under its heading, and delete what the revision replaces: git history is the record. A story keeps its number, and a deleted number stays unused. Numbers and timings that live in data or code are named, not copied. Replace the one status line at the top: the revision, the date, the batch it feeds. Proposed holds only this revision's unsettled lines.
+
 3. Check the spec against the conversation. Every line traces to a user message or to a fact you looked up, stated as its source states it; any other line sits in `## Proposed`. Move or fix each line that is misplaced.
+
+4. Update the **feedback file** beside the spec, when there is one, by the layout below. Done when every Open note this spec settles has moved to Done with its story number.
+
+## Feedback file
+
+`.scratch/<feature-slug>/feedback.md` has three sections:
+
+- `## Open`: one line per note: date, source, the note. Notes filed by a hook arrive under `### Inbox` inside Open; rewrite each as an Open line.
+- `## Next playtest`: the user's own checks for the next play.
+- `## Done`: one line per closed note: the note, then the ticket or story that closed it. Delete Done lines older than the last two batches.
+
+Decisions live only in the spec.
 
 <spec-template>
 

@@ -37,15 +37,25 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Mine: settle what a part of the design is for before asking what fills it, keep each recommendation at the level of its question, and use only agreed nouns plus terms the question itself defines.
 - Why: questions jumped to concrete content before the role of that part was settled, and used nouns the user had not agreed on; the user corrected this three times in one session, and each correction cost a round.
 
-## Outputs before confirmation are questions and a summary
+## Outputs are question rounds and one summary; spec and tickets belong to their skills
 - Original: ends with a prohibition, "Do not act on it until the user confirms you have reached a shared understanding."
-- Mine: states the allowed outputs: until the user confirms, only question rounds and a closing summary; files, code and plans come after.
-- Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). A positive target holds better than a ban.
+- Mine: the design tree holds what the product does and why; the spec's shape belongs to `/to-spec` and the ticket count, order and sizing to `/to-tickets`, both invoked by the user. The only outputs are question rounds and one closing summary, which writes nothing and whose last line names `/to-spec` as the next step.
+- Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). Later, "files, code and plans come after that confirmation" invited the grill to plan the spec, the tickets and the feedback file: the user restated the boundary in seven FGame sessions, and one grill absorbed a `/to-spec`.
 
-## Summary holds only answered decisions
+## Summary holds only answered and settled decisions
 - Original: no closing summary is named.
-- Mine: the closing summary holds only answered decisions; a topic never asked about goes into a round first.
+- Mine: the closing summary holds only answered decisions and settled defaults; a topic never put in a round goes into one first.
 - Why: topics never asked about appeared in the agent's closing summary as if settled; the user pasted the summary back, and the spec then treated them as decisions.
+
+## Questions and defaults
+- Original: every frontier decision is asked; the session is done when every branch is visited, nothing left silently assumed.
+- Mine: the frontier splits into questions (the user's goal or taste picks, or reversing costs more than a ticket), asked as before, and defaults (a number, a count, a layout, an item list), listed after the questions as numbered D lines with their reasons. The user overrides a default by its number; an untouched one is settled. Done when every branch is answered or settled as a default.
+- Why: in FGame 19 of 31 grill rounds were "go with recommendations"; about 90% of 124 recommendations went through unchanged, and the content-level ones were reversed 36 hours later with four of eleven tickets. The user: "I'll only be able to tell if I like them after I test it out."
+
+## The feedback file's Open section comes first
+- Original: no input besides the conversation.
+- Mine: when the project keeps `.scratch/<feature>/feedback.md` (laid out by `/to-spec`), its Open section is read first.
+- Why: seven of nine FGame grills began with the user typing "Read feedback.md".
 
 ## Web research is a fact lookup
 - Original: facts from "the environment (filesystem, tools, etc.)" go to a sub-agent.

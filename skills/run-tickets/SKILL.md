@@ -12,6 +12,8 @@ one before the first ticket. `all` means every ticket with no report at
 worker's model and effort; the defaults are `opus` and `medium`. This skill commits and
 never pushes. The last ticket of a batch is its QA ticket: it runs the batch's tests and
 screenshots and lists what the user plays, so build tickets carry no proof of their own.
+Agent and skill files change only in a retro, between runs; an instruction the user gives
+mid-run goes into the prompts of the remaining workers.
 
 ## Per ticket, in order
 
@@ -31,18 +33,24 @@ screenshots and lists what the user plays, so build tickets carry no proof of th
 3. **Record.** Commit everything in the working tree, the report included, as this
    ticket's commit (in a frontier, only the ticket's report), in the style of `git log`:
    `Add <summary> (ticket NN)`, with a body that describes the change; after a QA
-   ticket, what the user plays.
+   ticket, what the user plays. Then run `python -I <this skill's folder>/scripts/ticket_stats.py
+   --latest --ticket NN --line` and keep its line (minutes, calls, tokens, peak context,
+   errors, Unity minutes, dollars); a question about time or cost mid-run is answered from
+   these lines.
 4. Go to the next ticket.
 
 ## After the last ticket
 
 When the project's `CLAUDE.md` names a code map command, run it; workers often regenerate
 the map themselves, so commit it as `Refresh the code map after tickets NN to MM` only
-when the working tree changed. Then end with one screen: one line per
+when the working tree changed. Then end with one screen: the table that
+`python -I <this skill's folder>/scripts/ticket_stats.py --latest` prints, then one line per
 ticket (what a user gets), then what the QA ticket left for the user to play, then every
 unfinished item by ticket, then each decision a research ticket left for the user, with
-its options, then what stopped the run if anything did. The user is often
-away while this runs, so ask nothing per ticket.
+its options, then what stopped the run if anything did. Its last lines are this session's
+id (the table's first line) and: "Feedback, retro and fixes: `/retro <session-id>` in a new
+session; the next `/grill-me` in another." The user is often away while this runs, so ask
+nothing per ticket.
 
 ## Review, only when the arguments say "review"
 
@@ -55,4 +63,4 @@ gets, no code names, no file names.
 
 The user answers every number. Wait until each has an answer before you show the next
 ticket. Write each piece of feedback for later into `.scratch/<feature>/feedback.md`,
-under the ticket it came from.
+under Open, as the to-spec skill defines it.

@@ -64,8 +64,13 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Spec coverage per ticket
 - Original: tickets do not say which parts of the source they deliver.
-- Mine: each ticket has a Covers line naming the spec's user stories and Implementation Decisions it delivers (omitted without a spec), and the quiz lists each user story and Implementation Decision no ticket covers.
-- Why: four user stories had no ticket and were found only by a review after commit; the quiz is the cheap place to catch them.
+- Mine: each ticket has a Covers line naming the spec's user stories and Implementation Decisions it delivers (omitted without a spec). Before the quiz, the breakdown goes to a scratch file and `scripts/coverage.py` lists each user story of the spec (of the revision, with `--since`) that no Covers line names; the quiz lists those and each uncovered Implementation Decision.
+- Why: four user stories had no ticket and were found only by a review after commit; the quiz is the cheap place to catch them. The script replaces the to-tickets-review skill, which ran once after it was made; coverage was its one mechanical check.
+
+## Workflow changes go to Process proposals
+- Original: anything can become a ticket.
+- Mine: tickets change the product and its tools; a change to the workflow (worker rules, skills, agent files) is listed under Process proposals at the end of the breakdown, for the user to take to a retro, never inside a ticket.
+- Why: an FGame ticket's criterion asked to add a step to the worker rules; the edit was refused mid-run and stalled the run for 35 minutes, and the step was removed 14 hours later.
 
 ## Tool versions asked in the quiz
 - Original: the quiz asks about granularity, blocking edges, and merges or splits.
@@ -75,7 +80,7 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 ## Quiz decisions written into the tickets
 - Original: decisions made in the quiz are not written down anywhere.
 - Mine: each quiz decision goes into the tickets it affects.
-- Why: the user's sizing rule and other quiz answers were missing from the files, so later agents could not see them; to-tickets-review checks for them.
+- Why: the user's sizing rule and other quiz answers were missing from the files, so later agents could not see them.
 
 ## User decisions made in the quiz
 - Original: nothing says where a choice the user must make (a pick between options, a visual choice, a name) goes; a ticket can carry one.
@@ -84,5 +89,5 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Ticket files written with the Write tool
 - Original: step 5 says to write one file per ticket, with no word on how.
-- Mine: each file is written with the Write tool, in auto mode too.
-- Why: a quoted heredoc holding a long ticket body fails in this shell. Writing several files per command with heredocs was tried first, after one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets; the heredocs failed on long bodies, so Write is back.
+- Mine: each file is written with the Write tool.
+- Why: a quoted heredoc holding a long ticket body fails in this shell. Writing several files per command with heredocs was tried first, after one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets; the heredocs failed on long bodies, so Write is back. The reason clause is gone from the skill: a user-level hook on Bash now refuses long heredoc writes, so the sentence lost to auto mode's steer for nothing.
