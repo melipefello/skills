@@ -4,8 +4,13 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 
 ## Spec saved to .scratch/, no tracker setup
 - Original: publishes the spec to the issue tracker configured by `/setup-matt-pocock-skills`, applies the `ready-for-agent` label, and points to the setup skill when no config is present.
-- Mine: writes the spec to `.scratch/<feature-slug>/spec.md`, creating the folder; no label; no setup pointer. The description says where the spec goes.
+- Mine: writes the spec to `.scratch/<feature>/spec.md` (folder chosen as in "One feature folder, reused"); no label; no setup pointer. The description says where the spec goes.
 - Why: specs live as local markdown; the setup skill is not used. No triage or AFK agent reads the label, and upstream names the label its most-reported rough edge.
+
+## One feature folder, reused
+- Original: the spec goes to the tracker; no folder, and `<feature-slug>` names a feature elsewhere in the upstream skills.
+- Mine: the folder placeholder is `<feature>`, as in grill-me, to-tickets and run-tickets. Before choosing the folder, the agent lists `.scratch/`: a conversation that continues a feature with a folder (its `spec.md` or `issues/`) writes there; a new folder only for a new feature, named to the user.
+- Why: one placeholder across the four planning skills, so each reads as the same folder; a continuing feature written to a new folder splits its spec, tickets and feedback away from the folder run-tickets and grill-me read.
 
 ## Intro in the imperative
 - Original: the intro says "This skill takes the current conversation context...".

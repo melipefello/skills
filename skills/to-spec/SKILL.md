@@ -10,7 +10,7 @@ Take the current conversation context and codebase understanding and produce a s
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already.
 
-2. Write the spec using the `spec-template` below to `.scratch/<feature-slug>/spec.md`, creating the folder if needed. A decision keeps the firmness the user gave it: an example stays an example, a maybe stays a maybe.
+2. Write the spec using the `spec-template` below to `.scratch/<feature>/spec.md`. Before choosing the folder, list `.scratch/`: when the conversation continues a feature that already has a folder (its `spec.md` or `issues/`), write there; create a new folder only for a new feature, and name it to the user. A decision keeps the firmness the user gave it: an example stays an example, a maybe stays a maybe.
 
    **Revising.** When the spec exists, it is the current design. Rewrite each affected story and decision in place under its heading, and delete what the revision replaces: git history is the record. A story keeps its number, and a deleted number stays unused. Numbers and timings that live in data or code are named, not copied. Replace the one status line at the top: the revision, the date, the batch it feeds. Proposed holds only this revision's unsettled lines.
 
@@ -22,7 +22,7 @@ Take the current conversation context and codebase understanding and produce a s
 
 ## Feedback file
 
-`.scratch/<feature-slug>/feedback.md` has three sections:
+`.scratch/<feature>/feedback.md` has three sections:
 
 - `## Open`: one line per note: date, source, the note. Notes filed by a hook arrive under `### Inbox` inside Open; rewrite each as an Open line.
 - `## Next playtest`: the user's own checks for the next play.
