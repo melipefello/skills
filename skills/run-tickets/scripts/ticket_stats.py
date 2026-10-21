@@ -34,7 +34,7 @@ Columns:
 import collections, datetime, glob, json, os, re, sys
 
 TICKET = re.compile(r'ticket\s*(\d+)', re.I)
-NOT_WORKER = re.compile(r'retro|mine|analy|read|review|digest', re.I)
+NOT_WORKER = re.compile(r'\b(retro|mine|analy[sz]e\w*|read|reader|reading|review\w*|digest\w*)\b', re.I)
 UNITY = re.compile(r'\b(test|check|capture|simulate)\.ps1\b', re.I)
 WEIGHT = {'in': 10, 'out': 50, 'cr': 1, 'cw': 12.5}
 # Dollars per million weighted tokens, used when the cost record does not cover a model.
