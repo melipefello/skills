@@ -10,12 +10,12 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 ## Model-invoked, with grilling's description
 - Original: grill-me is user-only (`disable-model-invocation: true`) with a human-facing description; grilling is model-invoked on "grill" phrases.
 - Mine: grill-me takes grilling's description and is model-invoked.
-- Why: other skills (1-1-prep) offer "/grill-me" and need the model to reach it; the separate grilling install is dropped, so the always-loaded cost stays the same.
+- Why: other skills (run-tickets) offer "/grill-me" and need the model to reach it; the separate grilling install is dropped, so the always-loaded cost stays the same.
 
 ## Codex metadata removed
 - Original: both skills ship `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
-- Why: only Claude Code is used.
+- Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
 
 ## Round size capped at five
 - Original: each round asks the whole frontier.
