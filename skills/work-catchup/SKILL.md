@@ -24,7 +24,7 @@ Every candidate action gets an **owner** before it may enter "Do this". It is **
 - **Assigned** — a person gave it to you in Asana (an assigner, a comment or a ping), or a GitHub review request to you. Tasks a release template auto-assigned to you, with no human behind them, are FYI.
 - **Committed** — your own words: a message, a self-DM, a Gemini next step with your name in brackets, a Claude-session prompt.
 
-A name is not an owner until it is the right person: check config's namesakes before giving you an item that says only your first name — "postpone until Felipe returns" once meant a colleague with the same first name.
+A name is not an owner until it is the right person: check config's namesakes before giving you an item that says only your first name — "postpone until <your first name> returns" once meant a colleague with the same first name.
 
 The recap proposes edits only to tasks that are yours. Other people's boards (cleanup, ticking, dropping their tasks) stay theirs.
 
@@ -59,7 +59,7 @@ One `AskUserQuestion` call with both questions. After it, work alone until the S
 - `Project / game channels` — the games you work on, incl. channels you were just added to
 - `Team & announcements` — team, leads, announcement, portfolio channels
 - `DMs, pings & bookmarks` — DMs, group DMs, @-mentions, threads you were tagged in, your reaction bookmarks, and your **notes-to-self DM**
-- `Platform & tooling` — SDK/CI/Unity/AI channels + bot digests (AB tests, KPIs, builds)
+- `Platform & tooling` — SDK/CI/engine/AI channels + bot digests (AB tests, KPIs, builds)
 - `Calendar, Asana, Notion & meeting notes` — work calendar, the Asana boards and Notion hubs from config, and Gemini notes from meetings in the window
 
 Ask only what is missing: if the message already gave a date or areas, skip that question. "Just go" means `Last Monday` + all five areas.
