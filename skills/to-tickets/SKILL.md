@@ -28,7 +28,7 @@ Break the work into **tracer bullet** tickets.
 
 - Each slice cuts a narrow but COMPLETE path through every layer (data, logic, presentation, tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable on its own: the user can see or play its behaviour the moment it lands
-- Each slice fits the **budget**: a diff the user can review in one sitting.
+- Each slice fits the **budget**: a diff the user can review in one sitting, delivering one behaviour the user can name in one short clause. A What to build that lists several behaviours (new items, a new rule, a rebuilt opponent set) splits into one ticket each, in dependency order.
 - Any prefactoring should be done first
 
 </vertical-slice-rules>

@@ -54,8 +54,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Size set by a budget
 - Original: each slice is sized to fit in a single fresh context window.
-- Mine: each slice fits the budget: a diff the user can review in one sitting. No token or time bound.
-- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. A 150k-token ceiling was tried from 14 to 17 October and measured no effect: the FGame tickets 23-33 ran in contexts of 200k to 410k tokens, since no agent can see a token meter. Cutting the proof load is what cut the runs.
+- Mine: each slice fits the budget: a diff the user can review in one sitting, delivering one behaviour the user can name in one short clause; a What to build that lists several behaviours splits into one ticket each, in dependency order. No token or time bound.
+- Why: a context window is too loose a bound; each ticket should be one thing to test and read in one sitting. A 150k-token ceiling was tried from 14 to 17 October and measured no effect: the FGame tickets 23-33 ran in contexts of 200k to 410k tokens, since no agent can see a token meter. Cutting the proof load is what cut the runs. The one-behaviour test came from FGame ticket 94 (22 October): seven core items, rarity, the parked status net and 30 rebuilt opponents in one ticket touched 100 files and cost about twice the median ticket.
 
 ## Acceptance criteria removed
 - Original: the ticket template ends in two bare checklist lines, "Acceptance criterion 1" and "2".
