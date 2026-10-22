@@ -10,7 +10,7 @@ any test failing from an earlier ticket, are the QA ticket's.
 
 ## Steps
 
-1. Read the ticket, then the project's `CLAUDE.md` from disk. When it names a code map or
+1. Read the ticket; the project's `CLAUDE.md` is already in your context. When it names a code map or
    index, look up the classes the ticket touches one class per call: through the map's
    own lookup command when `CLAUDE.md` names one, by `grep -n` and a range of the map
    otherwise. Then read only the files you will change, one file per call. Plan in one
