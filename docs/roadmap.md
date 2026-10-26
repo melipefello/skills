@@ -80,7 +80,7 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R6. Triage skill
 
-**Status:** proposed, 2026-10-26 (R5).
+**Status:** in progress, 2026-10-26: built in 1041162 (add triage) and 7da0b13 (adapt to-tickets); waits for the proof run and a retro.
 
 **Idea.** A `triage` skill, called by `/factory` and runnable alone, sorts each Open note of the feedback file into one of three:
 - **Agent-ready:** a bug, a layout defect or a clear ask. It becomes a ticket directly, with no spec revision, and builds at once while the decision round waits.
