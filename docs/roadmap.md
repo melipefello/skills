@@ -89,10 +89,12 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 Its first job is the existing backlog (FGame: about 40 Open notes on 2026-10-26).
 
-**Open questions.**
-- Fork Matt Pocock's `triage` (labels `ready-for-agent`, `ready-for-human`, `needs-info`, `wontfix`) or write it as an own skill.
-- Whether triage writes the agent-ready ticket files itself, in to-tickets' template, or hands them to to-tickets.
-- Where each note's label lives: a tag on its line in `feedback.md`, or a section per label.
+**Settled, 2026-10-26 (FGame session 22465196).**
+- An own skill, not a fork: Matt Pocock's `triage` (v1.3.1) works one tracker issue at a time and waits for the maintainer at each step, the opposite of an AFK batch over a file; a fork would strip most of it. Borrowed from it: the "already built" check (a note whose behaviour exists, found by the project's code map lookup, moves to Done as already built) and the agent brief format (`AGENT-BRIEF.md`) for each agent-ready note.
+- Triage writes no tickets: it hands its agent-ready notes, as briefs, to `/to-tickets`, so numbering, the coverage check and the QA ticket per batch stay in one place. Until R9, the user answers the to-tickets quiz on the proof batch.
+- Labels: a tag on the note's line in Open, `[you]` or `[own session]`; the feedback file keeps its layout. An agent-ready note leaves Open for Done with its ticket number once the ticket is written.
+- No bug reproduction at triage: in a Unity project it costs minutes of play mode per note; the build ticket's worker reproduces first.
+- The proof run: every agent-ready note of the backlog, in batches of about five with their QA tickets, by the to-tickets rules as they stand; it is also the first batch for R2 and R3.
 
 ## R7. The `/factory` command
 
