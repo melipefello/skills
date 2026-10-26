@@ -32,7 +32,7 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R2. Batch review before the QA ticket
 
-**Status:** proposed, 2026-10-26.
+**Status:** in progress, 2026-10-26: built in 2da437b (fork code-review) and b706e42 (adapt run-tickets); waits for its first batch and a retro.
 
 **Idea.** run-tickets starts one review agent just before each QA ticket, with no ticket file of its own: the QA ticket already marks where a batch ends. The agent runs the forked `code-review` on the batch's commits, Spec axis only, on Sonnet at medium effort. It reads the batch diff, the batch's ticket files and the spec stories in their Covers lines. Its findings become one fix ticket that runs before the QA ticket, so the QA ticket tests the fixed code. The fix ticket is not reviewed again: one review pass per batch. No findings, no fix ticket.
 
@@ -48,7 +48,7 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R3. Deep-module design in the prefactor step
 
-**Status:** proposed, 2026-10-26.
+**Status:** in progress, 2026-10-26: built in a10dd41 (fork codebase-design) and 0f0d497 (adapt to-tickets); waits for its first ticket breakdown and a retro.
 
 **Idea.** Fork `codebase-design` (the deep-module vocabulary: module, interface, seam, depth). to-tickets uses it in its prefactor step, so a batch can open with prefactor tickets that deepen the modules it touches.
 
