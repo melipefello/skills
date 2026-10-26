@@ -18,7 +18,9 @@ Take the current conversation context and codebase understanding and produce a s
 
 4. Update the **feedback file** beside the spec, when there is one, by the layout below. Done when every Open note this spec settles has moved to Done with its story number.
 
-5. Commit the spec (and feedback.md) by the project's commit rules. Done when `git status` shows them clean.
+5. Update `.scratch/<feature>/status.md` by the layout in the run-tickets skill's Status file section: rewrite Now from the spec, delete the done rows of Order of work, add the row `Tickets from the <date> revision` (Evidence: a to-tickets Log line after this one, Command `/to-tickets .scratch/<feature>/spec.md (talk)`), and append the Log line `to-spec: <the revision in a few words>`. Done when Now matches the spec.
+
+6. Commit the spec, feedback.md and status.md by the project's commit rules. Done when `git status` shows them clean.
 
 ## Feedback file
 
