@@ -19,11 +19,11 @@ A tag opens the note's line, after the bullet: `- [you] <date>, <source>: <the n
 
 ## Process
 
-1. **Read.** Rewrite each note under `### Inbox` as an Open line (date, source, the note) and remove the Inbox heading. Read the spec beside the feedback file, and the project's `CLAUDE.md` for its code lookup (a code map, an index) and its commit rules. Done when Open holds only Open lines.
+1. **Read.** In `.scratch/<feature>/status.md`, delete each Play line under Waits for you dated before a note under `### Inbox`: the user has played that batch. Rewrite each note under `### Inbox` as an Open line (date, source, the note) and remove the Inbox heading. Read the spec beside the feedback file, and the project's `CLAUDE.md` for its code lookup (a code map, an index) and its commit rules. Done when Open holds only Open lines.
 2. **Already built.** For each untagged note, look up the behaviour it asks for with the project's code lookup, by concept as well as by the note's wording. When the code already does what the note asks, move the note to Done as `<the note>: already built (<where, by type or member name>)`. Done when every untagged note has been looked up.
 3. **Sort** each remaining untagged note into its bucket. Several notes about one change share one brief. Judge each note from its text, the spec and the code; the build ticket's worker reproduces a bug first. Done when every untagged note in Open is agent-ready and every other note carries its tag.
 4. **Brief.** Write `.scratch/<feature>/briefs.md`: one brief per agent-ready change, by the template below. Done when every agent-ready note is quoted in exactly one brief.
-5. **Commit** the feedback file and the briefs by the project's commit rules. Done when `git status` shows them clean.
+5. **Commit** the feedback file, the briefs and the status file by the project's commit rules, after appending triage's Log line to the status file (the count per bucket and the already built count), by the layout in the run-tickets skill's Status file section. Done when `git status` shows them clean.
 6. **Report** in chat: the count per bucket, one line per brief, and each `[own session]` topic. Name `/grill-me` for the `[you]` notes, and end on `/to-tickets .scratch/<feature>/briefs.md`.
 
 ## Brief template
