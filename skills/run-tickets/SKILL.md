@@ -35,7 +35,8 @@ Start no worker until the answer.
    destruction and is refused). Record each one as its hand-back arrives, by its
    report's path, and go on when the whole frontier is recorded.
 2. **Gate.** When the report's Check line says `failed`: stop the whole run. Report what
-   failed and the report's path. Leave the working tree as it is. An Unfinished section
+   failed and the report's path. Leave the working tree as it is, and record the stop in
+   the status file as the end of a run does. An Unfinished section
    with items does not stop the run: commit as usual and carry the items to the end.
 3. **Record.** Commit everything in the working tree, the report included, as this
    ticket's commit (in a frontier, only the ticket's report), in the style of `git log`:
@@ -73,6 +74,12 @@ captures the defects touched, to rerun. Run it through the steps above, and only
 the run. This happens once per run: defects its own captures show go to the end screen as
 unfinished items.
 
+Then update the [status file](#status-file): delete the Run stopped lines earlier runs
+left, add a Play line for each QA ticket that passed in this run, and a Run stopped line
+when the run stopped. Append the run's Log line, its minutes and dollars from the total
+row of the table below. Commit that file alone (`git commit -- <path>`): `Record tickets
+NN to MM in the status file`.
+
 End with one screen: the table that
 `python -I <this skill's folder>/scripts/ticket_stats.py --latest` prints, then one line per
 ticket (what a user gets), then what the QA ticket left for the user to try, then each batch review's findings and
@@ -83,6 +90,32 @@ stopped the run if anything did. Its last lines are this session's
 id (the table's first line) and: "Feedback, retro and fixes: `/retro <session-id>` in a new
 session; the next `/grill-me` in another." The user is often away while this runs, so ask
 nothing per ticket.
+
+## Status file
+
+`.scratch/<feature>/status.md` tells the user what the factory waits on. A session-start
+hook, `scripts/status_banner.py` wired in the user settings, prints a banner from it in
+every session of the project. Every step of a cycle (`/triage`, `/to-tickets`, this skill,
+`/retro`) appends its Log line; create the file when missing as:
+
+```md
+# Status
+
+## Waits for you
+
+## Log
+```
+
+- **Waits for you**: one line per thing the user does next that no other file shows.
+  `- Play tickets NN to MM (<date> <time>): <what to try, one clause>; the full list is
+  in reports/QQ.md.` `/triage` deletes a Play line once a feedback note dated after it
+  arrives. `- Run stopped at ticket NN (<date> <time>): <what failed>; reports/NN.md.`
+- **Log**: one line per step, appended, never edited: `- <date> <time> <skill> <range or
+  scope>: <outcome>; <what was skipped and why>`. A run's line ends `<minutes> min,
+  $<dollars>`.
+
+The banner counts the rest from the files themselves (Inbox notes, the briefs file, `[you]`
+and `[own session]` notes, tickets with no report), so no step records those.
 
 ## Review, only when the arguments say "review"
 
