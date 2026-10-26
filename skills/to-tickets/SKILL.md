@@ -20,6 +20,8 @@ If you have not already explored the codebase, do so to understand the current s
 
 Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
+Judge each module the work touches by its depth: call the Skill tool with `codebase-design` for the vocabulary. A shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch.
+
 ### 3. Draft vertical slices
 
 Break the work into **tracer bullet** tickets.

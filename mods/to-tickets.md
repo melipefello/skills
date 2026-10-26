@@ -126,3 +126,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: step 5 says to write one file per ticket, with no word on how.
 - Mine: each file is written with the Write tool.
 - Why: a quoted heredoc holding a long ticket body fails in this shell. Writing several files per command with heredocs was tried first, after one Write call per ticket made the write step 22 turns and 17 minutes for 22 tickets; the heredocs failed on long bodies, so Write is back. The reason clause is gone from the skill: a user-level hook on Bash now refuses long heredoc writes, so the sentence lost to auto mode's steer for nothing.
+
+## Prefactor judged by module depth
+- Original: the explore step looks for prefactoring opportunities ("make the change easy, then make the easy change").
+- Mine: it also loads `codebase-design` and judges each touched module by its depth; a shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch.
+- Why: orientation reads drive ticket cost (roadmap R3); deeper modules put more behaviour behind fewer files to read.
