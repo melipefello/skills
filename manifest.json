@@ -138,6 +138,10 @@
           "updatedAt": "2026-10-26T17:04:16.060Z"
         }
       ]
+    },
+    "triage": {
+      "status": "own",
+      "sources": []
     }
   }
 }
