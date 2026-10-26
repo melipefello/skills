@@ -16,12 +16,17 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 - To code: ticket selection (`all`, ranges, skip tickets with a report), worker start with model and effort, reading the report's Check line, stop on `failed`, commit per ticket, `ticket_stats.py` after each commit, frontier detection for `**Kind:** research`, writing the QA-defect ticket file, the end-of-run table.
 - Stays prose: `ticket-worker.md`, the QA ticket's checks, judgement on commit bodies and on what the user should try.
 
+**Settled in the 2026-10-26 factory grill (R5).**
+- Scope: the script runs the whole chain after the decision round, not only the tickets: to-spec, to-tickets, the run, the R2 review, QA, the QA-defect ticket, the push (R11) and the retro (R10).
+- Session: a fresh session started in the background with no window, so the user keeps the PC; the status file (R8) records each step and the transcript stays resumable.
+- A failed check: one fresh worker makes one fix attempt with the failure in its prompt. When that fails too, skip the ticket and every ticket it blocks, finish the rest, and list the skipped tickets on the status file. The whole run no longer stops.
+- Lanes: one build lane, since build tickets share one Unity editor; research tickets and work that needs no Unity run in parallel.
+- Permissions: the same mode as today's runs, with the claude.ai connectors off for the chain session, so the connectors stop-and-ask cannot stall an AFK night.
+
 **Open questions.**
 - Runtime: `claude -p` from a Node script (fits `scripts/`), the Agent SDK, or the Claude Code Workflow tool.
 - Where the script lives: inside `skills/run-tickets/scripts/` so it ships with the skill, with `SKILL.md` reduced to "run the script and relay its result".
-- Bounded retry on a failed check (one more worker with the failure in its prompt) before the run stops, instead of stopping at once.
 - How the user steers mid-run, today an instruction added to the remaining workers' prompts.
-- How permissions and the connectors prompt work without an interactive session.
 
 **Sources.** Matt Pocock's Software Factories cohort and his 2026 recap (loops, ifs and routing as orchestration primitives); Anthropic, "Effective harnesses for long-running agents" (one feature per session, git and a progress file as the hand-off between fresh contexts).
 
@@ -39,6 +44,8 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 **Standards.** The Standards axis stays off in runs until the project writes coding standards; they grow from retro findings.
 
+**Confirmed in the 2026-10-26 factory grill (R5).** One review per batch, before QA. Its fix ticket follows the R1 rule for a failed check: one fix attempt, then skip.
+
 ## R3. Deep-module design in the prefactor step
 
 **Status:** proposed, 2026-10-26.
@@ -50,3 +57,73 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 ## R4. Glossary, ADRs and Wayfinder
 
 **Status:** dropped, 2026-10-26. A glossary and ADRs (`grill-with-docs`, `domain-modeling`) wait until a retro shows an agent using the wrong term: every worker would pay to read them. Wayfinder's job, planning work bigger than one spec, is already done by research tickets and design-phase batches.
+
+## R5. The factory cycle
+
+**Status:** proposed, 2026-10-26. Settled in the FGame grill session 22465196; R6 to R11 are its parts, and R1 and R2 carry its answers.
+
+**Idea.** The user keeps three touchpoints: feedback (the `fb:` prompt into `feedback.md`), one short decision round per batch, and the playtest. Everything between them runs by itself. One cycle:
+
+1. The user runs `/factory` after a playtest (R7).
+2. Triage sorts the Open feedback notes (R6). Agent-ready notes become tickets and start building at once, in the one build lane.
+3. The decision round waits for the user: `/grill-me` on the notes that need the user (R9).
+4. Its last answer starts the chain in a fresh background session (R1): to-spec, to-tickets with no quiz, the run, the batch review (R2), QA, the QA-defect ticket, the push (R11), the retro (R10).
+5. The status file and its banner tell the user what waits: a decision round, a batch to play (R8).
+
+**Constraints.** The factory runs on the user's PC (the Unity editor and its licence), commits on `main` with no PRs, and uses no Docker sandbox (the editor and its play-mode tests cannot run in one on Windows). No Slack or other push message: the user sees what the factory needs when they open a session (R8). No cost cap at first: the status file shows each cycle's dollars, and a cap waits for two measured cycles.
+
+**Scope.** General: the factory and its skills live here, with no FGame or Unity names in them (`manifest.json` forbid list). FGame proves it first ("I need to prove the factory works first"); PlayableFactory uses it next.
+
+**Order (proposed).** R1 already waits for R2 to run in one batch and for a retro (brakes before accelerators). Suggested: R2 and R6 first, proven together on a batch of agent-ready FGame tickets; then R8, R10, R11; then R9; then R1 with R7.
+
+**Why.** The FGame process kept a human stop at every step: each skill invoked by hand, the ticket quiz, a retro pick per finding, the push held for the playtest. The user accepted the grill's recommendations in 19 of 31 rounds ("I'll only be able to tell if I like them after I test it out"), and an AFK afternoon was lost because ticket creation did not chain into the run ("this could've ran while I was afk").
+
+## R6. Triage skill
+
+**Status:** proposed, 2026-10-26 (R5).
+
+**Idea.** A `triage` skill, called by `/factory` and runnable alone, sorts each Open note of the feedback file into one of three:
+- **Agent-ready:** a bug, a layout defect or a clear ask. It becomes a ticket directly, with no spec revision, and builds at once while the decision round waits.
+- **Needs the user:** a taste decision, or one that costs more than a ticket to reverse. It goes to the next decision round (R9).
+- **A session of its own:** a topic the user marked so (FGame: the map rework, the gem selection, the Noita idea, the game's identity). It stays Open, out of the round, and the banner lists it.
+
+Its first job is the existing backlog (FGame: about 40 Open notes on 2026-10-26).
+
+**Open questions.**
+- Fork Matt Pocock's `triage` (labels `ready-for-agent`, `ready-for-human`, `needs-info`, `wontfix`) or write it as an own skill.
+- Whether triage writes the agent-ready ticket files itself, in to-tickets' template, or hands them to to-tickets.
+- Where each note's label lives: a tag on its line in `feedback.md`, or a section per label.
+
+## R7. The `/factory` command
+
+**Status:** proposed, 2026-10-26 (R5). Needs R1, R6 and R8.
+
+**Idea.** One user-invoked skill starts a cycle: run triage (R6), start the agent-ready tickets in the background (R1), prepare the decision round (R9), and write the status file (R8). No nightly schedule: feedback arrives in bursts after a playtest, and most nights would find nothing new.
+
+## R8. Status file and session banner
+
+**Status:** proposed, 2026-10-26 (R5).
+
+**Idea.** A status file per feature records each step of the cycle, what was skipped and why, each cycle's dollars (from `ticket_stats.py`), and what waits for the user: decisions to make, a batch to play with what to try, the topics kept for a session of their own. A session-start hook prints a short banner from it in any session of the project, for example "Factory: 4 decisions wait, batch 123 to 128 ready to play". Nothing interrupts the user; they see it when they come back.
+
+**Open questions.** The file's path and format; whether the hook is per project (like FGame's feedback hook) or at user level.
+
+## R9. Decision round, and to-tickets with no quiz
+
+**Status:** proposed, 2026-10-26 (R5).
+
+**Idea.**
+- The decision round is `/grill-me` on the notes triage marked as needing the user: at most five questions, the rest waiting for the next cycle, so a round lasts minutes. Its last answer starts the chain (R1) instead of naming `/to-spec`. The retro's rule and skill candidates (R10) join the same round.
+- to-tickets loses its quiz: the decision round has settled its questions, and the coverage check still runs. A ticket that turns out to need a new decision waits for the next round; the rest of the batch runs (a guessed decision got FGame tickets 70 to 73 reversed).
+
+## R10. Retro applies tools and checks itself
+
+**Status:** proposed, 2026-10-26 (R5).
+
+**Idea.** The retro runs by itself after each batch, in a fresh session. It applies a project's tool and check fixes itself and records each in the project's ledger. Rule changes and every change to a file in this repo go to the next decision round, since installing a skill needs the user's yes (skill-forge). Matches the user's PlayableFactory rule: "Autofix anything that ... costs more than 3-5min, or repeats multiple times"; the ledger shows rule fixes are the ones that churn.
+
+## R11. Push when QA passes
+
+**Status:** proposed, 2026-10-26 (R5).
+
+**Idea.** A batch pushes once its QA ticket passes and its QA-defect ticket is done, instead of waiting for the playtest; the playtest then only adds feedback notes. Changes run-tickets ("commits and never pushes") and FGame's `CLAUDE.md` push line together, so the two never disagree.
