@@ -89,4 +89,6 @@ Avoid specific file paths or code snippets: they go stale fast. Write exactly th
 
 When the source is a briefs file, move each note whose brief became a ticket from Open to Done in the feedback file beside it, with the ticket number, and delete the briefs file.
 
-Then commit the tickets (from a briefs file, with the feedback file and the deleted briefs) by the project's commit rules. Done when `git status` shows them clean.
+Append the Log line `to-tickets NN to MM: from <source>` to `.scratch/<feature>/status.md`, by the layout in the run-tickets skill's Status file section.
+
+Then commit the tickets and the status file (from a briefs file, with the feedback file and the deleted briefs) by the project's commit rules. Done when `git status` shows them clean.

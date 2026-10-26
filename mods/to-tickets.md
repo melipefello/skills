@@ -136,3 +136,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: the source is the conversation, or a spec passed as an argument.
 - Mine: the argument can also be the `briefs.md` that `/triage` writes beside the feedback file. Once the tickets are written, each note whose brief became a ticket moves from Open to Done in the feedback file with its ticket number, the briefs file is deleted, and both go in the tickets' commit.
 - Why: roadmap R6: triage writes no tickets, so numbering, the coverage check and the QA ticket per batch stay in to-tickets; the note leaves Open only once its ticket exists.
+
+## A Log line in the status file
+- Original: the tickets' commit holds the tickets alone.
+- Mine: before the commit, append the line `to-tickets NN to MM: from <source>` to `.scratch/<feature>/status.md`, by the layout in the run-tickets skill, and commit it with the tickets.
+- Why: roadmap R8: the status file records each step of the factory cycle, and a session-start banner reads it.
