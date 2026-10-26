@@ -104,11 +104,16 @@ Its first job is the existing backlog (FGame: about 40 Open notes on 2026-10-26)
 
 ## R8. Status file and session banner
 
-**Status:** proposed, 2026-10-26 (R5).
+**Status:** in progress, 2026-10-26: built, waits for its first cycle and a retro.
 
 **Idea.** A status file per feature records each step of the cycle, what was skipped and why, each cycle's dollars (from `ticket_stats.py`), and what waits for the user: decisions to make, a batch to play with what to try, the topics kept for a session of their own. A session-start hook prints a short banner from it in any session of the project, for example "Factory: 4 decisions wait, batch 123 to 128 ready to play". Nothing interrupts the user; they see it when they come back.
 
-**Open questions.** The file's path and format; whether the hook is per project (like FGame's feedback hook) or at user level.
+**Settled, 2026-10-26.**
+- Path: `.scratch/<feature>/status.md`, beside the feedback file, committed. Its layout lives in the run-tickets skill, section Status file: `## Waits for you` (a batch to play, a stopped run) and `## Log` (one appended line per step; a run's line carries its minutes and dollars).
+- Counted, not recorded: the banner counts Inbox notes, the briefs file, `[you]` and `[own session]` notes and tickets with no report from the files themselves, so no step keeps those counts and none can go stale.
+- Writers: triage, to-tickets, run-tickets and retro each append their Log line. run-tickets adds a Play line per passed QA ticket and a Run stopped line; triage deletes a Play line once feedback dated after it arrives.
+- Hook: at user level, so every project gets it with no setup. It runs `skills/run-tickets/scripts/status_banner.py` from the installed skill, shows the banner to the user and to Claude, and prints nothing for a project with no status file or nothing waiting.
+- Cycle dollars: the run's Log line until R7 groups steps into cycles.
 
 ## R9. Decision round, and to-tickets with no quiz
 
