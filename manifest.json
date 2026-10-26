@@ -142,6 +142,10 @@
     "triage": {
       "status": "own",
       "sources": []
+    },
+    "hub": {
+      "status": "own",
+      "sources": []
     }
   }
 }
