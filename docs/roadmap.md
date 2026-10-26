@@ -134,3 +134,20 @@ Its first job is the existing backlog (FGame: about 40 Open notes on 2026-10-26)
 **Status:** proposed, 2026-10-26 (R5).
 
 **Idea.** A batch pushes once its QA ticket passes and its QA-defect ticket is done, instead of waiting for the playtest; the playtest then only adds feedback notes. Changes run-tickets ("commits and never pushes") and FGame's `CLAUDE.md` push line together, so the two never disagree.
+
+## R12. The hub
+
+**Status:** in progress, 2026-10-26: built in 286e073 (add hub), 07456b5 (adapt run-tickets), 4446d31 (adapt to-spec) and 7039569 (adapt to-tickets); waits for a week of use. Settled in the FGame grill session cf607f04.
+
+**Idea.** A user-level `hub` skill, the one place to ask "what's next". It is an advisor: it reads the project's status file, git and the open Claude Code sessions in the project folder, and replies with what waits for the user (by session name), what runs, and the next commands with the session to type each in, in at most 10 lines. It never builds, edits or commits. One hub session per project, renamed `hub`, a fresh one each day: the state lives in files and transcripts.
+
+**Why.** The user lost track of a project run across several sessions: which tickets to run, what can run in parallel, which session holds uncommitted work, and what the project builds at all ("so many numbers that I'm getting lost"). Each project kept its own `/next` skill with a hand-written order of work.
+
+**Settled.**
+- Sessions: `skills/hub/scripts/sessions.py` lists the open sessions of the folder from `~/.claude/sessions/<pid>.json` (busy or idle, name) and each transcript (first and last prompt, an idle session's last reply). A session counts as open while its process runs with the recorded start time.
+- Session limit, advice only: the hub, one build session, one talk session (grill, to-spec, to-tickets, triage, retro). The hub reuses an idle session of the right role before it suggests a new one.
+- The status file (R8) grows to four sections: Now (what the project builds, the phase, the last playtest, the next go/no-go, then a guide to the numbers), Order of work, Waits for you, Log. Layout in the run-tickets skill.
+- Order of work lives in the status file, as a table with an evidence column per row (from the `/next` skills), so a done row needs no edit. `/to-spec` rewrites Now, deletes done rows and adds the row for its tickets; `/to-tickets` adds a row per batch. Game and factory work share one order; a roadmap item gets a row only when the project's next batch needs it.
+- The R8 banner stays as the short version in every session.
+
+**Next.** Move each project's `/next` table into its status file, then delete the FGame and PlayableFactory `/next` skills once the hub has run for a few days. R7's `/factory` becomes a command the hub suggests. A dispatcher, the hub sending commands to other sessions, waits for a week of use.
