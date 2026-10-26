@@ -124,6 +124,20 @@
           "updatedAt": "2026-10-26T17:04:13.659Z"
         }
       ]
+    },
+    "codebase-design": {
+      "status": "tracked",
+      "sources": [
+        {
+          "repo": "mattpocock/skills",
+          "path": "skills/engineering/codebase-design",
+          "track": "tags",
+          "ref": "v1.3.1",
+          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "forkedAt": "2026-10-26T17:04:16.060Z",
+          "updatedAt": "2026-10-26T17:04:16.060Z"
+        }
+      ]
     }
   }
 }
