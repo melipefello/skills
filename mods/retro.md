@@ -71,3 +71,8 @@ Upstream: mattpocock/skills:skills/engineering/retro (pin in manifest.json)
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.
 - Why: only Claude Code is used. Moves away from the tested original: Codex loses the skill's metadata.
+
+## A Log line in the status file
+- Original: step 7 commits the ledger alone.
+- Mine: when the scope was a ticket run of a feature with a `.scratch/<feature>/status.md`, step 7 also appends the retro's Log line (candidates, fixes applied) by the layout in the run-tickets skill, and commits it with the ledger.
+- Why: roadmap R8: the status file records each step of the factory cycle, and a session-start banner reads it.
