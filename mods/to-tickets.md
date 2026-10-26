@@ -131,3 +131,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 - Original: the explore step looks for prefactoring opportunities ("make the change easy, then make the easy change").
 - Mine: it also loads `codebase-design` and judges each touched module by its depth; a shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch.
 - Why: orientation reads drive ticket cost (roadmap R3); deeper modules put more behaviour behind fewer files to read.
+
+## Briefs from triage as a source
+- Original: the source is the conversation, or a spec passed as an argument.
+- Mine: the argument can also be the `briefs.md` that `/triage` writes beside the feedback file. Once the tickets are written, each note whose brief became a ticket moves from Open to Done in the feedback file with its ticket number, the briefs file is deleted, and both go in the tickets' commit.
+- Why: roadmap R6: triage writes no tickets, so numbering, the coverage check and the QA ticket per batch stay in to-tickets; the note leaves Open only once its ticket exists.

@@ -12,7 +12,7 @@ Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet ver
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes a spec path as an argument, such as `.scratch/<feature>/spec.md`, read the whole file.
+Work from whatever is already in the conversation context. If the user passes a spec or briefs path as an argument, such as `.scratch/<feature>/spec.md` or the `briefs.md` that `/triage` writes beside it, read the whole file.
 
 ### 2. Explore the codebase (optional)
 
@@ -87,4 +87,6 @@ No time estimates.
 
 Avoid specific file paths or code snippets: they go stale fast. Write exactly the template's fields.
 
-Then commit the tickets by the project's commit rules. Done when `git status` shows them clean.
+When the source is a briefs file, move each note whose brief became a ticket from Open to Done in the feedback file beside it, with the ticket number, and delete the briefs file.
+
+Then commit the tickets (from a briefs file, with the feedback file and the deleted briefs) by the project's commit rules. Done when `git status` shows them clean.
