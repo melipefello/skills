@@ -1,6 +1,6 @@
 ---
 name: run-tickets
-description: Run a range of tickets through ticket workers (build tickets one at a time, research tickets as a parallel frontier), commit each, and summarise; add "review" to walk the user through each ticket.
+description: Run a range of tickets through ticket workers (build tickets one at a time, research tickets as a parallel frontier), review each batch against its spec before its QA ticket, commit each, and summarise; add "review" to walk the user through each ticket.
 disable-model-invocation: true
 argument-hint: <first>-<last> | all [review] [model=opus] [effort=medium], e.g. 04-06
 ---
@@ -44,7 +44,25 @@ Start no worker until the answer.
    --latest --ticket NN --line` and keep its line (minutes, calls, tokens, peak context,
    errors, script minutes, orientation, dollars); a question about time or cost mid-run
    is answered from these lines.
-4. Go to the next ticket.
+4. Go to the next ticket. When it is a batch's QA ticket (blocked by build tickets; a
+   QA-defect ticket is not one), run the batch review first.
+
+## Batch review, before each QA ticket
+
+1. **Review.** Start one general-purpose agent on sonnet at medium effort, described
+   `batch review before ticket NN` (NN: the QA ticket). Its prompt: call the Skill tool with
+   `code-review` and the argument `spec`; the fixed point is the parent of the commit whose
+   subject ends `(ticket MM)`, MM the batch's first build ticket; the spec is
+   `.scratch/<feature>/spec.md`, its stories named in the Covers lines of the batch's ticket
+   files, and those ticket files; write the review to `.scratch/<feature>/reports/NN-review.md`
+   and hand back its Spec findings, or "None".
+2. **Fix.** Spec findings become one ticket file, numbered after the highest number in
+   `git ls-files .scratch/<feature>/issues`: `**Kind:** build`, blocked by the batch's build
+   tickets, its What to build each finding with the spec line it quotes, to fix, or to reject
+   under Decisions when the code already does what that line says. Run it through the steps
+   above, its worker described `ticket NN review fix`, before the QA ticket; it gets no review
+   of its own. With no findings, commit the review alone: `Add the review before ticket NN`.
+   Done when the review is committed and its fix ticket, if any, is recorded.
 
 ## After the last ticket
 
@@ -57,7 +75,8 @@ unfinished items.
 
 End with one screen: the table that
 `python -I <this skill's folder>/scripts/ticket_stats.py --latest` prints, then one line per
-ticket (what a user gets), then what the QA ticket left for the user to try, then every
+ticket (what a user gets), then what the QA ticket left for the user to try, then each batch review's findings and
+its fix ticket, or "no findings", then every
 unfinished item by ticket, then each decision a research ticket left for the user, with
 its options, then every ticket file with no report, outside the range too, then what
 stopped the run if anything did. Its last lines are this session's

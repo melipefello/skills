@@ -14,7 +14,8 @@ Usage:
 
 Rows: one per ticket, from every subagent whose description names "ticket NN" (retro readers and
 other agents that read a ticket are left out; a helper a worker starts counts toward its ticket),
-then the orchestrator (the main thread from the /run-tickets prompt to the end of the turn after
+a batch review (described "batch review before ticket NN") as row "NN review" above that QA ticket,
+its fix ticket (described "ticket NN review fix") as "NN fix", then the orchestrator (the main thread from the /run-tickets prompt to the end of the turn after
 the last worker) and the total.
 
 Columns:
@@ -36,6 +37,8 @@ Columns:
 import collections, datetime, glob, json, os, re, sys
 
 TICKET = re.compile(r'ticket\s*(\d+)', re.I)
+REVIEW = re.compile(r'\bbatch review before ticket\s*(\d+)', re.I)
+FIX = re.compile(r'\breview fix\b', re.I)
 NOT_WORKER = re.compile(r'\b(retro|mine|analy[sz]e\w*|read|reader|reading|review\w*|digest\w*)\b', re.I)
 SCRIPT = re.compile(r'\b(test|check|capture|simulate)\.ps1\b', re.I)
 EDITS = ('Edit', 'Write', 'MultiEdit', 'NotebookEdit')
@@ -271,13 +274,16 @@ def main():
         if not a or depth > 5:
             return None
         desc = a['meta'].get('description') or ''
+        m = REVIEW.search(desc)
+        if m:
+            return int(m.group(1)), 'review'
         m = TICKET.search(desc)
-        if m and not NOT_WORKER.search(desc):
-            return int(m.group(1)), bool(re.search(r'\bQA\b', desc))
+        if m and (FIX.search(desc) or not NOT_WORKER.search(desc)):
+            return int(m.group(1)), 'fix' if FIX.search(desc) else 'QA' if re.search(r'\bQA\b', desc) else ''
         parent = a['meta'].get('parentAgentId')
         return ticket_of(parent, depth + 1) if parent else None
 
-    rows, qa = {}, set()
+    rows, tags = {}, {}
     all_calls = list(m_calls)
     for aid in sorted(agents, key=lambda k: agents[k]['meta'].get('spawnDepth') or 1):
         calls, uses, results = events(load(agents[aid]['file']), seen)
@@ -285,10 +291,11 @@ def main():
         t = ticket_of(aid)
         if t is None:
             continue
-        num, is_qa = t
-        if is_qa:
-            qa.add(num)
-        rows.setdefault(num, Row(str(num))).add(calls, uses, results)
+        num, tag = t
+        key = (num, 0 if tag == 'review' else 1)  # a review sorts above its QA ticket
+        if tag:
+            tags[key] = tag
+        rows.setdefault(key, Row(str(num))).add(calls, uses, results)
 
     # Orchestrator: from the /run-tickets prompt to the end of the turn after the last worker.
     workers = [r for r in rows.values() if r.start]
@@ -339,14 +346,13 @@ def main():
             total.orient = tuple(a + b for a, b in zip(total.orient or (0, 0), r.orient))
         total.peak = max(total.peak, r.peak)
         total.approx |= r.approx
-    for r in ordered:
-        if r.label.isdigit() and int(r.label) in qa:
-            r.label += ' QA'
+    for key, tag in tags.items():
+        rows[key].label += ' ' + tag
 
     if opts['ticket'] is not None:
-        if opts['ticket'] not in rows:
+        if (opts['ticket'], 1) not in rows:
             die('no worker for ticket %d in %s' % (opts['ticket'], path))
-        ordered = [rows[opts['ticket']]]
+        ordered = [rows[(opts['ticket'], 1)]]
     else:
         ordered = ordered + [total]
 
