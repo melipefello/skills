@@ -95,17 +95,38 @@ nothing per ticket.
 
 `.scratch/<feature>/status.md` tells the user what the factory waits on. A session-start
 hook, `scripts/status_banner.py` wired in the user settings, prints a banner from it in
-every session of the project. Every step of a cycle (`/triage`, `/to-tickets`, this skill,
-`/retro`) appends its Log line; create the file when missing as:
+every session of the project, and `/hub` reads it to say what is next. Every step of a cycle
+(`/to-spec`, `/triage`, `/to-tickets`, this skill, `/retro`) appends its Log line; create
+the file when missing as:
 
 ```md
 # Status
+
+## Now
+
+## Order of work
+
+| # | Step | Blocked by | Evidence it is done | Command |
+|---|---|---|---|---|
 
 ## Waits for you
 
 ## Log
 ```
 
+- **Now**: what the project builds, its phase, the last playtest result and the next
+  go/no-go, in a few lines. `/to-spec` rewrites it each time it writes the spec. It ends
+  with the guide to the numbers: `Numbers: NN ticket, US<n> spec story, R<n> roadmap item,
+  Q<n> grill question, D<n> grill default.`
+- **Order of work**: the steps left, game and factory work in one order. Evidence is a
+  report, a file or a Log line that exists once the step is done, so a done row needs no
+  edit. Command is the text to type and its session: `(build)`, `(talk)`, or the folder of
+  another repo. A step that can run beside the row before it says *parallel*. A playtest
+  blocks rows and has no row of its own: it is done once `feedback.md` holds a note dated
+  after the batch's last report. A roadmap item (`R<n>`) gets a row only when the next
+  batch needs it. `/to-spec` deletes the done rows and adds one for the tickets of its
+  revision; `/to-tickets` adds one per batch; any other change to the order goes in the
+  commit of the work that changes it.
 - **Waits for you**: one line per thing the user does next that no other file shows.
   `- Play tickets NN to MM (<date> <time>): <what to try, one clause>; the full list is
   in reports/QQ.md.` `/triage` deletes a Play line once a feedback note dated after it
