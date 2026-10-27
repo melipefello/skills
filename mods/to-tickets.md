@@ -129,8 +129,8 @@ Upstream: mattpocock/skills:skills/engineering/to-tickets (pin in manifest.json)
 
 ## Prefactor judged by module depth
 - Original: the explore step looks for prefactoring opportunities ("make the change easy, then make the easy change").
-- Mine: it also loads `codebase-design` and judges each touched module by its depth; a shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch.
-- Why: orientation reads drive ticket cost (roadmap R3); deeper modules put more behaviour behind fewer files to read.
+- Mine: step 3 opens by judging each module the work touches by its depth, with the `codebase-design` vocabulary, also when step 2 was skipped; a shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch. Done when every module is named deep or shallow, and the quiz shows one line per module before the ticket list. Step 2 stays as upstream wrote it.
+- Why: orientation reads drive ticket cost (roadmap R3); deeper modules put more behaviour behind fewer files to read. The judgement first sat in step 2, "Explore the codebase (optional)": the FGame breakdown of tickets 131 to 149 had explored during its grill, skipped the step, and never loaded `codebase-design`. The quiz line makes a skipped judgement visible.
 
 ## Briefs from triage as a source
 - Original: the source is the conversation, or a spec passed as an argument.

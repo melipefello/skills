@@ -20,9 +20,9 @@ If you have not already explored the codebase, do so to understand the current s
 
 Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
-Judge each module the work touches by its depth: call the Skill tool with `codebase-design` for the vocabulary. A shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch.
-
 ### 3. Draft vertical slices
+
+First judge each module the work touches by its depth, with the vocabulary from the Skill tool's `codebase-design`, also when step 2 was skipped. A shallow module the work would spread across many files becomes a prefactor ticket that deepens it, early in its batch. Done when every module the work touches is named deep or shallow.
 
 Break the work into **tracer bullet** tickets.
 
@@ -45,7 +45,7 @@ Tickets change the product and its tools. A change to the workflow (worker rules
 
 ### 4. Quiz the user
 
-Present the proposed breakdown as a numbered list. For each ticket, show:
+Present the proposed breakdown as a numbered list. Before the list, one line per module the work touches: deep, or shallow with the prefactor ticket that deepens it. For each ticket, show:
 
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
