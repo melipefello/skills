@@ -32,7 +32,11 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R2. Batch review before the QA ticket
 
-**Status:** in progress, 2026-10-26: built in 2da437b (fork code-review) and b706e42 (adapt run-tickets); waits for its first batch and a retro.
+**Status:** done, 2026-10-27: built in 2da437b (fork code-review) and b706e42 (adapt run-tickets); judged on two FGame batches, from the `ticket_stats.py` rows of runs 12e9fc38 and 0d1922c8 and the retro of run 0d1922c8.
+- Batch 123 to 128: the review took 0.7 min and $0.22 and found nothing blocking, so no fix ticket ran.
+- Batch 131 to 137: the review (1.5 min, $0.49) gave 7 findings and fix ticket 150 (12.0 min, $3.08) settled them. One was a spec miss that QA captures cannot show: a chapter 3 elite cost 19% of the path against chapter 1's 25% (US254), now 27%. One removed a text label (US102). Five needed no change: four were checked and rejected with measures, and one was guarded though the code was already right.
+- Cost: 13.5 of the run's 92 minutes and $3.57 of its $33.18. The retro found no review problem but one tool call made before its tool was loaded.
+- Watch at later retros: the share of findings a fix ticket rejects (4 of 7 here). Each costs a check, since the reviewer runs nothing.
 
 **Idea.** run-tickets starts one review agent just before each QA ticket, with no ticket file of its own: the QA ticket already marks where a batch ends. The agent runs the forked `code-review` on the batch's commits, Spec axis only, on Sonnet at medium effort. It reads the batch diff, the batch's ticket files and the spec stories in their Covers lines. Its findings become one fix ticket that runs before the QA ticket, so the QA ticket tests the fixed code. The fix ticket is not reviewed again: one review pass per batch. No findings, no fix ticket.
 
@@ -48,7 +52,10 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R3. Deep-module design in the prefactor step
 
-**Status:** in progress, 2026-10-26: built in a10dd41 (fork codebase-design) and 0f0d497 (adapt to-tickets); waits for its first ticket breakdown and a retro.
+**Status:** in progress, 2026-10-26: built in a10dd41 (fork codebase-design) and 0f0d497 (adapt to-tickets). Judged 2026-10-27 on the FGame breakdown of tickets 131 to 149: not yet tried.
+- The to-tickets session (7fda90d6) never called `codebase-design`. The depth rule sits in step 2, "Explore the codebase (optional)", and that session had explored during its grill, so it skipped the step. Its one prefactor ticket (131, the offer draw: 3.1 min, $0.70) came from the older "prefactor first" rule.
+- Orientation did not fall: build tickets 131 to 137 averaged 23 calls and 84 KB before their first edit, against 23 and 74 KB for 123 to 128. The most expensive one, 135 (41 calls, 159 KB, $4.07), searched the 983-line shop screen, which no ticket deepened.
+- Next: make the depth judgement a required step of to-tickets, outside the optional exploration, through `/skill-forge to-tickets`; then judge R3 again on the next breakdown.
 
 **Idea.** Fork `codebase-design` (the deep-module vocabulary: module, interface, seam, depth). to-tickets uses it in its prefactor step, so a batch can open with prefactor tickets that deepen the modules it touches.
 
