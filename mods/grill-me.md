@@ -39,8 +39,8 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 
 ## Outputs are question rounds and one summary; spec and tickets belong to their skills
 - Original: ends with a prohibition, "Do not act on it until the user confirms you have reached a shared understanding."
-- Mine: the design tree holds what the product does and why; the spec's shape belongs to `/to-spec` and the ticket count, order and sizing to `/to-tickets`, both invoked by the user. The only outputs are question rounds and one closing summary, which writes nothing and whose last line names `/to-spec` as the next step.
-- Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). Later, "files, code and plans come after that confirmation" invited the grill to plan the spec, the tickets and the feedback file: the user restated the boundary in seven FGame sessions, and one grill absorbed a `/to-spec`.
+- Mine: the design tree holds what the product does and why; the spec's shape belongs to `/to-spec` and the ticket count, order and sizing to `/to-tickets`, both invoked by the user. The only outputs are question rounds, the mockup (see "A mockup before the detailed questions") and one closing summary, which writes nothing and whose last line offers the next step: build it now when one agent can build it in one go, `/to-spec` for larger work.
+- Why: with the prohibition, Codex wrote four coach files mid-interview and they had to be reverted (FPractice retro, 2026-10-12). Later, "files, code and plans come after that confirmation" invited the grill to plan the spec, the tickets and the feedback file: the user restated the boundary in seven FGame sessions, and one grill absorbed a `/to-spec`. The closing line named only `/to-spec` until the user refused it in five of five small projects ("Build it!", "Implement it now.", "I'll skip the spec, let's build it directly.").
 
 ## Summary holds only answered and settled decisions
 - Original: no closing summary is named.
@@ -49,8 +49,13 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 
 ## Questions and defaults
 - Original: every frontier decision is asked; the session is done when every branch is visited, nothing left silently assumed.
-- Mine: the frontier splits into questions (the user's goal or taste picks, or reversing costs more than a ticket), asked as before, and defaults (a number, a count, a layout, an item list), listed after the questions as numbered D lines with their reasons. The user overrides a default by its number; an untouched one is settled. Done when every branch is answered or settled as a default.
-- Why: in FGame 19 of 31 grill rounds were "go with recommendations"; about 90% of 124 recommendations went through unchanged, and the content-level ones were reversed 36 hours later with four of eleven tickets. The user: "I'll only be able to tell if I like them after I test it out."
+- Mine: the frontier splits into questions and defaults. A question is a decision where the user holds information the agent lacks, or could plausibly choose differently from the recommendation; the first question is how the user will use the thing. Every other decision is a default, listed once, after the questions of the round where it enters the frontier, as one plain numbered sentence holding the decision and its reason. The user reopens a default by its number; an untouched one is settled. Done when every branch is answered or settled as a default.
+- Why: in FGame 19 of 31 grill rounds were "go with recommendations"; about 90% of 124 recommendations went through unchanged, and the content-level ones were reversed 36 hours later with four of eleven tickets. The user: "I'll only be able to tell if I like them after I test it out." The first split (goal or taste, or costs more than a ticket to reverse) still drew about 65 answers of the form "Other than what I've mentioned, go with the recommendations you had" across 12 sessions, and the user asked to "repeat the defaults with an easier sentence". Prototypes were built in one round before anyone asked how the user works with the thing ("I think you need to dig for the answers with me").
+
+## A mockup before the detailed questions
+- Original: no mockup step; only upstream's docs page sends a question talking cannot settle to the prototype skill.
+- Mine: when the work has a screen, once the user has said how they will use it, the grill calls `prototype` for a rough mockup and asks the next round after the user has seen it.
+- Why: a 3-hour interview settled a read-only dashboard; the first mockup showed in 3 minutes that the user wanted a control room. The user: "It's hard for me to reply to text, I can give feedback after I see the results".
 
 ## The feedback file's Open section comes first
 - Original: no input besides the conversation.
