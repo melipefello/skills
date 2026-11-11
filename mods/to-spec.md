@@ -87,6 +87,11 @@ Upstream: mattpocock/skills:skills/engineering/to-spec (pin in manifest.json)
 - Mine: a step 6 commits the spec, `feedback.md` and `status.md` by the project's commit rules; done when `git status` shows them clean.
 - Why: some FGame to-spec runs committed by themselves and others waited for Felipe's "commit": variance from a missing step, and one of five to seven ceremony prompts per batch.
 
+## The build offered at the end, run by one fresh subagent
+- Original: the skill ends once the spec is written.
+- Mine: a step 7 offers the next step: build now when one agent can build the spec in one go, `/to-tickets` when the feature needs several tickets. On the user's go, one fresh subagent builds from a brief of the spec's path plus what the spec cannot hold (files and code found while exploring, how the user wants it built, how to check it); the main chat reviews its work against the spec, tells the user what to try, and commits after swapping the revision's Tickets row in `status.md` for a `build:` Log line.
+- Why: in one session the user typed "Implement the spec now." after each of five specs and never ran `/to-tickets` there ("I want to execute the spec I created"); the builds then ran in the main chat up to 414K, 398K and 327K tokens ($13.6, $15.5 and $8.7).
+
 ## Codex metadata removed
 - Original: ships `agents/openai.yaml` for OpenAI Codex.
 - Mine: removed.

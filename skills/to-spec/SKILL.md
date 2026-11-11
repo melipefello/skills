@@ -22,6 +22,8 @@ Take the current conversation context and codebase understanding and produce a s
 
 6. Commit the spec, feedback.md and status.md by the project's commit rules. Done when `git status` shows them clean.
 
+7. Offer the next step in one line: build now, when one agent can build the spec in one go; `/to-tickets`, when the feature needs several tickets. On the user's go to build, start one fresh subagent with the Agent tool, so this chat stays small. Its brief is the spec's path plus what the spec cannot hold: the files and code you found while exploring, how the user wants it built, and how to check the result. When it reports, review its work against the spec and run the checks the brief named, then tell the user what was built and what to try. Commit by the project's commit rules, after deleting the revision's Tickets row from status.md and appending the Log line `build: <outcome>`. Done when the user has your review and `git status` is clean.
+
 ## Feedback file
 
 `.scratch/<feature>/feedback.md` has three sections:
