@@ -14,7 +14,7 @@ Retro dedd2293 covered all 23 FSkills sessions from 2026-10-06 to 2026-10-21, pl
 | dedd2293 | 2026-10-21 | 6 | pre-commit check blocks on untracked or empty skill folders [check] | Fix | d257386 | new |
 | dedd2293 | 2026-10-21 | 7 | commits from other projects bypass skill-forge; notes not linted [check] | Fix | d257386, ce632dd | new |
 | dedd2293 | 2026-10-21 | 8 | FGame agents edit installed skill copies through Bash [check] | I think that's fine, and when we fix #1 this won't be a problem because I won't need to modify FSkills from external projects anymore | - | open |
-| dedd2293 | 2026-10-21 | 9 | interview and retro items written in jargon despite three rules [structure] | fix | ce632dd, f696e65 | new |
+| dedd2293 | 2026-10-21 | 9 | interview and retro items written in jargon despite three rules [structure] | fix | ce632dd, f696e65 | recurred: 165af19a |
 | dedd2293 | 2026-10-21 | 10 | upstream reads and script output flood the context [tool] | no, because I usually don't go read files - skip | - | open |
 | dedd2293 | 2026-10-21 | 11 | skill-forge takes one skill per run [structure] | Fix | ce632dd | new |
 | dedd2293 | 2026-10-21 | 12 | install, push and propagate typed by the user in almost every session [rule] | Fix | ce632dd | new |
