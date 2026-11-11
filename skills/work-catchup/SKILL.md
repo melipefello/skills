@@ -36,6 +36,16 @@ Read `preferences.md` in the recap folder (if it exists) before applying the tes
 
 **Subagents return owners, not actions.** When an area is handed to a subagent, ask for items as `owner | what | evidence | link`, with owner = a person, or `me (asked/assigned/committed)` plus the evidence. A prompt asking for "actions for the user" makes the subagent find some; the owner test runs here, on the merged list. Hand every subagent the paths of `config.md` and `preferences.md`, so the classes you already filed as FYI or "leave out" are filtered while gathering, not after.
 
+## Step 0 — Check the connections
+
+The connectors are off by default and you switch them on by hand, so check them before anything else. Load one tool per source in one call:
+
+`ToolSearch("select:mcp__claude_ai_Slack__slack_read_user_profile,mcp__claude_ai_Google_Calendar__list_calendars,mcp__claude_ai_Google_Drive__search_files,mcp__claude_ai_Notion__notion-search")`
+
+A source whose tool does not come back is off. When any is off, reply with one line that names each one (*"Off: Slack, Notion. Switch them on and say go, or say go without them."*) and end the turn. Continue without a source only on your word, and name it in the doc's gaps line.
+
+**Done when** all four load, or you have said to go without the ones that are off.
+
 ## Step 1 — Find the previous recap
 
 The recap folder, newest `slack-recap-*.md` by mtime. Two things come out of it:
