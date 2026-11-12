@@ -5,7 +5,12 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 ## Grilling inlined
 - Original: grill-me is a user-only wrapper whose body calls the Skill tool with "grilling"; grilling holds the instructions.
 - Mine: one skill. grilling's body under the name grill-me.
-- Why: the forwarding adds a hop and a second skill to keep in sync, with no gain; grill-with-docs, the other caller, is not used.
+- Why: the forwarding adds a hop and a second skill to keep in sync, with no gain; grill-with-docs, the other caller, is replaced by "The glossary joins the grill".
+
+## The glossary joins the grill
+- Original: grilling knows no glossary; `grill-with-docs` is a second command that calls "grilling" and "domain-modeling".
+- Mine: when the project keeps a `GLOSSARY.md`, grill-me calls the `glossary` skill before the first round: its terms open the settled vocabulary, a thing with no term gets a naming question, and the closing summary lists the session's new terms, written once the user confirms them.
+- Why: one command to remember; upstream's docs page reports that models load grilling and skip domain-modeling, so the call sits on a checkable condition. The terms wait for the end so a dropped design leaves none behind.
 
 ## Model-invoked, with grilling's description
 - Original: grill-me is user-only (`disable-model-invocation: true`) with a human-facing description; grilling is model-invoked on "grill" phrases.
