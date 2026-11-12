@@ -17,19 +17,19 @@
           "repo": "mattpocock/skills",
           "path": "skills/productivity/grill-me",
           "track": "tags",
-          "ref": "v1.3.1",
-          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "ref": "v1.3.2",
+          "commit": "d1478fcb140db0b93c0c8df17bcfd311844749d0",
           "forkedAt": "2026-10-06T21:56:42.820Z",
-          "updatedAt": "2026-10-06T21:56:42.820Z"
+          "updatedAt": "2026-11-12T10:50:40.246Z"
         },
         {
           "repo": "mattpocock/skills",
           "path": "skills/productivity/grilling",
           "track": "tags",
-          "ref": "v1.3.1",
-          "commit": "24fe0ef7737efae15c87225755e9f6f5965e4888",
+          "ref": "v1.3.2",
+          "commit": "d1478fcb140db0b93c0c8df17bcfd311844749d0",
           "forkedAt": "2026-10-06T22:11:58.137Z",
-          "updatedAt": "2026-10-06T22:11:58.137Z"
+          "updatedAt": "2026-11-12T10:50:42.128Z"
         }
       ]
     },
