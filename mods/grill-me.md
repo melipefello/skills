@@ -68,6 +68,6 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Why: seven of nine FGame grills began with the user typing "Read feedback.md".
 
 ## Web research is a fact lookup
-- Original: facts from "the environment (filesystem, tools, etc.)" go to a sub-agent.
+- Original: facts from "the environment (filesystem, tools, etc.)" go to a sub-agent with a fresh context window.
 - Mine: names the web (a fee, a policy, a version) as part of the environment.
 - Why: the same session fetched five Steam docs inline during a round; the skill already routes facts to a sub-agent, it just did not say the web counts.
