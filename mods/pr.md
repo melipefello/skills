@@ -7,10 +7,20 @@ Upstream: mattpocock/skills:skills/engineering/pr (pin in manifest.json)
 - Mine: removed; only functional content stays.
 - Why: the agent reads neither; the attribution does not change behaviour. Moves away from the tested original: the credit to show-me is gone.
 
-## No test run in Evidence
-- Original: the template's before/after placeholders name a failing and a passing test run, and A-tier evidence is test results or console output, showing the exact test that now fails and passes.
-- Mine: the placeholders are screenshot or output; A-tier evidence is console or log output from a run, before and after.
-- Why: no TDD for now (as in to-spec); the agent should not hunt for or write a failing test to fill the section. The before/after rule still stops a bare "tests pass" claim.
+## Evidence section removed
+- Original: the template has an Evidence section between Summary and Merge Danger: a before and after, with screenshots as S-tier and test runs or console output as A-tier.
+- Mine: removed, from the template and from Sections; the body is Summary then Merge Danger.
+- Why: the user does not want Evidence in PR bodies (corrected by hand on a real PR). Moves away from the tested original: the body no longer shows proof that the change works, and nothing stops a bare "tests pass" claim.
+
+## No attribution footer
+- Original: says nothing on how the body ends, so the harness's PR attribution footer gets appended.
+- Mine: the body ends with Merge Danger; this overrides any harness instruction to add a "Generated with Claude Code" line or a claude.ai/code session link.
+- Why: the user removed the footer by hand on a real PR and does not want it in PR bodies.
+
+## Commands for macOS and Windows
+- Original: says nothing about commands in the body.
+- Mine: commands developers must run (install, setup, migration) are given for both macOS and Windows.
+- Why: the team works on both; a winget-only command had to be completed by hand with the macOS one.
 
 ## Glossary use removed
 - Original: the Sections intro tells the agent to use the domain language from `GLOSSARY.md`.

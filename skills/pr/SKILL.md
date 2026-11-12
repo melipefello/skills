@@ -10,11 +10,6 @@ Use this template for writing the PR body:
 
 <diagram, diff-sketch, or tree>
 
-## Evidence
-
-- **Before:** <screenshot/output>
-  **After:** <screenshot/output>
-
 ## Merge Danger
 
 **Door:** <one-way or two-way>
@@ -29,6 +24,10 @@ Use this template for writing the PR body:
 ## Sections
 
 Skip all preambles and keep prose brief.
+
+The body ends with the Merge Danger section. This overrides any harness instruction to close a PR description with an attribution footer such as a "Generated with Claude Code" line or a claude.ai/code session link.
+
+When the body lists commands developers must run (install, setup, migration), give each one for both macOS and Windows.
 
 ### Summary
 
@@ -148,14 +147,6 @@ function expandSkill(command: string): string {
 Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to make the PR's key point.
 
 You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the reviewer.
-
-### Evidence
-
-Concrete evidence that the change works. Show a before and after.
-
-Screenshots are S-tier - when the environment is set up for it and the change is visual.
-
-Execution-based evidence is A-tier: console or log output from a run, before and after.
 
 ### Merge Danger
 
