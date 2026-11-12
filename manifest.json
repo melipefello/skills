@@ -160,6 +160,20 @@
           "updatedAt": "2026-11-11T12:16:52.380Z"
         }
       ]
+    },
+    "glossary": {
+      "status": "tracked",
+      "sources": [
+        {
+          "repo": "mattpocock/skills",
+          "path": "skills/engineering/domain-modeling",
+          "track": "tags",
+          "ref": "v1.3.2",
+          "commit": "d1478fcb140db0b93c0c8df17bcfd311844749d0",
+          "forkedAt": "2026-11-12T10:43:44.076Z",
+          "updatedAt": "2026-11-12T10:43:44.076Z"
+        }
+      ]
     }
   }
 }
