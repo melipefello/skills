@@ -3,9 +3,9 @@
 ## Now
 
 - Builds: the software factory, these skills taking a project from feedback to a batch ready to play, with three user touchpoints: feedback, a short decision round, the playtest (R5). FGame proves it first; PlayableFactory uses it next.
-- Phase: brakes before accelerators. R2 (batch review) is done. R3 (deep-module prefactor) waits for a fix: its first breakdown never loaded its vocabulary. R6 (triage), R8 (status file and banner) and R12 (the hub) are built and wait for their proof on FGame. R10 and R11, then R9, then R1 with R7 wait for that proof.
+- Phase: brakes before accelerators. R2 (batch review) and R3 (deep-module prefactor) are done; R3 runs but did not cut orientation reads. R6 (triage), R8 (status file and banner) and R12 (the hub) are built and wait for their proof on FGame. R10 and R11, then R9, then R1 with R7 wait for that proof.
 - Last proof: FGame tickets 123 to 130 built triage's briefs (R6) with the first batch review (R2); tickets 131 to 151 ran the first prefactor ticket (131, R3), the second review with its fix ticket 150, and kept FGame's status file (R8). Retro 12e9fc38 (tickets 123 to 130) judged no roadmap item; the retro of 131 to 151 runs now in FGame.
-- Next go/no-go, per item, from that retro and the run's `ticket_stats.py` rows: does a review catch defects worth its minutes and dollars (R2); do orientation reads fall against ticket 116's 48 reads and $5.09 (R3); does triage sort a playtest's feedback with no stop for the user (R6); do the banner and the hub keep the user oriented across sessions (R8, R12). A no reopens the item through `/skill-forge`.
+- Next go/no-go, per item, from that retro and the run's `ticket_stats.py` rows: does triage sort a playtest's feedback with no stop for the user (R6); do the banner and the hub keep the user oriented across sessions (R8, R12). A no reopens the item through `/skill-forge`.
 - Numbers: NN ticket, US<n> spec story, R<n> roadmap item, Q<n> grill question, D<n> grill default.
 
 ## Order of work

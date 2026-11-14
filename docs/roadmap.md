@@ -52,10 +52,12 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R3. Deep-module design in the prefactor step
 
-**Status:** in progress, 2026-10-26: built in a10dd41 (fork codebase-design) and 0f0d497 (adapt to-tickets). Judged 2026-10-27 on the FGame breakdown of tickets 131 to 149: not yet tried.
-- The to-tickets session (7fda90d6) never called `codebase-design`. The depth rule sits in step 2, "Explore the codebase (optional)", and that session had explored during its grill, so it skipped the step. Its one prefactor ticket (131, the offer draw: 3.1 min, $0.70) came from the older "prefactor first" rule.
-- Orientation did not fall: build tickets 131 to 137 averaged 23 calls and 84 KB before their first edit, against 23 and 74 KB for 123 to 128. The most expensive one, 135 (41 calls, 159 KB, $4.07), searched the 983-line shop screen, which no ticket deepened.
-- Next: make the depth judgement a required step of to-tickets, outside the optional exploration, through `/skill-forge to-tickets`; then judge R3 again on the next breakdown.
+**Status:** done, 2026-10-29: built in a10dd41 (fork codebase-design), 0f0d497 and b2761aa (adapt to-tickets). The depth step runs and yields seams and prefactor tickets; it did not cut orientation, the cost it was meant to cut.
+- 2026-10-27, breakdown of tickets 131 to 149 (session 7fda90d6): the step never ran. It sat in step 2, "Explore the codebase (optional)", which that session skipped after exploring in its grill; its one prefactor ticket (131) came from the older "prefactor first" rule. b2761aa moved the judgement into step 3 with a done line, and a verdict line per module into the quiz.
+- 2026-10-29, breakdowns of tickets 155 to 178 (session 0479ce23) and 182 to 196 (3608397c): both named each module deep or shallow, the first after loading `codebase-design`, the second with the same words without loading it. They gave one seam (the Experiments module in 155, used by the ten experiment tickets after it) and one prefactor ticket (182, the chapter as linked steps: 8.2 min, $2.39). The run screen was named shallow and got no prefactor ticket.
+- The verdict lines never reached the user: both breakdowns ran with the user away, so no quiz was shown, and the verdicts stayed in the agent's own reasoning.
+- Orientation rose: build tickets 155 to 177 averaged 26 calls and 120 KB before their first edit ($2.56 a ticket), and 182 to 195 averaged 30 calls and 141 KB ($4.02), against 23 calls and 74 to 84 KB ($1.40 to $1.82) for 123 to 137. These tickets reached deeper into the fight and run code, so the rise is not the step's doing, but no fall shows either.
+- Why depth misses this cost: the largest reads sit inside modules judged deep. Ticket 184 read 161 KB of `Run.cs` (1,760 lines) after prefactor 182; ticket 167 read 77 KB of `MachineView.cs` and 58 KB of `Fight.cs`. Depth measures what a caller must learn; a worker that changes a module reads its inside. Orientation cost now belongs to the project's tools (FGame 15aaeb3 gave the code map line numbers) and to the retro.
 
 **Idea.** Fork `codebase-design` (the deep-module vocabulary: module, interface, seam, depth). to-tickets uses it in its prefactor step, so a batch can open with prefactor tickets that deepen the modules it touches.
 
@@ -63,7 +65,12 @@ Retro findings live in `docs/retro-ledger.md`; an item lands here when it reshap
 
 ## R4. Glossary, ADRs and Wayfinder
 
-**Status:** dropped, 2026-10-26. A glossary and ADRs (`grill-with-docs`, `domain-modeling`) wait until a retro shows an agent using the wrong term: every worker would pay to read them. Wayfinder's job, planning work bigger than one spec, is already done by research tickets and design-phase batches.
+**Status:** glossary in progress, 2026-11-12: built in the `fork glossary` and `adapt grill-me` commits of that day; waits for its first naming session and a retro. ADRs and Wayfinder stay dropped.
+- Dropped 2026-10-26: a glossary and ADRs (`grill-with-docs`, `domain-modeling`) waited until a retro showed an agent using the wrong term, since every worker would pay to read them. Wayfinder's job, planning work bigger than one spec, is already done by research tickets and design-phase batches.
+- Reopened 2026-11-12 by the user, not by a retro: in PlayableFactory one thing (who decides at a gate) had about 12 names across the screen, the user's chat words, the specs and the code, and at least 10 other things had two or more.
+- Settled in the 2026-11-12 grill: one `GLOSSARY.md` per project, loaded by every session through the project's `CLAUDE.md`, so build agents pay its reading cost on purpose (about 900 words for 30 terms). `/glossary` runs a naming session over the names a project already uses; `/grill-me` uses the terms and adds new ones at its end. The user picks every term, and text changes are decided per term. Code identifiers keep their names. to-spec, to-tickets and pr stay as they are.
+- Pin: ADRs were left out because the user wants vocabulary only for now. To add them, bring back the upstream ADR section and `ADR-FORMAT.md` through `/skill-forge glossary` (see "Decision records removed" in `mods/glossary.md`).
+- Watch at the first retro: the size of the glossary, and terms an agent added under To confirm that the user then renamed.
 
 ## R5. The factory cycle
 
