@@ -32,10 +32,10 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Mine: a question that another answer in the same round could make moot also waits.
 - Why: a discard answer early in a round made later questions in that round irrelevant after they had been answered. Upstream docs name this as a known, unguarded limit.
 
-## Unanswered questions carry forward
+## A question left out takes the recommended answer
 - Original: no rule for a question the user leaves unanswered.
-- Mine: every unanswered question opens the next round, ahead of new questions.
-- Why: a question the user skipped was never asked again; its topic reached the spec only through the agent's closing summary.
+- Mine: a question the user's reply leaves out takes the recommended answer and counts as answered, for the frontier and for the closing summary. The next round opens with one line that names each answer taken this way, by its question number and in a few words, so the user can reopen one by its number; after the last round, that line sits above the closing summary. The round format shows the line.
+- Why: with no rule, a question the user skipped was never asked again, and its topic reached the spec only through the agent's closing summary; the opening line keeps each such answer in view. The version before this one carried every unanswered question into the next round, and the user kept typing "as recommended": the questions/defaults split of 2026-11-11 did not lower the rate (49 of 262 typed prompts before it, 26 of 142 after). The user, 2026-11-13: "Other than that, if I don't say something about an answer, we go with the recommended option".
 
 ## Questions descend from role to content, in settled vocabulary
 - Original: no rule on the level of a question or on the words it uses.

@@ -14,6 +14,10 @@ When the work has a screen, show a rough **mockup** before the detailed question
 Format a round like so:
 
 ```
+Taken as recommended, reopen one by its number: **Q3** <the answer in a few words>; **Q5** <the answer in a few words>
+
+---
+
 ❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
 
 ➡️ <your recommended answer>
@@ -33,7 +37,7 @@ Defaults, settled unless you reopen one by its number:
 
 Word each question so "yes" accepts your recommended answer.
 
-Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one. So does a question that another answer in this round could make moot. **Carry forward** every question the user leaves unanswered: it opens the next round, ahead of new questions.
+Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one. So does a question that another answer in this round could make moot. A question the user's reply leaves out takes your recommended answer and counts as answered: the next round opens with the line that names each answer taken this way, and after the last round that line sits above the closing summary.
 
 Descend the tree from **role** to **content**: settle what a part of the design is _for_ before asking what fills it, and keep each recommendation at the altitude of its question. Write every question in the **settled vocabulary**: nouns the user has already agreed on, plus any new term defined inside the question itself. When the project keeps a `GLOSSARY.md`, call the Skill tool with "glossary" before the first round: its terms open the settled vocabulary, and a thing with no term yet gets a naming question.
 
