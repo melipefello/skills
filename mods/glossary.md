@@ -27,6 +27,11 @@ Upstream: mattpocock/skills:skills/engineering/domain-modeling (pin in manifest.
 - Mine: invoked by name, the skill scans the texts the user reads, the user's messages in saved sessions, the docs and the code for clashes, asks one naming question per clash in rounds of five (two to four names, where each is used, a recommendation, the text changes that follow), lists single-name things for one confirmation, and closes with the text changes for the user to strike or pass on. A later run covers only To confirm entries and unsettled clashes.
 - Why: the first use is a project whose names already clash across screen, chat, docs and code; the user asked for options to compare, in the shape of a grill question, and decides text changes case by case.
 
+## A naming question left out takes the recommended name
+- Original: no naming session, so no rule for a question the user leaves out.
+- Mine: in a naming session, a question the user's reply leaves out takes the recommended name as the user's pick, so step 3 writes it and "Write on the user's word" holds. The first round says so once; the next round, or the close after the last round, opens with one line that names each name taken this way by its question number, so the user can reopen one.
+- Why: on 2026-11-12 two naming sessions drew 9 prompts of the form "as recommended". The user, 2026-11-13: "Other than that, if I don't say something about an answer, we go with the recommended option". The rule matches grill-me's "A question left out takes the recommended answer".
+
 ## Written on the user's word
 - Original: the skill updates `GLOSSARY.md` inline the moment a term is resolved, never batched.
 - Mine: Language changes on the user's word only: each pick in a naming session, a confirmed list at the end of any other session, or a plain "rename it".
