@@ -37,6 +37,11 @@ Upstream: mattpocock/skills:skills/productivity/grill-me and mattpocock/skills:s
 - Mine: a question the user's reply leaves out takes the recommended answer and counts as answered, for the frontier and for the closing summary. The next round opens with one line that names each answer taken this way, by its question number and in a few words, so the user can reopen one by its number; after the last round, that line sits above the closing summary. The round format shows the line.
 - Why: with no rule, a question the user skipped was never asked again, and its topic reached the spec only through the agent's closing summary; the opening line keeps each such answer in view. The version before this one carried every unanswered question into the next round, and the user kept typing "as recommended": the questions/defaults split of 2026-11-11 did not lower the rate (49 of 262 typed prompts before it, 26 of 142 after). The user, 2026-11-13: "Other than that, if I don't say something about an answer, we go with the recommended option".
 
+## Real options on lettered lines
+- Original: every question is worded so "yes" accepts the recommendation.
+- Mine: a question with real options lists them on lettered lines, each with what the user gets, with the pick named on the ➡️ line; "yes" takes the pick, a letter takes another. Every other question stays yes/no.
+- Why: the user, 2026-11-13: "I think with the latest version of /grill-me it has stopped giving 'different options', and it now suggests only one option to see if I agree or not. I miss being able to look at different options and choose. Can we keep both behaviours?" A blind three-version test that day showed this version asks with letters where upstream asks one yes/no proposal; the user picked it on 2026-11-14 ("Fix 10").
+
 ## Questions descend from role to content, in settled vocabulary
 - Original: no rule on the level of a question or on the words it uses.
 - Mine: settle what a part of the design is for before asking what fills it, keep each recommendation at the level of its question, and use only agreed nouns plus terms the question itself defines.

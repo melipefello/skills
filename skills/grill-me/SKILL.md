@@ -35,7 +35,7 @@ Defaults, settled unless you reopen one by its number:
 - **D2** - <the decision and its reason, in one plain sentence>
 ```
 
-Word each question so "yes" accepts your recommended answer.
+When a question has real **options**, list each on its own lettered line with what the user gets, and name your pick on the ➡️ line: "yes" takes your pick, a letter takes another. Word every other question so "yes" accepts your recommended answer.
 
 Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one. So does a question that another answer in this round could make moot. A question the user's reply leaves out takes your recommended answer and counts as answered: the next round opens with the line that names each answer taken this way, and after the last round that line sits above the closing summary.
 
